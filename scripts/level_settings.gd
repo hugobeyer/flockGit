@@ -1,70 +1,56 @@
-extends Node  # Adjusted from Node3D to Node
+extends Node3D
 
-@export var enemy_scenes: Array[PackedScene]  # Array of enemy scenes to choose from
-@export var spawn_radius_min: float = 15.0  # Minimum distance from the player to spawn enemies
-@export var spawn_radius_max: float = 25.0  # Maximum distance from the player to spawn enemies
-@export var spawn_rate: float = 2.0  # Time interval between enemy spawns
+@export var enemy_scene: PackedScene  # Scene for the enemy
+@export var wave_delay: float = 5.0  # Time to wait between waves
+@export var enemies_per_wave: int = 5  # Number of enemies per wave
+@export var spawn_rate: float = 1.0  # Time between enemy spawns within a wave
+@export var spawn_radius: float = 20.0  # Radius around the player to spawn enemies
+@export var max_waves: int = 10  # Total number of waves
+@export var cluster_radius: float = 10.0  # Radius for clustering enemies
+@export var cluster_weight: float = 0.5  # How strongly enemies cluster together
 
+var current_wave = 0
+var enemies_spawned_in_wave = 0
 var time_since_last_spawn = 0.0
+var time_since_last_wave = 0.0
+var enemies_alive = []
+var cluster_positions = []
 
 func _ready():
-	if enemy_scenes.size() == 0:
-		print("No enemy scenes assigned!")
-	else:
-		print("Level Settings Ready")
+	generate_cluster_positions()
 
 func _process(_delta):
-	time_since_last_spawn += _delta
+	if current_wave < max_waves:
+		time_since_last_wave += _delta
+		if time_since_last_wave >= wave_delay and enemies_spawned_in_wave < enemies_per_wave:
+			time_since_last_spawn += _delta
+			if time_since_last_spawn >= spawn_rate:
+				spawn_enemy()
+				enemies_spawned_in_wave += 1
+				time_since_last_spawn = 0.0
+		elif enemies_spawned_in_wave >= enemies_per_wave and enemies_alive.is_empty():
+			current_wave += 1
+			enemies_spawned_in_wave = 0
+			time_since_last_wave = 0.0
+			generate_cluster_positions()
 
-	if time_since_last_spawn >= spawn_rate:
-		spawn_enemy()
-		time_since_last_spawn = 0.0
+func generate_cluster_positions():
+	cluster_positions.clear()
+	for i in range(enemies_per_wave):
+		var random_pos = global_transform.origin + Vector3(randf_range(-spawn_radius, spawn_radius), 0, randf_range(-spawn_radius, spawn_radius))
+		cluster_positions.append(random_pos)
 
 func spawn_enemy():
-	if enemy_scenes.size() == 0:
-		print("No enemy scenes to spawn!")
-		return
+	if enemy_scene:
+		var enemy_instance = enemy_scene.instantiate()
+		var random_cluster_pos = cluster_positions[randi() % cluster_positions.size()]
+		var offset = Vector3(randf_range(-cluster_radius, cluster_radius), 0, randf_range(-cluster_radius, cluster_radius)) * cluster_weight
+		enemy_instance.global_transform.origin = random_cluster_pos + offset
+		add_child(enemy_instance)
+		enemies_alive.append(enemy_instance)
 
-	print("Spawning enemy...")  # Debugging line
+		# Proper connection
+		enemy_instance.connect("enemy_destroyed", Callable(self, "_on_enemy_destroyed"))
 
-	# Select a random enemy type from the array
-	var random_index = randi() % enemy_scenes.size()
-	var selected_enemy_scene = enemy_scenes[random_index]
-
-	if not selected_enemy_scene:
-		print("Invalid enemy scene!")
-		return
-
-	# Get the player's position
-	var player_position = get_player_position()
-	if player_position == Vector3.ZERO:
-		print("Player position not found!")
-		return  # If player position isn't found, don't spawn
-
-	# Randomly select a spawn position around the player, outside the spawn radius
-	var angle = randf() * PI * 2.0  # Random angle in radians
-	var distance = randf_range(spawn_radius_min, spawn_radius_max)  # Random distance outside the spawn radius
-
-	var spawn_position = Vector3(
-		cos(angle) * distance,
-		0,  # Assuming enemies spawn at Y = 0 (ground level)
-		sin(angle) * distance
-	)
-
-	# Instantiate the selected enemy scene
-	var enemy_instance = selected_enemy_scene.instantiate()
-
-	# Set enemy position relative to the player's position
-	enemy_instance.global_transform.origin = player_position + spawn_position
-
-	# Add the enemy instance to the scene tree
-	get_tree().current_scene.add_child(enemy_instance)
-	print("Enemy spawned at: ", enemy_instance.global_transform.origin)
-
-func get_player_position() -> Vector3:
-	# Find the player in the scene, assuming the player is a Node3D and named "player_pos"
-	var player = get_node_or_null("/root/Main/player_pos")  # Using the correct path to player_pos
-	if player and player is Node3D:
-		return player.global_transform.origin
-	print("Player not found or not a Node3D")
-	return Vector3.ZERO
+func _on_enemy_destroyed(enemy):
+	enemies_alive.erase(enemy)

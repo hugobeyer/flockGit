@@ -1,13 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbg8lda400aod"]
+[gd_scene load_steps=6 format=3 uid="uid://dbg8lda400aod"]
+
+[sub_resource type="Gradient" id="Gradient_x2u3w"]
+offsets = PackedFloat32Array(0, 0.514146, 1)
+colors = PackedColorArray(1, 0, 0, 0, 1, 0.65, 0, 0.690196, 1, 0.933333, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4bcee"]
+gradient = SubResource("Gradient_x2u3w")
+width = 16
+height = 16
+fill_from = Vector2(0, 0.606838)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0wbpn"]
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+albedo_texture = SubResource("GradientTexture2D_4bcee")
 
 [sub_resource type="SphereMesh" id="SphereMesh_0a1fa"]
-radius = 0.125
-radial_segments = 12
-rings = 9
+material = SubResource("StandardMaterial3D_0wbpn")
+radius = 0.29
+height = 0.738
+radial_segments = 5
+rings = 5
+is_hemisphere = true
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_g3r8w"]
-margin = 0.01
-radius = 0.125
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dggvd"]
+radius = 0.261409
+height = 0.812425
 
 [node name="Bullet" type="Node3D"]
 
@@ -16,8 +36,9 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
-transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, -0.6)
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0.000274181, -5.96046e-08, -0.748224)
 mesh = SubResource("SphereMesh_0a1fa")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_g3r8w")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.00108385, 5.96046e-08, -0.42944)
+shape = SubResource("CapsuleShape3D_dggvd")

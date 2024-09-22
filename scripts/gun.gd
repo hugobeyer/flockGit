@@ -10,29 +10,22 @@ extends Node3D
 
 var bullets = []
 var time_since_last_shot = 0.0
-var is_player_moving = false
 
 func _ready():
 	if not muzzle or not bullet_scene:
 		print("Muzzle or bullet scene not assigned!")
 
 func _process(_delta):
-	handle_player_movement()
+	# Increment the time since the last shot
 	time_since_last_shot += _delta
 
-	if not is_player_moving and time_since_last_shot >= fire_rate:
+	# Shoot only when enough time has passed based on the fire rate
+	if time_since_last_shot >= fire_rate:
 		if check_for_enemies_in_radius():
 			shoot()
-			time_since_last_shot = 0.0
+			time_since_last_shot = 0.0  # Reset the shot timer
 
 	update_bullets(_delta)
-
-func handle_player_movement():
-	# Check if player is moving based on WASD input
-	is_player_moving = Input.is_action_pressed("move_forward") or \
-					   Input.is_action_pressed("move_backward") or \
-					   Input.is_action_pressed("move_left") or \
-					   Input.is_action_pressed("move_right")
 
 func shoot():
 	if not muzzle or not bullet_scene:
@@ -80,7 +73,7 @@ func check_for_enemies_in_radius() -> bool:
 	var player_position = global_transform.origin
 
 	for enemy in enemies:
-		if enemy is Node3D:
+		if enemy is CharacterBody3D:
 			var enemy_position = enemy.global_transform.origin
 			if player_position.distance_to(enemy_position) <= shoot_radius:
 				return true

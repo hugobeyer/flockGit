@@ -5,40 +5,42 @@
 [ext_resource type="Script" path="res://scripts/level_settings.gd" id="3_et5j8"]
 [ext_resource type="PackedScene" uid="uid://b2js1bg71rr8r" path="res://scenes/enemy.tscn" id="4_flyxm"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_faju1"]
+size = Vector3(512, 1, 512)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_kgwl2"]
+lightmap_size_hint = Vector2i(2562, 2562)
+uv2_padding = 1.0
+size = Vector2(512, 512)
 
 [sub_resource type="Gradient" id="Gradient_7p4rr"]
 colors = PackedColorArray(0.61339, 0.61339, 0.61339, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qgv25"]
 gradient = SubResource("Gradient_7p4rr")
+width = 128
+height = 128
 fill_to = Vector2(1, 1)
+repeat = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k8qkx"]
+render_priority = 1
 albedo_color = Color(0.481789, 0.481789, 0.481789, 1)
 albedo_texture = SubResource("GradientTexture2D_qgv25")
-uv1_scale = Vector3(32, 32, 32)
+uv1_scale = Vector3(256, 256, 256)
 point_size = 53.5
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_faju1"]
-size = Vector3(512, 1, 512)
 
 [node name="Main" type="Node3D"]
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206244, 0.102213, -0.222153)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(256, 0, 0, 0, 256, 0, 0, 0, 256, 0, 0, 0)
-mesh = SubResource("PlaneMesh_kgwl2")
-surface_material_override/0 = SubResource("StandardMaterial3D_k8qkx")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_faju1")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 10, 15, 14)
+transform = Transform3D(1, 0, 0, 0, 0.449397, 0.893332, 0, -0.893332, 0.449397, 10, 15, 14)
 shadow_enabled = true
 
 [node name="player_pos" parent="." instance=ExtResource("1_to1an")]
@@ -51,12 +53,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.46868, 1.1326)
 [node name="Camera" parent="player_pos" index="1"]
 camera_offset = Vector3(32, 48, 32)
 
-[node name="LevelSettings" type="Node" parent="."]
+[node name="LevelSettings" type="Node3D" parent="."]
 script = ExtResource("3_et5j8")
-enemy_scenes = Array[PackedScene]([ExtResource("4_flyxm"), ExtResource("4_flyxm"), ExtResource("4_flyxm"), ExtResource("4_flyxm")])
-spawn_radius_min = 16.0
-spawn_radius_max = 32.0
-spawn_rate = 0.025
+enemy_scene = ExtResource("4_flyxm")
+wave_delay = 0.5
+enemies_per_wave = 80
+spawn_rate = 0.1
+max_waves = 5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206244, 0.102213, -0.222153)
+sorting_offset = 0.05
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_kgwl2")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_k8qkx")
 
 [editable path="player_pos"]
 [editable path="player_pos/player_rot/Gun"]

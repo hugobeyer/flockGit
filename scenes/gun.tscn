@@ -14,7 +14,10 @@ rings = 2
 script = ExtResource("1_x0345")
 muzzle = NodePath("Muzzle")
 bullet_scene = ExtResource("2_sgceq")
-shoot_radius = 32.0
+bullet_speed = 32.0
+bullet_lifetime = 2.0
+fire_rate = 0.1
+shoot_radius = 12.0
 
 [node name="GunMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)

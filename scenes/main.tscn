@@ -63,10 +63,9 @@ camera_offset = Vector3(32, 48, 32)
 [node name="LevelSettings" type="Node3D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("3_et5j8")
 enemy_scene = ExtResource("4_flyxm")
-wave_delay = 0.5
-enemies_per_wave = 80
 spawn_rate = 0.1
-max_waves = 5
+min_spawn_radius = 20.0
+max_spawn_radius = 28.0
 player = NodePath("../player_pos")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://cqhe3y3sj4vb3"]
+
+[ext_resource type="Script" path="res://scripts/player_pos.gd" id="1_tc6aq"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_ased2"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ayx0v"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5sjvr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
+
+[node name="player_pos" type="CharacterBody3D"]
+script = ExtResource("1_tc6aq")
+
+[node name="player_rot" type="Node3D" parent="."]
+
+[node name="Player" type="MeshInstance3D" parent="player_rot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05206, 0)
+mesh = SubResource("CapsuleMesh_ayx0v")
+skeleton = NodePath("../..")
+
+[node name="Gun" type="MeshInstance3D" parent="player_rot/Player"]
+transform = Transform3D(4.96778e-16, 1.1365e-08, 0.26, 0.26, -1.1365e-08, 0, 1.1365e-08, 0.26, -1.1365e-08, 0, 0, 0.734305)
+mesh = SubResource("CylinderMesh_5sjvr")
+
+[node name="Muzzle" type="Marker3D" parent="player_rot/Player/Gun"]
+transform = Transform3D(7.34879e-15, 3.84615, 1.68121e-07, 1.68121e-07, -1.68121e-07, 3.84615, 3.84615, 0, -1.68121e-07, 0, 1.09891, -4.80349e-08)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05206, 0)
+shape = SubResource("CapsuleShape3D_3lyym")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 10, 10, 10)
+fov = 20.0
+script = ExtResource("2_ased2")

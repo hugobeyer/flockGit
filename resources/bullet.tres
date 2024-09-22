@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BulletResource" load_steps=5 format=3 uid="uid://bcjugoau67csw"]
+
+[ext_resource type="Script" path="res://scripts/bullet_resource.gd" id="1_te2gb"]
+[ext_resource type="Shader" path="res://shaders/bullet_unlit.gdshader" id="1_yi5a4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ho67y"]
+render_priority = 0
+shader = ExtResource("1_yi5a4")
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_b5nkh"]
+
+[resource]
+script = ExtResource("1_te2gb")
+mesh = SubResource("RibbonTrailMesh_b5nkh")
+material = SubResource("ShaderMaterial_ho67y")
+bullet_speed = 50.0
+bullet_lifetime = 5.0

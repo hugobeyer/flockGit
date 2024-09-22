@@ -45,8 +45,10 @@ axis_lock_linear_y = true
 axis_lock_angular_y = true
 SPEED = 8.0
 
-[node name="player_rot" parent="player_pos" index="0"]
+[node name="player_rot" parent="player_pos" index="0" node_paths=PackedStringArray("camera", "muzzle")]
 script = ExtResource("3_dsp43")
+camera = NodePath("../Camera")
+muzzle = NodePath("Player/Gun/Muzzle")
 
 [node name="Camera" parent="player_pos" index="2"]
 transform = Transform3D(0.707107, -0.541675, 0.45452, 0, 0.642788, 0.766044, -0.707107, -0.541675, 0.45452, 16, 32, 16)

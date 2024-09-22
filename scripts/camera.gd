@@ -4,6 +4,7 @@ extends Camera3D
 var initial_transform: Transform3D
 
 # Reference to the player position node (parent of the camera)
+
 var player_pos: Node3D
 
 # Offset for the camera position (behind and above the player)

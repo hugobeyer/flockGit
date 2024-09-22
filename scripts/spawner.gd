@@ -10,7 +10,7 @@ var time_since_last_spawn = 0.0
 var enemies_alive = []
 
 func _ready():
-	# Initialization or setup, if needed
+	# Initialization if needed
 	pass
 
 func _process(_delta):
@@ -39,7 +39,7 @@ func spawn_enemy():
 
 		enemies_alive.append(enemy_instance)
 
-		# Connect the enemy destroyed signal to the level settings
+		# Connect the enemy destroyed signal to the spawner
 		enemy_instance.connect("enemy_destroyed", Callable(self, "_on_enemy_destroyed"))
 
 func _on_enemy_destroyed(enemy):

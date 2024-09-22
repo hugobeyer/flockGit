@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://scripts/player_pos.gd" id="1_tc6aq"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="2_ased2"]
 [ext_resource type="Script" path="res://scripts/player_rot.gd" id="2_ehop1"]
-[ext_resource type="Material" uid="uid://cnt8fl8280w6h" path="res://shaders/player_mat.tres" id="3_42hr4"]
+[ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://materials/player_mat.tres" id="3_jeq0b"]
 [ext_resource type="Script" path="res://scripts/player_damage_color.gd" id="4_mmrya"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ayx0v"]
-material = ExtResource("3_42hr4")
+material = ExtResource("3_jeq0b")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
 margin = 0.25

@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbg8lda400aod"]
+[gd_scene load_steps=7 format=3 uid="uid://dbg8lda400aod"]
+
+[ext_resource type="Script" path="res://scenes/bullet.gd" id="1_6qr1r"]
 
 [sub_resource type="Gradient" id="Gradient_x2u3w"]
 offsets = PackedFloat32Array(0, 0.514146, 1)
@@ -30,6 +32,7 @@ radius = 0.261409
 height = 0.812425
 
 [node name="Bullet" type="Node3D"]
+script = ExtResource("1_6qr1r")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 0

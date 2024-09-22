@@ -1,17 +1,14 @@
 [gd_scene load_steps=9 format=3 uid="uid://b2js1bg71rr8r"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_ia10i"]
+[ext_resource type="Material" uid="uid://6gy50ixftvd0" path="res://materials/enemy_mat.tres" id="2_5y7be"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sl5h1"]
-albedo_color = Color(0.312725, 0.1015, 0.35, 1)
-disable_receive_shadows = true
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_a838f"]
-material = SubResource("StandardMaterial3D_sl5h1")
-bottom_radius = 0.25
-height = 1.1
-radial_segments = 12
-rings = 1
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_8gq4w"]
+material = ExtResource("2_5y7be")
+radius = 0.325
+height = 1.0
+radial_segments = 9
+rings = 3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ormye"]
 radius = 0.53479
@@ -49,10 +46,16 @@ floor_block_on_wall = false
 floor_max_angle = 0.0174533
 safe_margin = 0.01
 script = ExtResource("1_ia10i")
+health = 15.0
+separation_radius = 2.0
+alignment_radius = 1.0
+separation_weight = 2.0
+player_target_weight = 5.0
+fov_angle_radians = 25.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85608, 0)
-mesh = SubResource("CylinderMesh_a838f")
+mesh = SubResource("CapsuleMesh_8gq4w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.909985, 0)
@@ -60,7 +63,6 @@ shape = SubResource("CapsuleShape3D_ormye")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.999503, 0, 0, 0, 0.999503, 0, 0, 0, 0.999503, 0, 0.0104464, 0)
-visible = false
 cast_shadow = 0
 ignore_occlusion_culling = true
 mesh = SubResource("QuadMesh_8uv6m")

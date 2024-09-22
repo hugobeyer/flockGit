@@ -8,6 +8,7 @@ extends Node3D
 @export var max_waves: int = 10  # Total number of waves
 @export var cluster_radius: float = 10.0  # Radius for clustering enemies
 @export var cluster_weight: float = 0.5  # How strongly enemies cluster together
+@export var player: Node3D  # Reference to the player
 
 var current_wave = 0
 var enemies_spawned_in_wave = 0
@@ -34,23 +35,34 @@ func _process(_delta):
 			time_since_last_wave = 0.0
 			generate_cluster_positions()
 
+# Generate random cluster positions around the player
 func generate_cluster_positions():
 	cluster_positions.clear()
 	for i in range(enemies_per_wave):
 		var random_pos = global_transform.origin + Vector3(randf_range(-spawn_radius, spawn_radius), 0, randf_range(-spawn_radius, spawn_radius))
 		cluster_positions.append(random_pos)
 
+# Spawn an enemy and assign the player as the target
 func spawn_enemy():
 	if enemy_scene:
 		var enemy_instance = enemy_scene.instantiate()
+
+		# Add the enemy to the scene first, before modifying its transform
+		add_child(enemy_instance)
+
+		# Assign the player as the enemy's target
+		enemy_instance.enemy_target = player  # Pass the player to the enemy
+
+		# Now modify the position after it's inside the tree
 		var random_cluster_pos = cluster_positions[randi() % cluster_positions.size()]
 		var offset = Vector3(randf_range(-cluster_radius, cluster_radius), 0, randf_range(-cluster_radius, cluster_radius)) * cluster_weight
 		enemy_instance.global_transform.origin = random_cluster_pos + offset
-		add_child(enemy_instance)
+
 		enemies_alive.append(enemy_instance)
 
-		# Proper connection
+		# Connect the enemy destroyed signal to the level settings
 		enemy_instance.connect("enemy_destroyed", Callable(self, "_on_enemy_destroyed"))
 
+# When an enemy is destroyed, remove it from the alive list
 func _on_enemy_destroyed(enemy):
 	enemies_alive.erase(enemy)

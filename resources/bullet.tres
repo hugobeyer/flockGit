@@ -6,12 +6,20 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ho67y"]
 render_priority = 0
 shader = ExtResource("1_yi5a4")
+shader_parameter/lifetime = 0.0
+shader_parameter/start_color = Vector4(1, 1, 1, 1)
+shader_parameter/end_color = Vector4(1, 0, 0, 1)
 
-[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_b5nkh"]
+[sub_resource type="SphereMesh" id="SphereMesh_2yhpn"]
+radius = 4.31
+height = 5.455
+radial_segments = 7
+rings = 5
+is_hemisphere = true
 
 [resource]
 script = ExtResource("1_te2gb")
-mesh = SubResource("RibbonTrailMesh_b5nkh")
+mesh = SubResource("SphereMesh_2yhpn")
 material = SubResource("ShaderMaterial_ho67y")
 bullet_speed = 50.0
 bullet_lifetime = 5.0

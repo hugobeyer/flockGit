@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4uuwqe6deuv8"]
+
+[ext_resource type="Script" path="res://scripts/gun.gd" id="1_x0345"]
+[ext_resource type="PackedScene" uid="uid://dbg8lda400aod" path="res://scenes/bullet.tscn" id="2_sgceq"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1jgxs"]
+top_radius = 0.394
+bottom_radius = 0.1
+height = 1.74
+radial_segments = 8
+rings = 2
+
+[node name="Gun" type="Node3D" node_paths=PackedStringArray("muzzle")]
+script = ExtResource("1_x0345")
+muzzle = NodePath("Muzzle")
+bullet_scene = ExtResource("2_sgceq")
+shoot_radius = 32.0
+
+[node name="GunMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_1jgxs")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)

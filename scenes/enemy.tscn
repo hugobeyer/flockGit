@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2js1bg71rr8r"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_ia10i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sl5h1"]
+albedo_color = Color(0.312725, 0.1015, 0.35, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a838f"]
+material = SubResource("StandardMaterial3D_sl5h1")
+bottom_radius = 0.25
+height = 1.1
+radial_segments = 12
+rings = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ormye"]
+
+[node name="Enemy" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_ia10i")
+health = 32.0
+speed = 4.0
+random_walk_distance = 15.0
+sight_radius = 12.0
+damage_force = 5.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_a838f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0588799, 0)
+shape = SubResource("CapsuleShape3D_ormye")

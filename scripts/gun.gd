@@ -1,84 +1,35 @@
 extends Node3D
 
-@export var muzzle: Marker3D  # Assign the muzzle in the Inspector
-@export var bullet_scene: PackedScene  # Bullet scene to instantiate
-@export var bullet_speed: float = 50.0  # Speed of the bullet
-@export var bullet_lifetime: float = 2.0  # Lifetime of the bullet
-@export var bullet_damage: float = 10.0  # Damage inflicted by the bullet
-@export var fire_rate: float = 0.25  # Time between each bullet shot
-@export var shoot_radius: float = 12.0  # Radius within which enemies must be to shoot
+@export var bullet_scene_path: String = "res://path_to_bullet_scene.tscn"  # Path to the bullet scene
+@export var fire_rate: float = 0.5  # Time between shots
+@export var bullet_speed: float = 30.0  # Speed of the bullets
+@export var bullet_damage: float = 20.0  # Damage dealt by the bullets
+@export var muzzle_node: Node3D  # Assign the muzzle node where bullets spawn
 
-var bullets = []
-var time_since_last_shot = 0.0
+var bullet_scene: PackedScene = null  # To store the packed bullet scene
+var time_since_last_shot: float = 0.0  # Timer to track time between shots
 
+# Load the bullet scene when ready
 func _ready():
-	if not muzzle or not bullet_scene:
-		print("Muzzle or bullet scene not assigned!")
+	bullet_scene = load(bullet_scene_path)
 
-func _process(_delta):
-	# Increment the time since the last shot
-	time_since_last_shot += _delta
+# Called every frame, handle shooting logic
+func _process(delta):
+	time_since_last_shot += delta
+	if Input.is_action_pressed("shoot") and time_since_last_shot >= fire_rate:
+		shoot()
+		time_since_last_shot = 0.0
 
-	# Shoot only when enough time has passed based on the fire rate
-	if time_since_last_shot >= fire_rate:
-		if check_for_enemies_in_radius():
-			shoot()
-			time_since_last_shot = 0.0  # Reset the shot timer
-
-	update_bullets(_delta)
-
+# Function to handle shooting logic
 func shoot():
-	if not muzzle or not bullet_scene:
-		return
+	if bullet_scene == null or muzzle_node == null:
+		return  # Ensure bullet scene and muzzle node are set
 
-	# Instantiate the bullet scene
-	var bullet_instance = bullet_scene.instantiate()
+	# Get the bullet direction as the Z+ direction from the muzzle node
+	var bullet_direction = muzzle_node.global_transform.basis.z.normalized()
 
-	# Set the bullet's position to the muzzle's local space position
-	bullet_instance.transform = muzzle.global_transform
-
-	# Pass the gun's variables to the bullet
-	bullet_instance.set_bullet_properties(bullet_speed, bullet_lifetime, bullet_damage)
-
-	# Add the bullet instance to the scene tree
-	get_tree().current_scene.add_child(bullet_instance)
-
-	# Store the bullet instance and its lifetime
-	bullets.append({
-		"instance": bullet_instance,
-		"lifetime": bullet_lifetime
-	})
-
-func update_bullets(_delta):
-	var bullets_to_remove = []
-
-	for bullet in bullets:
-		var bullet_instance = bullet["instance"]
-
-		# Move bullet in its local forward direction (positive Z axis)
-		bullet_instance.translate(Vector3(0, 0, bullet_speed * _delta))
-
-		# Decrease bullet lifetime
-		bullet["lifetime"] -= _delta
-
-		# Remove bullet if its lifetime is over
-		if bullet["lifetime"] <= 0:
-			bullet_instance.queue_free()
-			bullets_to_remove.append(bullet)
-
-	# Clean up expired bullets
-	for bullet in bullets_to_remove:
-		bullets.erase(bullet)
-
-func check_for_enemies_in_radius() -> bool:
-	# Find all enemies and check if any are within the shoot_radius
-	var enemies = get_tree().get_nodes_in_group("enemies")  # Ensure enemies are in this group
-	var player_position = global_transform.origin
-
-	for enemy in enemies:
-		if enemy is CharacterBody3D:
-			var enemy_position = enemy.global_transform.origin
-			if player_position.distance_to(enemy_position) <= shoot_radius:
-				return true
-
-	return false
+	# Instantiate and fire the bullet
+	var bullet = bullet_scene.instantiate()
+	add_child(bullet)  # Add bullet to the scene
+	bullet.global_transform.origin = muzzle_node.global_transform.origin  # Set bullet's position to muzzle's position
+	bullet.set_bullet_properties(bullet_damage, bullet_speed, bullet_direction)  # Set bullet's properties

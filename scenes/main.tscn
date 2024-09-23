@@ -38,6 +38,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206244, 0.102213, -0.22215
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_faju1")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+sorting_offset = 0.05
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_kgwl2")
+surface_material_override/0 = SubResource("StandardMaterial3D_k8qkx")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.449397, 0.893332, 0, -0.893332, 0.449397, 10, 15, 14)
 light_energy = 1.327
@@ -56,25 +62,17 @@ SPEED = 15.0
 
 [node name="Gun" parent="player_pos/player_rot" index="1" instance=ExtResource("2_nxful")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.318994, 1.17678, 0.822404)
+bullet_speed = 64.0
 
 [node name="Camera" parent="player_pos" index="1"]
 camera_offset = Vector3(32, 48, 32)
 
-[node name="Spawner" type="Node3D" parent="." node_paths=PackedStringArray("player")]
+[node name="Spawner" type="Node3D" parent="."]
 script = ExtResource("3_et5j8")
 enemy_scene = ExtResource("4_flyxm")
-spawn_rate = 0.2
-min_spawn_radius = 16.0
-max_spawn_radius = 24.0
-player = NodePath("../player_pos")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206244, 0.102213, -0.222153)
-sorting_offset = 0.05
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_kgwl2")
-skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_k8qkx")
+spawn_rate = 0.125
+min_spawn_radius = 20.0
+max_spawn_radius = 32.0
 
 [editable path="player_pos"]
 [editable path="player_pos/player_rot/Gun"]

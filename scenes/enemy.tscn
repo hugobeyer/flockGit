@@ -10,34 +10,31 @@ height = 1.5
 radial_segments = 9
 rings = 3
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ormye"]
-radius = 0.4
-height = 1.6783
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_teltu"]
+radius = 0.43
+height = 1.775
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
-transform = Transform3D(1.00059, 0, 0, 0, 1.00059, 0, 0, 0, 1.00059, 0, 0, 0)
-axis_lock_linear_y = true
-floor_stop_on_slope = false
-floor_block_on_wall = false
+motion_mode = 1
+slide_on_ceiling = false
 floor_max_angle = 0.0174533
-safe_margin = 0.01
+platform_on_leave = 2
+safe_margin = 0.1
 script = ExtResource("1_ia10i")
-move_speed = 3.0
-separation_radius = 3.0
-alignment_radius = 2.0
-separation_weight = 3.0
-alignment_weight = 3.0
-player_target_weight = 5.0
-flash_duration = 0.5
-metadata/_edit_pinned_properties_ = [&"enemy_target"]
+separation_weight = 1.0
+separation_radius = 2.0
+alignment_radius = 7.0
+cohesion_radius = 5.0
+pursuit_radius = 15.0
+knockback_force = 100000.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.759621, 0)
 mesh = SubResource("CapsuleMesh_8gq4w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000423421, 0.867528, 0.000549709)
-shape = SubResource("CapsuleShape3D_ormye")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000423421, 0.912326, 0.000549709)
+shape = SubResource("CapsuleShape3D_teltu")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.0124288, 1.78304, 0.0144378)

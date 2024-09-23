@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4uuwqe6deuv8"]
+[gd_scene load_steps=3 format=3 uid="uid://b4uuwqe6deuv8"]
 
 [ext_resource type="Script" path="res://scripts/gun.gd" id="1_x0345"]
-[ext_resource type="PackedScene" uid="uid://dbg8lda400aod" path="res://scenes/bullet.tscn" id="2_sgceq"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_1jgxs"]
 top_radius = 0.15
@@ -10,11 +9,13 @@ height = 1.0
 radial_segments = 11
 rings = 1
 
-[node name="Gun" type="Node3D" node_paths=PackedStringArray("muzzle")]
+[node name="Gun" type="Node3D" node_paths=PackedStringArray("muzzle_node")]
 script = ExtResource("1_x0345")
-muzzle = NodePath("Muzzle")
-bullet_scene = ExtResource("2_sgceq")
+bullet_scene_path = "res://scenes/bullet.tscn"
 fire_rate = 0.1
+bullet_speed = 40.0
+bullet_damage = 7.0
+muzzle_node = NodePath("Muzzle")
 
 [node name="GunMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)

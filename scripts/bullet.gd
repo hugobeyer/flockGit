@@ -1,45 +1,43 @@
-extends CharacterBody3D
+extends Area3D
 
-@export var health: float = 100.0
-@export var max_health: float = 100.0
-@export var move_speed: float = 5.0
-@export var hit_color: Color = Color(1, 0, 0)  # Color for when hit
-@export var flash_duration: float = 0.2  # Time to flash red
+@export var damage: float = 10.0  # Damage dealt by the bullet
+@export var speed: float = 50.0  # Speed of the bullet
+@export var lifetime: float = 2.0  # Time in seconds before the bullet is destroyed
 
-var enemy_utils_instance = preload("res://scripts/enemy_utils.gd").new()
-var enemy_behaviors_instance = preload("res://scripts/enemy_behaviors.gd").new()
+var velocity: Vector3 = Vector3.ZERO  # To store the bullet's initial velocity
+var timer: float = 0.0  # Internal timer to track bullet lifetime
 
-signal enemy_destroyed
+# Function to set the bullet properties dynamically from another script
+func set_bullet_properties(new_damage: float, new_speed: float, direction: Vector3) -> void:
+	damage = new_damage
+	speed = new_speed
+	velocity = direction.normalized() * speed  # Set the velocity based on the direction and speed
+	
+	# Set the bullet's rotation to face the direction of travel
+	look_at(global_transform.origin + velocity, Vector3.UP)
 
-var original_albedo: Color
-var enemy_label: Label3D
-var mesh_instance: MeshInstance3D
+# This replaces connect(), using Godot 4's Callable system for signals
+@onready var _body_entered_signal = Callable(self, "_on_body_entered")
 
+# Called when the node enters the scene tree for the first time.
 func _ready():
-	mesh_instance = $MeshInstance3D
-	if mesh_instance:
-		if not mesh_instance.material_override:
-			mesh_instance.material_override = StandardMaterial3D.new()
-		original_albedo = mesh_instance.material_override.albedo_color
+	set_as_top_level(true)  # Ensure the bullet doesn't inherit transformations from its parent
+	body_entered.connect(_body_entered_signal)  # Directly connect the body_entered signal using Callable
 
-	enemy_label = $Label3D
-	update_health_display()
-
+# Function that runs when the bullet collides with another object
+func _on_body_entered(body: Node):
+	if body.is_in_group("enemies"):  # Ensure the object is in the enemies group
+		if body.has_method("on_bullet_hit"):  # Check if the enemy has the on_bullet_hit function
+			# Calculate direction from the bullet to the enemy, ignoring the Y-axis in enemy.gd
+			var bullet_direction = (body.global_transform.origin - global_transform.origin).normalized()
+			# Call the enemy's hit function, passing damage and direction
+			body.on_bullet_hit(damage, bullet_direction)
+			queue_free()  # Destroy the bullet after hitting the enemy
+			
+# Handle movement and lifetime of the bullet
 func _process(_delta):
-	if enemy_target:
-		steer_toward_player_with_behaviors()
+	global_transform.origin += velocity * _delta  # Move the bullet according to its velocity
 
-# Function to handle bullet hits
-func on_bullet_hit(damage: float):
-	health -= damage
-	print("Enemy hit! Health: ", health)
-
-	# Flash red using the instance method from enemy_utils.gd
-	enemy_utils_instance.flash_red(mesh_instance, original_albedo, hit_color, flash_duration)
-
-	# Update health display
-	enemy_utils_instance.update_health_display(health, max_health, enemy_label)
-
-	if health <= 0:
-		emit_signal("enemy_destroyed", self)
-		queue_free()
+	timer += _delta
+	if timer >= lifetime:
+		queue_free()  # Destroy the bullet after its lifetime ends

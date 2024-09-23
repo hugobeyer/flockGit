@@ -70,7 +70,7 @@ camera_offset = Vector3(32, 48, 32)
 [node name="Spawner" type="Node3D" parent="."]
 script = ExtResource("3_et5j8")
 enemy_scene = ExtResource("4_flyxm")
-spawn_rate = 0.125
+spawn_rate = 0.2
 min_spawn_radius = 20.0
 max_spawn_radius = 32.0
 

@@ -28,9 +28,9 @@ func _ready():
 	health_label = $Label3D
 	update_health_label()
 
-func _process(_delta):
+func _process(delta):
 	if knockback_timer > 0:
-		knockback_timer -= _delta
+		knockback_timer -= delta
 		apply_knockback()
 	else:
 		if player_target:

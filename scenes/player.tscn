@@ -16,7 +16,7 @@ radius = 0.535627
 [node name="player_pos" type="CharacterBody3D"]
 input_ray_pickable = false
 script = ExtResource("1_tc6aq")
-SPEED = 3.0
+SPEED = 4.0
 
 [node name="player_rot" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("2_ehop1")

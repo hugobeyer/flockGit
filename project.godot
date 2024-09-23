@@ -78,5 +78,13 @@ shoot={
 
 [rendering]
 
+rendering_device/driver="OpenGL"
+rendering_device/driver.windows="d3d12"
+rendering_device/fallback_to_vulkan=false
+rendering_device/fallback_to_d3d12=false
+renderer/rendering_method="mobile"
+renderer/rendering_method.web="mobile"
 shader_compiler/shader_cache/strip_debug=true
 environment/ssao/quality=1
+environment/screen_space_reflection/roughness_quality=0
+environment/subsurface_scattering/subsurface_scattering_quality=0

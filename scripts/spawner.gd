@@ -4,7 +4,7 @@ extends Node3D
 @export var spawn_rate: float = 1.0  # Time between enemy spawns
 @export var min_spawn_radius: float = 10.0  # Minimum distance from the player
 @export var max_spawn_radius: float = 30.0  # Maximum distance from the player
-@export var player: Node3D  # Reference to the player node (e.g., player_pos)
+@export var player: CharacterBody3D  # Reference to the player node (e.g., player_pos)
 
 var time_since_last_spawn = 0.0
 var enemies_alive = []

@@ -3,10 +3,10 @@ extends Node3D
 @export var muzzle: Marker3D  # Assign the muzzle in the Inspector
 @export var bullet_scene: PackedScene  # Bullet scene to instantiate
 @export var bullet_speed: float = 50.0  # Speed of the bullet
-@export var bullet_lifetime: float = 5.0  # Lifetime of the bullet
-@export var fire_rate: float = 0.5  # Time between each bullet shot
-@export var bullet_damage: float = 10.0  # Damage inflicted by each bullet
-@export var shoot_radius: float = 15.0  # Radius within which enemies must be to shoot
+@export var bullet_lifetime: float = 2.0  # Lifetime of the bullet
+@export var bullet_damage: float = 10.0  # Damage inflicted by the bullet
+@export var fire_rate: float = 0.25  # Time between each bullet shot
+@export var shoot_radius: float = 12.0  # Radius within which enemies must be to shoot
 
 var bullets = []
 var time_since_last_shot = 0.0
@@ -36,6 +36,9 @@ func shoot():
 
 	# Set the bullet's position to the muzzle's local space position
 	bullet_instance.transform = muzzle.global_transform
+
+	# Pass the gun's variables to the bullet
+	bullet_instance.set_bullet_properties(bullet_speed, bullet_lifetime, bullet_damage)
 
 	# Add the bullet instance to the scene tree
 	get_tree().current_scene.add_child(bullet_instance)

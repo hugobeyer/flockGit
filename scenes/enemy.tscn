@@ -1,42 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2js1bg71rr8r"]
+[gd_scene load_steps=5 format=3 uid="uid://b2js1bg71rr8r"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_ia10i"]
 [ext_resource type="Material" uid="uid://6gy50ixftvd0" path="res://materials/enemy_mat.tres" id="2_5y7be"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8gq4w"]
 material = ExtResource("2_5y7be")
-radius = 0.325
-height = 1.0
+radius = 0.4
+height = 1.5
 radial_segments = 9
 rings = 3
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ormye"]
-radius = 0.53479
-height = 1.69241
-
-[sub_resource type="Gradient" id="Gradient_gw0nl"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.512195, 1)
-colors = PackedColorArray(0, 0, 0, 0.811765, 0, 0, 0, 0.666667, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_2v1kc"]
-gradient = SubResource("Gradient_gw0nl")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.833333, 0.196581)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_orvsp"]
-transparency = 1
-shading_mode = 0
-diffuse_mode = 1
-specular_mode = 2
-disable_ambient_light = true
-albedo_texture = SubResource("GradientTexture2D_2v1kc")
-disable_receive_shadows = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_8uv6m"]
-material = SubResource("StandardMaterial3D_orvsp")
-orientation = 1
+radius = 0.4
+height = 1.6783
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 transform = Transform3D(1.00059, 0, 0, 0, 1.00059, 0, 0, 0, 1.00059, 0, 0, 0)
@@ -46,23 +22,27 @@ floor_block_on_wall = false
 floor_max_angle = 0.0174533
 safe_margin = 0.01
 script = ExtResource("1_ia10i")
-health = 15.0
-separation_radius = 2.0
-alignment_radius = 1.0
-separation_weight = 2.0
+move_speed = 3.0
+separation_radius = 3.0
+alignment_radius = 2.0
+separation_weight = 3.0
+alignment_weight = 3.0
 player_target_weight = 5.0
-fov_angle_radians = 25.0
+flash_duration = 0.5
+metadata/_edit_pinned_properties_ = [&"enemy_target"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85608, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.759621, 0)
 mesh = SubResource("CapsuleMesh_8gq4w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.909985, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000423421, 0.867528, 0.000549709)
 shape = SubResource("CapsuleShape3D_ormye")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.999503, 0, 0, 0, 0.999503, 0, 0, 0, 0.999503, 0, 0.0104464, 0)
-cast_shadow = 0
-ignore_occlusion_culling = true
-mesh = SubResource("QuadMesh_8uv6m")
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.0124288, 1.78304, 0.0144378)
+billboard = 1
+double_sided = false
+text = "100%"
+font_size = 100
+outline_size = 25

@@ -60,12 +60,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.318994, 1.17678, 0.822404)
 [node name="Camera" parent="player_pos" index="1"]
 camera_offset = Vector3(32, 48, 32)
 
-[node name="LevelSettings" type="Node3D" parent="." node_paths=PackedStringArray("player")]
+[node name="Spawner" type="Node3D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("3_et5j8")
 enemy_scene = ExtResource("4_flyxm")
-spawn_rate = 0.1
-min_spawn_radius = 20.0
-max_spawn_radius = 28.0
+spawn_rate = 0.2
+min_spawn_radius = 16.0
+max_spawn_radius = 24.0
 player = NodePath("../player_pos")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

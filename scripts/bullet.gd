@@ -26,15 +26,12 @@ func _ready():
 
 # Function that runs when the bullet collides with another object
 func _on_body_entered(body: Node):
-	if body.is_in_group("enemies"):  # Ensure the object is in the enemies group
-		if body.has_method("on_bullet_hit"):  # Check if the enemy has the on_bullet_hit function
-			# Calculate direction from the bullet to the enemy, ignoring the Y-axis in enemy.gd
+	if body.is_in_group("enemies"):
+		if body.has_method("on_bullet_hit"): 
 			var bullet_direction = (body.global_transform.origin - global_transform.origin).normalized()
-			# Call the enemy's hit function, passing damage and direction
 			body.on_bullet_hit(damage, bullet_direction)
-			queue_free()  # Destroy the bullet after hitting the enemy
+			queue_free() 
 			
-# Handle movement and lifetime of the bullet
 func _process(_delta):
 	global_transform.origin += velocity * _delta  # Move the bullet according to its velocity
 

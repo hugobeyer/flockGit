@@ -22,13 +22,13 @@ func _process(delta):
 
 # Function to spawn an enemy at a random position around the player
 func spawn_enemy():
-	print("Spawning enemy...")  # Debug message
+	##print("Spawning enemy...")  # Debug message
 	if player == null:
-		print("Error: Cannot spawn enemy. Player reference is null.")
+		#print("Error: Cannot spawn enemy. Player reference is null.")
 		return
 
 	if enemy_scene == null:
-		print("Error: enemy_scene is not assigned.")
+		#print("Error: enemy_scene is not assigned.")
 		return
 		
 	# Create the enemy instance
@@ -40,10 +40,10 @@ func spawn_enemy():
 	# Make sure the enemy is inside the tree before modifying its global transform
 	if enemy_instance.is_inside_tree():  # Ensure the node is inside the tree
 		var spawn_position = get_random_position_around_player(min_spawn_radius, max_spawn_radius)
-		print("Spawning enemy at position: ", spawn_position)  # Debug spawn position
+		#print("Spawning enemy at position: ", spawn_position)  # Debug spawn position
 		enemy_instance.global_transform.origin = spawn_position  # Set the spawn position
-	else:
-		print("Enemy not inside tree yet.")
+	#else:
+		#print("Enemy not inside tree yet.")
 		
 	# Assign player as the target for the enemy
 	if enemy_instance is CharacterBody3D:

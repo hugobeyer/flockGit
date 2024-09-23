@@ -11,27 +11,48 @@ extends CharacterBody3D
 @export var alignment_radius: float = 6.0
 @export var cohesion_radius: float = 6.0
 
-@export var pursuit_radius: float = 10.0  # Distance to start chasing the player
-@export var obstacle_avoidance_radius: float = 3.0  # Distance to detect obstacles
-@export var knockback_force: float = 5.0  # Adjust this value to control how strong the knockback is
+@export var knockback_force: float = 500.0
+@export var knockback_duration: float = 0.1
 
-#var velocity: Vector3 = Vector3.ZERO
-var player_target: CharacterBody3D  # The player that this enemy is targeting
+@export var pursuit_radius: float = 10.0
+@export var obstacle_avoidance_radius: float = 3.0
+
+var player_target: CharacterBody3D
 var neighbors: Array = []
-var health_label: Label3D  # Reference to the health label
+var health_label: Label3D
+
+var knockback_timer: float = 0.0
+var knockback_direction: Vector3 = Vector3.ZERO
 
 func _ready():
-	health_label = $Label3D  # Assuming the Label3D node is a direct child of the enemy
-	update_health_label()  # Initialize health label at 100%
+	health_label = $Label3D
+	update_health_label()
 
-# Called every frame
 func _process(_delta):
+	if knockback_timer > 0:
+		knockback_timer -= _delta
+		apply_knockback()
+	else:
+		if player_target:
+			normal_movement()
+func normal_movement():
+# Example: move towards the player
 	if player_target:
-		# If within pursuit radius, chase the player
+		var direction_to_player = (player_target.global_transform.origin - global_transform.origin).normalized()
+		self.velocity = direction_to_player * move_speed  # Chase player
+		move_and_slide()  # Apply movement
+
+func apply_knockback():
+	knockback_direction.y = 0
+	var knockback_velocity = knockback_direction * knockback_force
+	self.velocity.x += knockback_velocity.x
+	self.velocity.z += knockback_velocity.z
+	move_and_slide() 
+	
+	if player_target:
 		if global_transform.origin.distance_to(player_target.global_transform.origin) <= pursuit_radius:
 			chase_player()
 		else:
-			# Compute flocking forces
 			var separation = calculate_separation() * separation_weight
 			var alignment = calculate_alignment() * alignment_weight
 			var cohesion = calculate_cohesion() * cohesion_weight
@@ -39,45 +60,33 @@ func _process(_delta):
 
 			# Combine forces
 			var combined_force = (separation + alignment + cohesion + avoidance).normalized()
-			velocity = combined_force * move_speed
+			self.velocity = combined_force * move_speed
 
 			# Move the enemy based on the combined forces
 			move_and_slide()
 
-# Behavior when chasing the player (dynamic condition)
-# Chase player behavior
 func chase_player():
 	if player_target:
 		var direction_to_player = (player_target.global_transform.origin - global_transform.origin).normalized()
-		velocity = direction_to_player * move_speed * 1.5  # Increase speed while chasing
+		self.velocity = direction_to_player * move_speed * 1.5
 		move_and_slide()
 
-# Function to handle when the enemy is hit by a bullet
 func on_bullet_hit(damage: float, bullet_direction: Vector3):
 	health -= damage
-	#print("Enemy hit! Health is now: ", health)
 	
-	apply_knockback(bullet_direction)
+	knockback_direction = bullet_direction.normalized()
+	knockback_timer = knockback_duration
+	
 	if health <= 0:
 		die()
 	else:
-		update_health_label()  # Update health label after taking damage
-		
-# Function to apply knockback when hit by a bullet
-func apply_knockback(direction: Vector3):
-	# Ignore the Y-axis for horizontal knockback
-	direction.y = 0
-	# Normalize the direction to get the direction vector
-	var knockback_velocity = direction.normalized() * knockback_force
-	# Add this knockback to the enemy's current velocity (affect X and Z only)
-	self.velocity.x += knockback_velocity.x
-	self.velocity.z += knockback_velocity.z
-# Function to handle enemy death
+		update_health_label()
+
+
 func die():
 	#print("Enemy destroyed!")
-	queue_free()  # Remove enemy from the scene
+	queue_free()
 
-# Function to update the health label
 func update_health_label():
 	if health_label != null:
 		# Ensure health is clamped between 0 and max_health
@@ -132,7 +141,7 @@ func avoid_obstacles() -> Vector3:
 	var space_state = get_world_3d().direct_space_state
 	var query = PhysicsRayQueryParameters3D.new()
 	query.from = global_transform.origin
-	query.to = global_transform.origin + velocity * obstacle_avoidance_radius
+	query.to = global_transform.origin + self.velocity * obstacle_avoidance_radius
 	query.collide_with_bodies = true
 
 	var result = space_state.intersect_ray(query)
@@ -162,7 +171,7 @@ func get_neighbors(radius: float) -> Array:
 
 	# Perform the query with a limit on the number of results
 	var result = space_state.intersect_shape(query, 32)  # Example: Get up to 32 results
-	
+
 	for item in result:
 		var body = item.collider
 		if body != self and body.is_in_group("enemies"):

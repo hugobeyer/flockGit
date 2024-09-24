@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bud2p2xgbdxj4"]
+
+[ext_resource type="Script" path="res://scripts/include/enemy_shield.gd" id="1_r75qv"]
+[ext_resource type="Shader" uid="uid://bbt1yccvm2xlt" path="res://shaders/enemy_features/shield_shader.tres" id="2_3cnk8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_civl0"]
+render_priority = 0
+shader = ExtResource("2_3cnk8")
+
+[sub_resource type="SphereMesh" id="SphereMesh_bk26o"]
+radius = 0.7
+height = 0.25
+radial_segments = 12
+rings = 7
+is_hemisphere = true
+
+[node name="Shield" type="Node3D"]
+script = ExtResource("1_r75qv")
+shield_display_duration = 0.25
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_civl0")
+instance_shader_parameters/shield_die = 0.0
+instance_shader_parameters/shield_hit = 0.0
+instance_shader_parameters/shield_size_hit = 0.0
+mesh = SubResource("SphereMesh_bk26o")

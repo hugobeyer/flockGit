@@ -1,0 +1,107 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnbigr05ffs1m"]
+
+[ext_resource type="Script" path="res://scripts/edit.gd" id="1_ocex7"]
+
+[sub_resource type="Theme" id="Theme_wdcix"]
+default_base_scale = 1.0
+default_font_size = 12
+
+[node name="Edit" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ocex7")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.16
+anchor_top = 0.327
+anchor_right = 0.16
+anchor_bottom = 0.327
+offset_left = -160.0
+offset_top = -360.4
+offset_right = 160.0
+offset_bottom = 359.6
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_wdcix")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "  Enemy"
+uppercase = true
+
+[node name="LabelScenePath" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 16)
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 0
+text = "//path"
+
+[node name="Weight_Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Weight"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="SpinBoxWeight" type="SpinBox" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+step = 0.01
+value = 1.0
+
+[node name="ButtonBrowse" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+text = "Browse"
+alignment = 2
+icon_alignment = 2
+
+[node name="ButtonAdd" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Add Entry"
+
+[node name="ButtonSaveAs" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save to Json"
+
+[node name="LabelMessage" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.515
+anchor_top = 0.311
+anchor_right = 0.515
+anchor_bottom = 0.311
+offset_left = -207.0
+offset_top = -11.2
+offset_right = 208.0
+offset_bottom = 11.8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 4
+
+[node name="FileDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+position = Vector2i(535, 125)
+size = Vector2i(483, 512)
+max_size = Vector2i(512, 512)
+root_subfolder = "scenes"

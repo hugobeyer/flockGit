@@ -1,69 +1,90 @@
 extends CharacterBody3D
 
 @export var health: float = 100.0
-@export var max_health: float = 100.0
-@export var move_speed: float = 3.0
+@export var max_health: float = 50.0
+@export var move_speed: float = 4.0
 
-@export var separation_weight: float = 1.5
-@export var alignment_weight: float = 1.0
-@export var cohesion_weight: float = 1.0
-@export var separation_radius: float = 4.0
-@export var alignment_radius: float = 6.0
-@export var cohesion_radius: float = 6.0
-
-@export var knockback_force: float = 500.0
+@export var knockback_force: float = -0.5
 @export var knockback_duration: float = 0.1
 
-@export var pursuit_radius: float = 10.0
-@export var obstacle_avoidance_radius: float = 3.0
 
 var player_target: CharacterBody3D
 var neighbors: Array = []
 var health_label: Label3D
-
 var knockback_timer: float = 0.0
 var knockback_direction: Vector3 = Vector3.ZERO
+var flocking: Node3D
 
 func _ready():
 	health_label = $Label3D
+	flocking = $Flocking  # Reference to the Flocking node
 	update_health_label()
 
-func _process(delta):
+func _process(delta):	
 	if knockback_timer > 0:
 		knockback_timer -= delta
 		apply_knockback()
 	else:
 		if player_target:
 			normal_movement()
+
 func normal_movement():
-# Example: move towards the player
 	if player_target:
-		var direction_to_player = (player_target.global_transform.origin - global_transform.origin).normalized()
-		self.velocity = direction_to_player * move_speed  # Chase player
-		move_and_slide()  # Apply movement
+		var distance_to_player = global_transform.origin.distance_to(player_target.global_transform.origin)
+
+		# Calculate the pursuit force
+		var pursuit_force = Vector3.ZERO
+		if distance_to_player <= flocking.pursuit_radius:
+			pursuit_force = (player_target.global_transform.origin - global_transform.origin).normalized() * move_speed
+
+		# Flocking forces
+		var neighbors = get_neighbors(flocking.separation_radius)
+		var separation = flocking.calculate_separation(self, neighbors) * flocking.separation_weight
+		var alignment = flocking.calculate_alignment(self, neighbors) * flocking.alignment_weight
+		var cohesion = flocking.calculate_cohesion(self, neighbors) * flocking.cohesion_weight
+		var avoidance = flocking.avoid_obstacles(self) * 2.0
+		var flocking_force = (separation + alignment + cohesion + avoidance).normalized() * move_speed
+
+		# Blend pursuit and flocking forces
+		var combined_force = (flocking_force + pursuit_force).normalized() * move_speed
+		self.velocity = combined_force
+
+		# Apply movement and rotate to face movement direction
+		move_and_slide()
+		if self.velocity.length() > 0.01:
+			var direction = self.velocity.normalized()
+			direction.y = 0  # Keep Y axis unaffected
+			var rotation_angle = atan2(direction.x, direction.z)
+			var target_basis = Basis(Vector3(0, 1, 0), rotation_angle)
+			global_transform.basis = global_transform.basis.slerp(target_basis, 0.1)  # Smooth rotation
+
+
+
+
 
 func apply_knockback():
+	# Zero out Y axis for knockback direction
 	knockback_direction.y = 0
 	var knockback_velocity = knockback_direction * knockback_force
+
+	# Apply knockback to velocity
 	self.velocity.x += knockback_velocity.x
 	self.velocity.z += knockback_velocity.z
-	move_and_slide() 
-	
-	if player_target:
-		if global_transform.origin.distance_to(player_target.global_transform.origin) <= pursuit_radius:
-			chase_player()
-		else:
-			var separation = calculate_separation() * separation_weight
-			var alignment = calculate_alignment() * alignment_weight
-			var cohesion = calculate_cohesion() * cohesion_weight
-			var avoidance = avoid_obstacles() * 2.0  # Avoid obstacles dynamically
 
-			# Combine forces
-			var combined_force = (separation + alignment + cohesion + avoidance).normalized()
-			self.velocity = combined_force * move_speed
+	# Apply movement after knockback
+	move_and_slide()
 
-			# Move the enemy based on the combined forces
-			move_and_slide()
+	# Flash red effect to indicate damage taken
+	flash_red()
+
+func flash_red() -> void:
+	# Set the per-instance shader parameter for flashing red
+	$MeshInstance3D.set_instance_shader_parameter("flash_intensity", 1.0)
+
+	await get_tree().create_timer(0.2).timeout
+
+	# Revert the per-instance shader parameter to disable the flash
+	$MeshInstance3D.set_instance_shader_parameter("flash_intensity", 0.0)
 
 func chase_player():
 	if player_target:
@@ -72,8 +93,11 @@ func chase_player():
 		move_and_slide()
 
 func on_bullet_hit(damage: float, bullet_direction: Vector3):
-	health -= damage
+	var remaining_damage = damage
+	if $Shield != null:
+		remaining_damage = $Shield.take_damage(damage)  # Shield absorbs damage first
 	
+	health -= remaining_damage	
 	knockback_direction = bullet_direction.normalized()
 	knockback_timer = knockback_duration
 	
@@ -82,79 +106,16 @@ func on_bullet_hit(damage: float, bullet_direction: Vector3):
 	else:
 		update_health_label()
 
-
 func die():
 	#print("Enemy destroyed!")
 	queue_free()
 
 func update_health_label():
 	if health_label != null:
-		# Ensure health is clamped between 0 and max_health
 		health = clamp(health, 0, max_health)
 		var health_percentage = (health / max_health) * 100
-		health_label.text = str(health_percentage) + "%"  # Update label text to show percentage
-	#else:
-		#print("Health label is null.")
+		health_label.text = str(health_percentage) + "%"
 
-# Calculate separation to avoid crowding with neighbors
-func calculate_separation() -> Vector3:
-	var separation_force = Vector3.ZERO
-	neighbors = get_neighbors(separation_radius)
-
-	for neighbor in neighbors:
-		var distance = global_transform.origin.distance_to(neighbor.global_transform.origin)
-		if distance > 0:
-			var push_direction = (global_transform.origin - neighbor.global_transform.origin).normalized()
-			separation_force += push_direction / distance
-
-	return separation_force.normalized()
-
-# Calculate alignment to match the movement direction with neighbors
-func calculate_alignment() -> Vector3:
-	var avg_direction = Vector3.ZERO
-	neighbors = get_neighbors(alignment_radius)
-
-	for neighbor in neighbors:
-		avg_direction += neighbor.velocity.normalized()
-
-	if neighbors.size() > 0:
-		avg_direction /= neighbors.size()
-
-	return avg_direction.normalized()
-
-# Calculate cohesion to move towards the average position of neighbors
-func calculate_cohesion() -> Vector3:
-	var avg_position = Vector3.ZERO
-	neighbors = get_neighbors(cohesion_radius)
-
-	for neighbor in neighbors:
-		avg_position += neighbor.global_transform.origin
-
-	if neighbors.size() > 0:
-		avg_position /= neighbors.size()
-
-	return (avg_position - global_transform.origin).normalized()
-
-# Avoid obstacles dynamically using raycasting
-func avoid_obstacles() -> Vector3:
-	var obstacle_avoidance = Vector3.ZERO
-	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.new()
-	query.from = global_transform.origin
-	query.to = global_transform.origin + self.velocity * obstacle_avoidance_radius
-	query.collide_with_bodies = true
-
-	var result = space_state.intersect_ray(query)
-	if result:
-		var hit_point = result.position
-		var avoidance_direction = (global_transform.origin - hit_point).normalized()
-		obstacle_avoidance = avoidance_direction
-
-	return obstacle_avoidance
-
-# Get nearby enemies within the given radius
-# Get nearby enemies within the given radius
-# Get nearby enemies within the given radius
 func get_neighbors(radius: float) -> Array:
 	var nearby_enemies = []
 	var space_state = get_world_3d().direct_space_state

@@ -1,13 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2js1bg71rr8r"]
+[gd_scene load_steps=6 format=3 uid="uid://cejs1nywpieh6"]
 
-[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_ia10i"]
-[ext_resource type="Shader" uid="uid://br8qv1dv3nau4" path="res://shaders/enemy.tres" id="2_4kinu"]
-[ext_resource type="PackedScene" uid="uid://b34relgscoid3" path="res://scenes/enemy_features/flocking.tscn" id="3_7blfl"]
-[ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://scenes/enemy_features/shield.tscn" id="4_earu6"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_vo0ol"]
+[ext_resource type="Shader" uid="uid://br8qv1dv3nau4" path="res://shaders/enemy.tres" id="2_ktx5f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bece2"]
 render_priority = 0
-shader = ExtResource("2_4kinu")
+shader = ExtResource("2_ktx5f")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8gq4w"]
 radius = 0.4
@@ -20,12 +18,11 @@ radius = 0.43
 height = 1.775
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
-axis_lock_angular_y = true
 slide_on_ceiling = false
 floor_max_angle = 0.0174533
 platform_on_leave = 2
 safe_margin = 0.1
-script = ExtResource("1_ia10i")
+script = ExtResource("1_vo0ol")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.759621, 0)
@@ -45,8 +42,3 @@ double_sided = false
 text = "100%"
 font_size = 100
 outline_size = 25
-
-[node name="Flocking" parent="." instance=ExtResource("3_7blfl")]
-
-[node name="Shield" parent="." instance=ExtResource("4_earu6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.840122, 0.463381)

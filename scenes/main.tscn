@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=11 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://scenes/player.tscn" id="1_to1an"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://scenes/gun.tscn" id="2_nxful"]
 [ext_resource type="Script" path="res://scripts/spawner.gd" id="3_et5j8"]
-[ext_resource type="PackedScene" uid="uid://b2js1bg71rr8r" path="res://scenes/enemy.tscn" id="4_flyxm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_faju1"]
 size = Vector3(512, 1, 512)
@@ -28,6 +27,12 @@ albedo_color = Color(0.271575, 0.45, 0.1755, 1)
 albedo_texture = SubResource("GradientTexture2D_j5fro")
 uv1_scale = Vector3(256, 256, 256)
 point_size = 53.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_ltsny"]
+size = Vector3(4, 1, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pww3l"]
+size = Vector3(4, 1, 4)
 
 [node name="Main" type="Node3D"]
 
@@ -60,19 +65,19 @@ directional_shadow_pancake_size = 81.5
 transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53, 0)
 SPEED = 15.0
 
-[node name="Gun" parent="player_pos/player_rot" index="1" instance=ExtResource("2_nxful")]
+[node name="Gun" parent="player_pos" instance=ExtResource("2_nxful")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.318994, 1.17678, 0.822404)
 bullet_speed = 64.0
 
-[node name="Camera" parent="player_pos" index="1"]
-camera_offset = Vector3(32, 48, 32)
-
 [node name="Spawner" type="Node3D" parent="."]
 script = ExtResource("3_et5j8")
-enemy_scene = ExtResource("4_flyxm")
-spawn_rate = 0.2
-min_spawn_radius = 20.0
-max_spawn_radius = 32.0
+config_file_path = "res://resources/spawn_test.json"
 
-[editable path="player_pos"]
-[editable path="player_pos/player_rot/Gun"]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.98458, 1.51668, -10.7509)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_ltsny")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_pww3l")

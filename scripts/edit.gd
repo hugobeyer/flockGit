@@ -2,21 +2,31 @@ extends Control
 
 @export var default_config_file_path: String = "res://resources/spawn_default.json"
 var scene_data = []
-var file_dialog
+var file_dialog_open
+var file_dialog_save
 
 func _ready():
-	file_dialog = $FileDialog  # Connect FileDialog
-	if file_dialog != null:
-		file_dialog.connect("file_selected", Callable(self, "_on_file_save_selected"))
+	# Connect the two FileDialogs
+	file_dialog_open = $FileDialogOpen
+	file_dialog_save = $FileDialogSave
+
+	if file_dialog_open != null:
+		file_dialog_open.connect("file_selected", Callable(self, "_on_file_open_selected"))
 	else:
-		show_message("FileDialog node is missing")
+		show_message("FileDialogOpen node is missing")
+
+	if file_dialog_save != null:
+		file_dialog_save.connect("file_selected", Callable(self, "_on_file_save_selected"))
+	else:
+		show_message("FileDialogSave node is missing")
 
 	$LabelMessage.visible = false  # Hide message by default
 
-	# Connect the "Add Scene" and "Save As" buttons with correct paths
+	# Connect the buttons
 	var button_add = $PanelContainer/VBoxContainer/ButtonAdd
 	var button_saveas = $PanelContainer/VBoxContainer/ButtonSaveAs
 	var button_browse = $PanelContainer/VBoxContainer/HBoxContainer/ButtonBrowse
+
 	button_add.connect("pressed", Callable(self, "_on_add_button_pressed"))
 	button_saveas.connect("pressed", Callable(self, "_on_save_as_button_pressed"))
 	button_browse.connect("pressed", Callable(self, "_on_browse_pressed"))
@@ -37,10 +47,15 @@ func load_json_data(file_path: String):
 			show_message("Error parsing JSON file.")
 		file.close()
 
-# Called when "Browse" button is pressed
+# Called when "Browse" button is pressed (opens scene files)
 func _on_browse_pressed():
-	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE  # Set to open file mode
-	file_dialog.popup()  # Open FileDialog
+	file_dialog_open.file_mode = FileDialog.FILE_MODE_OPEN_FILE  # Set to file open mode
+	file_dialog_open.set_filters(PackedStringArray(["*.tscn"]))  # Show only scene files
+	file_dialog_open.popup()  # Open FileDialog for browsing
+
+# Called when a file is selected (for Browse button)
+func _on_file_open_selected(path):
+	$PanelContainer/VBoxContainer/HBoxContainer/LabelScenePath.text = path.get_file()
 
 # Called when "Add Scene" button is pressed
 func _on_add_button_pressed():
@@ -51,23 +66,53 @@ func _on_add_button_pressed():
 		return
 	add_scene_row(scene_path, weight)
 
+# Called when "Save As" button is pressed (opens save dialog)
+func _on_save_as_button_pressed():
+	file_dialog_save.file_mode = FileDialog.FILE_MODE_SAVE_FILE  # Set to save file mode
+	file_dialog_save.set_filters(PackedStringArray(["*.json"]))  # Filter for JSON files
+	file_dialog_save.popup()
+
+# Save the JSON data when a file is selected for saving
+func _on_file_save_selected(path):
+	if not path.right(5) == ".json":
+		path += ".json"  # Ensure the file is saved with the .json extension
+
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		show_message("Error opening file for writing")
+		return
+
+	var data = {"enemy_scenes": []}
+
+	for entry in scene_data:
+		data["enemy_scenes"].append({
+			"scene": entry["scene"],
+			"weight": entry["weight"]
+		})
+
+	var json_data = JSON.stringify(data, "\t")  # Convert the data to JSON format with indentation
+	file.store_string(json_data)  # Write the JSON string to the file
+	file.close()
+
+	show_message("Data saved to " + path)
+
 # Function to dynamically add a row for each scene with proper layout
 func add_scene_row(scene_path: String, weight: float):
 	var hbox = HBoxContainer.new()
-	
+
 	var label_scene = Label.new()
-	label_scene.text = scene_path
-	label_scene.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # Expand to fill available space
-	
+	label_scene.text = scene_path.get_file()
+	label_scene.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
 	var spin_box = SpinBox.new()
 	spin_box.min_value = 0
 	spin_box.max_value = 100
 	spin_box.value = weight
-	spin_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # Expand to fill available space
-	
+	spin_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
 	var remove_button = Button.new()
 	remove_button.text = "Remove"
-	remove_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER  # Keep centered and not expanding
+	remove_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 
 	hbox.add_child(label_scene)
 	hbox.add_child(spin_box)
@@ -76,7 +121,6 @@ func add_scene_row(scene_path: String, weight: float):
 	$PanelContainer/VBoxContainer.add_child(hbox)
 
 	scene_data.append({"scene": scene_path, "weight": weight, "hbox": hbox})
-	
 	remove_button.connect("pressed", Callable(self, "_on_remove_button_pressed").bind(hbox))
 
 	show_message("Scene added: " + scene_path)
@@ -91,22 +135,6 @@ func _on_remove_button_pressed(hbox):
 	hbox.queue_free()
 
 	show_message("Scene removed")
-
-# Called when "Save As" button is pressed
-func _on_save_as_button_pressed():
-	file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE  # Set to save file mode
-	file_dialog.access = FileDialog.ACCESS_FILESYSTEM  # Allow navigating the file system
-	file_dialog.set_filters(PackedStringArray(["*.json"]))  # Filter for JSON files
-	file_dialog.popup()
-
-# Save the JSON data when "Save As" is selected
-func _on_file_save_selected(path):
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	var data = {"enemy_scenes": scene_data}
-	var json_data = JSON.stringify(data)
-	file.store_string(json_data)
-	file.close()
-	show_message("Data saved to " + path)
 
 # Function to display a message for a few seconds and then hide it
 func show_message(msg: String):

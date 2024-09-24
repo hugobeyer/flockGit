@@ -24,7 +24,7 @@ settings/stdout/verbose_stdout=true
 
 [display]
 
-window/size/viewport_width=1200
+window/size/viewport_width=800
 window/size/viewport_height=1200
 window/size/always_on_top=true
 window/size/transparent=true
@@ -79,8 +79,6 @@ shoot={
 [rendering]
 
 rendering_device/driver="OpenGL"
-rendering_device/driver.windows="d3d12"
-rendering_device/fallback_to_vulkan=false
 rendering_device/fallback_to_d3d12=false
 renderer/rendering_method="mobile"
 renderer/rendering_method.web="mobile"

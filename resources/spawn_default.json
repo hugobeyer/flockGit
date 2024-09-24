@@ -1,7 +1,5 @@
 {
 	"enemy_scenes": [
-		{"scene": "res://scenes/enemy_1.tscn", "weight": 1.0},
-		{"scene": "res://scenes/enemy_2.tscn", "weight": 0.5},
-		{"scene": "res://scenes/enemy_3.tscn", "weight": 2.0}
+		{"scene": "res://scenes/enemy.tscn", "weight": 1.0},
 	]
 }

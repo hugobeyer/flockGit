@@ -28,8 +28,6 @@ radius = 0.35932
 [node name="Bullet" type="Area3D"]
 top_level = true
 script = ExtResource("1_6qr1r")
-damage = 7.0
-lifetime = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0.00252461, 4.17233e-07, -0.339697)

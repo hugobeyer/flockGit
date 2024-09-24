@@ -143,7 +143,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-1905, 520)
+graph_offset = Vector2(-990.273, 76.4545)
 modes/blend = 1
 modes/specular = 1
 flags/shadows_disabled = true
@@ -175,7 +175,7 @@ nodes/fragment/4/position = Vector2(-980, 340)
 nodes/fragment/5/node = SubResource("VisualShaderNodeFloatParameter_5ji54")
 nodes/fragment/5/position = Vector2(-1040, 600)
 nodes/fragment/6/node = SubResource("VisualShaderNodeMix_n2r34")
-nodes/fragment/6/position = Vector2(60, 640)
+nodes/fragment/6/position = Vector2(20, 560)
 nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_nmp41")
 nodes/fragment/7/position = Vector2(-560, 900)
 nodes/fragment/8/node = SubResource("VisualShaderNodeColorConstant_ykbii")

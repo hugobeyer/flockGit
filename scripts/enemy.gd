@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+signal enemy_killed  # Declare the signal
+
+
 @export var health: float = 100.0
 @export var max_health: float = 50.0
 @export var move_speed: float = 4.0
@@ -108,6 +111,7 @@ func on_bullet_hit(damage: float, bullet_direction: Vector3):
 
 func die():
 	#print("Enemy destroyed!")
+	emit_signal("enemy_killed")  # Emit the signal when the enemy dies
 	queue_free()
 
 func update_health_label():

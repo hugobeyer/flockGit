@@ -1,26 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4uuwqe6deuv8"]
+[gd_scene load_steps=6 format=3 uid="uid://b4uuwqe6deuv8"]
 
 [ext_resource type="Script" path="res://scripts/gun.gd" id="1_x0345"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_1jgxs"]
-top_radius = 0.15
-bottom_radius = 0.05
+[sub_resource type="Gradient" id="Gradient_008ed"]
+offsets = PackedFloat32Array(0.633574, 1)
+colors = PackedColorArray(0.19, 0.1653, 0.17518, 1, 0.1596, 0.57, 0.24168, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tdqg5"]
+gradient = SubResource("Gradient_008ed")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cf382"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = SubResource("GradientTexture2D_tdqg5")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ick36"]
+top_radius = 0.2
+bottom_radius = 0.1
 height = 1.0
-radial_segments = 11
+radial_segments = 6
 rings = 1
 
 [node name="Gun" type="Node3D" node_paths=PackedStringArray("muzzle_node")]
 script = ExtResource("1_x0345")
-bullet_scene_path = "res://scenes/bullet.tscn"
-fire_rate = 0.1
-bullet_speed = 40.0
-bullet_damage = 7.0
 muzzle_node = NodePath("Muzzle")
 
-[node name="GunMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_1jgxs")
-skeleton = NodePath("")
-
 [node name="Muzzle" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.07473, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00426769, 0.5, -0.0245728)
+material_override = SubResource("StandardMaterial3D_cf382")
+gi_mode = 0
+mesh = SubResource("CylinderMesh_ick36")

@@ -1,17 +1,20 @@
 extends Area3D
 
-@export var damage: float = 10.0  # Damage dealt by the bullet
-@export var speed: float = 50.0  # Speed of the bullet
-@export var lifetime: float = 2.0  # Time in seconds before the bullet is destroyed
+@export var damage: float = 7.0  # Damage dealt by the bullet
+@export var speed: float = 64.0  # Speed of the bullet
+@export var lifetime: float = 1.0  # Time in seconds before the bullet is destroyed
+@export var fire_rate: float = 0.1  # Time in seconds before the bullet is destroyed
+
 
 var velocity: Vector3 = Vector3.ZERO  # To store the bullet's initial velocity
 var timer: float = 0.0  # Internal timer to track bullet lifetime
 
 # Function to set the bullet properties dynamically from another script
-func set_bullet_properties(new_damage: float, new_speed: float, direction: Vector3) -> void:
+func set_bullet_properties(new_damage: float, new_speed: float, direction: Vector3, new_fire_rate: float) -> void:
 	damage = new_damage
 	speed = new_speed
 	velocity = direction.normalized() * speed  # Set the velocity based on the direction and speed
+	fire_rate = new_fire_rate
 	
 	# Set the bullet's rotation to face the direction of travel
 	look_at(global_transform.origin + velocity, Vector3.UP)
@@ -32,9 +35,9 @@ func _on_body_entered(body: Node):
 			body.on_bullet_hit(damage, bullet_direction)
 			queue_free() 
 			
-func _process(_delta):
-	global_transform.origin += velocity * _delta  # Move the bullet according to its velocity
+func _process(delta):
+	global_transform.origin += velocity * delta  # Move the bullet according to its velocity
 
-	timer += _delta
+	timer += delta
 	if timer >= lifetime:
 		queue_free()  # Destroy the bullet after its lifetime ends

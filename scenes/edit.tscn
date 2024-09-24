@@ -83,21 +83,35 @@ icon_alignment = 2
 [node name="ButtonRemove" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20.905)
+layout_mode = 2
+
+[node name="ButtonSaveAs" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save to Json"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20.905)
+layout_mode = 2
+
 [node name="ButtonAdd" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Add Entry"
 icon = SubResource("GradientTexture2D_k3bpa")
 alignment = 0
 
-[node name="ButtonSaveAs" type="Button" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Save to Json"
-
-[node name="FileDialog" type="FileDialog" parent="."]
+[node name="FileDialogOpen" type="FileDialog" parent="."]
 auto_translate_mode = 1
 initial_position = 1
 size = Vector2i(400, 400)
-visible = true
+max_size = Vector2i(512, 512)
+root_subfolder = "../"
+
+[node name="FileDialogSave" type="FileDialog" parent="."]
+auto_translate_mode = 1
+initial_position = 1
+size = Vector2i(400, 400)
 max_size = Vector2i(512, 512)
 root_subfolder = "../"
 

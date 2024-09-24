@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/camera.gd" id="2_ased2"]
 [ext_resource type="Script" path="res://scripts/player_rot.gd" id="2_ehop1"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://materials/player_mat.tres" id="3_jeq0b"]
-[ext_resource type="Script" path="res://scripts/player_damage_color.gd" id="4_mmrya"]
+[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://scenes/gun.tscn" id="4_l0as6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ayx0v"]
 material = ExtResource("3_jeq0b")
@@ -16,7 +16,7 @@ radius = 0.535627
 [node name="player_pos" type="CharacterBody3D"]
 input_ray_pickable = false
 script = ExtResource("1_tc6aq")
-SPEED = 2.0
+SPEED = 32.0
 
 [node name="player_rot" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("2_ehop1")
@@ -26,7 +26,9 @@ camera = NodePath("../Camera")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05206, 0)
 mesh = SubResource("CapsuleMesh_ayx0v")
 skeleton = NodePath("../..")
-script = ExtResource("4_mmrya")
+
+[node name="Gun" parent="player_rot" instance=ExtResource("4_l0as6")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.276828, 1.30917, 0.308126)
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 0, 0)

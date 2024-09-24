@@ -1,10 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnbigr05ffs1m"]
+[gd_scene load_steps=4 format=3 uid="uid://dnbigr05ffs1m"]
 
 [ext_resource type="Script" path="res://scripts/edit.gd" id="1_ocex7"]
 
-[sub_resource type="Theme" id="Theme_wdcix"]
-default_base_scale = 1.0
-default_font_size = 12
+[sub_resource type="Gradient" id="Gradient_207df"]
+offsets = PackedFloat32Array(0.542662, 0.740614)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_k3bpa"]
+gradient = SubResource("Gradient_207df")
+width = 12
+height = 12
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
 
 [node name="Edit" type="Control"]
 layout_mode = 3
@@ -16,19 +24,19 @@ grow_vertical = 2
 script = ExtResource("1_ocex7")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+layout_direction = 1
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.16
-anchor_top = 0.327
-anchor_right = 0.16
-anchor_bottom = 0.327
-offset_left = -160.0
-offset_top = -360.4
-offset_right = 160.0
-offset_bottom = 359.6
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -284.0
+offset_top = -525.0
+offset_right = 279.375
+offset_bottom = 445.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_wdcix")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -72,36 +80,45 @@ text = "Browse"
 alignment = 2
 icon_alignment = 2
 
+[node name="ButtonRemove" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
 [node name="ButtonAdd" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Add Entry"
+icon = SubResource("GradientTexture2D_k3bpa")
+alignment = 0
 
 [node name="ButtonSaveAs" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Save to Json"
 
+[node name="FileDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+initial_position = 1
+size = Vector2i(400, 400)
+visible = true
+max_size = Vector2i(512, 512)
+root_subfolder = "../"
+
 [node name="LabelMessage" type="Label" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.515
-anchor_top = 0.311
-anchor_right = 0.515
-anchor_bottom = 0.311
-offset_left = -207.0
-offset_top = -11.2
-offset_right = 208.0
-offset_bottom = 11.8
+anchor_left = 0.487
+anchor_top = 0.029
+anchor_right = 0.487
+anchor_bottom = 0.029
+offset_left = -159.4
+offset_top = -11.8
+offset_right = 160.6
+offset_bottom = 11.2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/line_spacing = 0
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 4
-
-[node name="FileDialog" type="FileDialog" parent="."]
-auto_translate_mode = 1
-position = Vector2i(535, 125)
-size = Vector2i(483, 512)
-max_size = Vector2i(512, 512)
-root_subfolder = "scenes"
+text = "Message"
+horizontal_alignment = 1
+vertical_alignment = 1

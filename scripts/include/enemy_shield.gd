@@ -1,9 +1,9 @@
 extends Node3D
 
-@export var shield_strength: float = 50.0
+@export var shield_strength: float = 150.0
 @export var max_shield: float = 50.0
-@export var recharge_rate: float = 5.0  # Recharge per second
-@export var recharge_delay: float = 2.0  # Delay before recharge
+@export var recharge_rate: float = 1.0  # Recharge per second
+@export var recharge_delay: float = 1.0  # Delay before recharge
 @export var shield_display_duration: float = 0.3  # Time the shield appears
 
 var recharge_timer: float = 0.0
@@ -45,6 +45,7 @@ func take_damage(damage: float) -> float:
 		shield_strength -= damage
 		if shield_strength < 0:
 			shield_strength = 0
+		$MeshInstance3D.set_instance_shader_parameter("shield_die", 1.0)  # Reset shield die effect
 		return max(remaining_damage, 0)  # Return remaining damage to health
 	return damage  # If no shield, all damage goes through
 
@@ -61,6 +62,8 @@ func display_shield_effect():
 func update_shader_parameters():
 	var hit_value = lerp($MeshInstance3D.get_instance_shader_parameter("shield_hit"), 0.0, 0.1)
 	var size_value = lerp($MeshInstance3D.get_instance_shader_parameter("shield_size_hit"), 0.0, 0.1)
+	var die_value = lerp($MeshInstance3D.get_instance_shader_parameter("shield_die"), 0.0, 0.1)
 
+	$MeshInstance3D.set_instance_shader_parameter("shield_die", die_value)  # Reset shield die effect
 	$MeshInstance3D.set_instance_shader_parameter("shield_hit", hit_value)
 	$MeshInstance3D.set_instance_shader_parameter("shield_size_hit", size_value)

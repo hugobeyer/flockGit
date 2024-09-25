@@ -39,9 +39,12 @@ size = Vector3(4, 1, 4)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_x328l")
+kills_required_for_spread = 5
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206244, 0.102213, -0.222153)
+collision_layer = 3
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -72,9 +75,12 @@ transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("3_et5j8")
 enemy_resources = Array[ExtResource("4_o5no5")]([ExtResource("4_gcig3")])
+max_spawned = 256
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.98458, 1.51668, -10.7509)
+collision_layer = 7
+collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 mesh = SubResource("BoxMesh_ltsny")

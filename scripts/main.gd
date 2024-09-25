@@ -16,7 +16,7 @@ func _ready():
 		print("SignalBus does not have 'enemy_killed' signal.")
 
 # Called when an enemy is killed
-func _on_enemy_killed(killer: Node):
+func _on_enemy_killed(killer: Node3D):
 	kills += 1  # Increment kill count
 	if kills >= kills_required_for_spread:
 		activate_spread_mode()

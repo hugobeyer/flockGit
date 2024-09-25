@@ -45,7 +45,7 @@ input_name = "vertex"
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_toon, specular_disabled;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_disabled;
 
 instance uniform float lower_health : hint_range(0, 1) = 0;
 instance uniform float flash_intensity : hint_range(0, 1) = 0;
@@ -87,8 +87,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-811.726, -289.141)
-modes/diffuse = 3
+graph_offset = Vector2(-258.726, -32.1406)
 modes/specular = 2
 nodes/fragment/0/position = Vector2(2200, 180)
 nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_mnbq7")
@@ -98,7 +97,7 @@ nodes/fragment/3/position = Vector2(1220, 120)
 nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_ayul1")
 nodes/fragment/4/position = Vector2(-220, -220)
 nodes/fragment/5/node = SubResource("VisualShaderNodeFloatParameter_u60b6")
-nodes/fragment/5/position = Vector2(540, 380)
+nodes/fragment/5/position = Vector2(580, 380)
 nodes/fragment/6/node = SubResource("VisualShaderNodeColorConstant_cshyo")
 nodes/fragment/6/position = Vector2(220, -100)
 nodes/fragment/7/node = SubResource("VisualShaderNodeMix_ebvep")

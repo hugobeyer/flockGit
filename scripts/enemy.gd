@@ -15,7 +15,7 @@ var knockback_timer: float = 0.0
 var knockback_direction: Vector3 = Vector3.ZERO
 var flocking: Node3D
 
-# Initialize
+# Initialize the enemy
 func _ready():
 	health_label = $Label3D
 	flocking = $Flocking  # Reference to the Flocking node
@@ -26,11 +26,12 @@ func _process(delta):
 	if knockback_timer > 0:
 		knockback_timer -= delta
 		apply_knockback()
+		flash_red()  # Visual feedback for damage
 	else:
 		if player_target:
 			normal_movement()
 
-# Handle movement logic
+# Handle enemy movement logic
 func normal_movement():
 	if player_target:
 		var distance_to_player = global_transform.origin.distance_to(player_target.global_transform.origin)
@@ -69,8 +70,6 @@ func apply_knockback():
 	self.velocity.z += knockback_velocity.z
 	move_and_slide()  # Apply movement
 
-	flash_red()  # Visual feedback for damage
-
 # Visual feedback for taking damage
 func flash_red() -> void:
 	$MeshInstance3D.set_instance_shader_parameter("flash_intensity", 1.0)
@@ -87,19 +86,19 @@ func on_bullet_hit(damage: float, bullet_direction: Vector3):
 
 	# Deduct health based on remaining damage
 	health -= remaining_damage
-	knockback_direction = bullet_direction.normalized()  # Knockback direction from bullet hit
-	knockback_timer = knockback_duration  # Set knockback duration
+	knockback_direction = bullet_direction.normalized()  # Set knockback direction
+	knockback_timer = knockback_duration  # Apply knockback for the duration
 
 	# Check for death
 	if health <= 0:
 		die()
 	else:
+		flash_red()  # Show damage effect
 		update_health_label()
 
 # Trigger enemy death
 func die():
-	# Emit the enemy_killed signal via SignalBus
-	SignalBus.emit_signal("enemy_killed", self)
+	SignalBus.emit_signal("enemy_killed", self)  # Emit the signal for enemy death
 	queue_free()  # Remove the enemy from the scene
 
 # Update health label

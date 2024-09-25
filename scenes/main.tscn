@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=14 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://scenes/player.tscn" id="1_to1an"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_x328l"]
 [ext_resource type="Script" path="res://scripts/spawner.gd" id="3_et5j8"]
 [ext_resource type="Resource" uid="uid://bx5s5knwhcoe7" path="res://scenes/enemy_types/enemy_imp_regular.tres" id="4_gcig3"]
 [ext_resource type="Script" path="res://scripts/enemy_data.gd" id="4_o5no5"]
+[ext_resource type="Script" path="res://scripts/label_kills.gd" id="5_2dbct"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_faju1"]
 size = Vector3(512, 1, 512)
@@ -66,9 +67,9 @@ directional_shadow_pancake_size = 81.5
 
 [node name="player_pos" parent="." instance=ExtResource("1_to1an")]
 transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53, 0)
-SPEED = 16.0
 
 [node name="Spawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("3_et5j8")
 enemy_resources = Array[ExtResource("4_o5no5")]([ExtResource("4_gcig3")])
 
@@ -91,11 +92,12 @@ offset_top = 23.0
 offset_right = -19.32
 offset_bottom = 57.0
 grow_horizontal = 0
-scale = Vector2(1.71, 1.71)
+scale = Vector2(2, 2)
 pivot_offset = Vector2(68.11, 0)
 text = "00"
 horizontal_alignment = 2
 text_direction = 1
+script = ExtResource("5_2dbct")
 
 [editable path="player_pos"]
 [editable path="player_pos/player_rot/Gun"]

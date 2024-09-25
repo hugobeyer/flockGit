@@ -16,6 +16,10 @@ run/enable_alt_space_menu=true
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SignalBus="*res://scripts/signal_bus.gd"
+
 [debug]
 
 settings/stdout/print_fps=true

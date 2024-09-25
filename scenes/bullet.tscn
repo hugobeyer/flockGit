@@ -25,8 +25,10 @@ is_hemisphere = true
 [sub_resource type="SphereShape3D" id="SphereShape3D_n6m6w"]
 radius = 0.35932
 
-[node name="Bullet" type="Area3D"]
+[node name="Bullet" type="RigidBody3D"]
 top_level = true
+mass = 0.1
+gravity_scale = 0.0
 script = ExtResource("1_6qr1r")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

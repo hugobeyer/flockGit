@@ -1,22 +1,31 @@
-extends Node3D  # Or whatever your main scene root node is
+extends Node3D
 
-var kills_count: int = 0  # Track the number of kills
-var label_kills: Label  # Reference to the kills label in the UI
+@export var kills_required_for_spread: int = 12  # Number of kills required to activate spread mode
+@export var spread_duration: float = 10.0  # Duration for spread mode to stay active
+
+var kills: int = 0  # Track number of kills
+var gun: Node3D  # Reference to the player's gun
 
 func _ready():
-	# Get the kills label from the UI (adjust the path as needed)
-	for enemy in get_tree().get_nodes_in_group("enemies"):
-		enemy.connect("enemy_killed", Callable(self, "on_enemy_killed"))
-	label_kills = get_node("LabelKills")
-	update_kill_count()
+	gun = get_node("/root/Main/player_pos/player_rot/Gun")  # Adjust to the correct gun node path
+	
+	# Connect to the SignalBus signal "enemy_killed"
+	if SignalBus.has_signal("enemy_killed"):
+		SignalBus.connect("enemy_killed", Callable(self, "_on_enemy_killed"))
+	else:
+		print("SignalBus does not have 'enemy_killed' signal.")
 
-# Function to increment kills and update the label
-func on_enemy_killed():
-	kills_count += 1
-	print("Enemy killed! Current kills: ", kills_count)
-	update_kill_count()
+# Called when an enemy is killed
+func _on_enemy_killed(killer: Node):
+	kills += 1  # Increment kill count
+	if kills >= kills_required_for_spread:
+		activate_spread_mode()
 
-# Update the label with the current kill count
-func update_kill_count():
-	if label_kills:
-		label_kills.text = "Kills: " + str(kills_count)
+# Activate spread mode for a duration
+func activate_spread_mode():
+	if gun and gun.has_method("activate_spread_mode"):
+		gun.activate_spread_mode()
+		print("Spread mode activated")
+		await get_tree().create_timer(spread_duration).timeout
+		gun.spread_active = false  # Deactivate spread after the duration ends
+		print("Spread mode deactivated")

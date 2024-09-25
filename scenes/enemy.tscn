@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://deykio3jwy2vg"]
+[gd_scene load_steps=9 format=3 uid="uid://deykio3jwy2vg"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_ia10i"]
 [ext_resource type="Shader" uid="uid://br8qv1dv3nau4" path="res://shaders/enemy.tres" id="2_4kinu"]
@@ -19,6 +19,8 @@ rings = 3
 radius = 0.43
 height = 1.775
 
+[sub_resource type="SystemFont" id="SystemFont_kudoq"]
+
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 axis_lock_angular_y = true
 slide_on_ceiling = false
@@ -27,26 +29,28 @@ platform_on_leave = 2
 safe_margin = 0.1
 script = ExtResource("1_ia10i")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.759621, 0)
 material_override = SubResource("ShaderMaterial_bece2")
 gi_mode = 0
 instance_shader_parameters/flash_intensity = 0.0
 mesh = SubResource("CapsuleMesh_8gq4w")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000423421, 0.912326, 0.000549709)
 shape = SubResource("CapsuleShape3D_teltu")
 
-[node name="Label3D" type="Label3D" parent="."]
+[node name="Label3D" type="Label3D" parent="." groups=["enemies"]]
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.0124288, 1.78304, 0.0144378)
 billboard = 1
 double_sided = false
+texture_filter = 1
 text = "100%"
+font = SubResource("SystemFont_kudoq")
 font_size = 100
 outline_size = 25
 
-[node name="Flocking" parent="." instance=ExtResource("3_7blfl")]
+[node name="Flocking" parent="." groups=["enemies"] instance=ExtResource("3_7blfl")]
 
-[node name="Shield" parent="." instance=ExtResource("4_earu6")]
+[node name="Shield" parent="." groups=["enemies"] instance=ExtResource("4_earu6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.840122, 0.463381)

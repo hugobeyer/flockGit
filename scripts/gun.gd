@@ -1,16 +1,14 @@
 extends Node3D
 
-@export var bullet_scene_path: String = "res://scenes/bullet.tscn"
-@export var fire_rate: float = 0.05
-@export var bullet_speed: float = 64.0
-@export var bullet_damage: float = 10.0
-@export var muzzle_node: Node3D
-@export var is_spread_enabled: bool = false  # Variable to enable spread shooting
-@export var spread_angle: float = 8.0  # Spread angle for the bullets
-@export var num_bullets: int = 5  # Number of bullets in the spread
+@export var bullet_scene_path: String = "res://scenes/bullet.tscn"  # Path to the bullet scene
+@export var fire_rate: float = 0.05  # Time between shots
+@export var bullet_speed: float = 50.0  # Speed of the bullets (controlled by the gun)
+@export var bullet_damage: float = 10.0  # Damage dealt by the bullets (controlled by the gun)
+@export var bullet_lifetime: float = 3.0  # Lifetime of bullets (controlled by the gun)
+@export var muzzle_node: Node3D  # The muzzle node where bullets spawn
 
-var bullet_scene: PackedScene = null
-var time_since_last_shot: float = 0.0
+var bullet_scene: PackedScene = null  # To store the packed bullet scene
+var time_since_last_shot: float = 0.0  # Timer to track time between shots
 
 # Load the bullet scene when ready
 func _ready():
@@ -26,27 +24,15 @@ func _process(delta):
 # Function to handle shooting logic
 func shoot():
 	if bullet_scene == null or muzzle_node == null:
-		return
+		return  # Ensure bullet scene and muzzle node are set
 
-	# If spread shooting is enabled, shoot multiple bullets
-	if is_spread_enabled:
-		# Start from a negative spread angle to a positive one, evenly distributing the bullets
-		var base_direction = muzzle_node.global_transform.basis.z.normalized()
-		var start_angle = -(spread_angle * (num_bullets - 1)) / 2.0
+	var bullet_direction = muzzle_node.global_transform.basis.z.normalized()
 
-		for i in range(num_bullets):
-			var angle_offset = deg_to_rad(start_angle + spread_angle * i)
-			var direction = base_direction.rotated(Vector3.UP, angle_offset)
-			spawn_bullet(direction)
-
-	else:
-		# Normal single shot without spread
-		var bullet_direction = muzzle_node.global_transform.basis.z.normalized()
-		spawn_bullet(bullet_direction)
-
-# Function to instantiate and fire the bullet
-func spawn_bullet(direction: Vector3):
+	# Instantiate and fire the bullet
 	var bullet = bullet_scene.instantiate()
-	add_child(bullet)
-	bullet.global_transform.origin = muzzle_node.global_transform.origin
-	bullet.set_bullet_properties(bullet_damage, bullet_speed, direction, fire_rate)
+	add_child(bullet)  # Add bullet to the scene
+	bullet.global_transform.origin = muzzle_node.global_transform.origin  # Set bullet's position
+
+	# Pass all gun-related properties to the bullet via a method on the bullet (no need for bullet to manage them)
+	if bullet.has_method("initialize_bullet"):
+		bullet.initialize_bullet(bullet_direction, bullet_speed, bullet_damage, bullet_lifetime)  # Pass all parameters

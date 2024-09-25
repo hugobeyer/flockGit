@@ -1,7 +1,7 @@
 # This script is for movement (attached to the Player (CharacterBody3D))
 extends CharacterBody3D
 
-@export var SPEED: float = 5.0
+@export var SPEED: float = 8.0
 var GRAVITY = ProjectSettings.get_setting("physics/3d/default_gravity")
 var camera: Camera3D  # Reference to the camera
 

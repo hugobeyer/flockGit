@@ -17,7 +17,7 @@ rings = 3
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4jrr0"]
 custom_solver_bias = 0.1
-radius = 0.45
+height = 4.0
 
 [sub_resource type="SystemFont" id="SystemFont_kudoq"]
 
@@ -26,18 +26,21 @@ collision_layer = 15
 floor_constant_speed = true
 floor_max_angle = 0.261799
 script = ExtResource("1_ia10i")
+health = 200.0
+max_health = 200.0
 knockback_force = -0.25
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.759621, 0)
 layers = 31
 material_override = SubResource("ShaderMaterial_b35k2")
+instance_shader_parameters/Bot__Color = Color(0.59, 0.467968, 0.1593, 1)
+instance_shader_parameters/Top_Color = Color(0.45, 0.0045, 0.25695, 1)
 instance_shader_parameters/flash_intensity = 0.0
-instance_shader_parameters/lower_health = 0.0
 mesh = SubResource("CapsuleMesh_8gq4w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.001)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.01, 0)
 shape = SubResource("CylinderShape3D_4jrr0")
 
 [node name="Label3D" type="Label3D" parent="."]
@@ -51,13 +54,14 @@ font_size = 100
 outline_size = 25
 
 [node name="Flocking" parent="." instance=ExtResource("3_7blfl")]
-separation_weight = 100.0
-alignment_weight = 80.0
-cohesion_weight = 32.0
-alignment_radius = 12.0
-cohesion_radius = 24.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0179081, 0, -0.00741792)
+separation_weight = 64.0
+alignment_weight = 32.0
+cohesion_weight = 12.0
+alignment_radius = 32.0
+cohesion_radius = 5.0
 obstacle_avoidance_radius = 3.0
-pursuit_radius = 64.0
+pursuit_radius = 24.0
 
 [node name="Shield" parent="." instance=ExtResource("4_earu6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.840122, 0.463381)

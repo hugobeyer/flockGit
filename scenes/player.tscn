@@ -1,14 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=13 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://scripts/player_pos.gd" id="1_tc6aq"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="2_ased2"]
 [ext_resource type="Script" path="res://scripts/player_rot.gd" id="2_ehop1"]
-[ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://materials/player_mat.tres" id="3_jeq0b"]
+[ext_resource type="Shader" uid="uid://c6uq36d2ey58h" path="res://shaders/player_shader.tres" id="3_o6ral"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://scenes/gun.tscn" id="4_l0as6"]
+[ext_resource type="Environment" uid="uid://dyl3d3xg0oxhq" path="res://resources/main_env.tres" id="5_nlugw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dwnk0"]
+render_priority = 0
+shader = ExtResource("3_o6ral")
+
+[sub_resource type="SphereMesh" id="SphereMesh_c47to"]
+radius = 0.33
+height = 0.595
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tt141"]
+render_priority = 0
+shader = ExtResource("3_o6ral")
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ayx0v"]
-material = ExtResource("3_jeq0b")
 radius = 0.6
+radial_segments = 12
+rings = 5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
 margin = 0.25
@@ -26,8 +40,20 @@ script = ExtResource("1_tc6aq")
 script = ExtResource("2_ehop1")
 camera = NodePath("../Camera")
 
+[node name="Hat" type="MeshInstance3D" parent="player_rot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.10069, -0.374138)
+material_override = SubResource("ShaderMaterial_dwnk0")
+instance_shader_parameters/Bottom_Color = Color(0.133, 0.3306, 0.38, 1)
+instance_shader_parameters/Top_Color = Color(0.5035, 0.90535, 0.95, 1)
+instance_shader_parameters/take_damage = 0.0
+mesh = SubResource("SphereMesh_c47to")
+
 [node name="Player" type="MeshInstance3D" parent="player_rot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000651002, 1.00677, -0.00327277)
+material_override = SubResource("ShaderMaterial_tt141")
+instance_shader_parameters/Bottom_Color = Color(9.14484e-07, 0.470016, 0.316778, 1)
+instance_shader_parameters/Top_Color = Color(0, 0.331768, 0.391013, 1)
+instance_shader_parameters/take_damage = 0.0
 mesh = SubResource("CapsuleMesh_ayx0v")
 skeleton = NodePath("../..")
 
@@ -35,8 +61,9 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.276828, 1.30917, 0.308126)
 
 [node name="Camera" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 0, 0)
-fov = 20.0
+transform = Transform3D(0.707107, -0.353553, 0.612373, 0, 0.866026, 0.5, -0.707107, -0.353553, 0.612373, 0.0140219, 0.00799942, 0.00414276)
+environment = ExtResource("5_nlugw")
+fov = 31.5
 script = ExtResource("2_ased2")
 camera_offset = Vector3(16, 50, 16)
 
@@ -46,10 +73,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_3lyym")
 
 [node name="Area3D" type="Area3D" parent="."]
-visible = false
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
 shape = SubResource("CylinderShape3D_3jxud")

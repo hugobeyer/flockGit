@@ -17,7 +17,7 @@ default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2,
 op_type = 6
 
 [sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_ahs6f"]
-default_input_values = [0, Vector4(0, 0, 0, 0), 1, Vector4(32, 32, 32, 1), 2, Vector4(0, 0, 0, 0)]
+default_input_values = [0, Vector4(0, 0, 0, 0), 1, Vector4(1, 1, 1, 1), 2, Vector4(0, 0, 0, 0)]
 op_type = 3
 
 [sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_5ji54"]
@@ -125,7 +125,7 @@ void fragment() {
 
 
 // MultiplyAdd:4
-	vec4 n_in4p1 = vec4(32.00000, 32.00000, 32.00000, 1.00000);
+	vec4 n_in4p1 = vec4(1.00000, 1.00000, 1.00000, 1.00000);
 	vec4 n_in4p2 = vec4(0.00000, 0.00000, 0.00000, 0.00000);
 	vec4 n_out4p0 = fma(n_out2p0, n_in4p1, n_in4p2);
 
@@ -174,7 +174,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-1199.39, 175.547)
 modes/blend = 1
 modes/diffuse = 3
 modes/specular = 2

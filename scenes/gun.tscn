@@ -3,8 +3,9 @@
 [ext_resource type="Script" path="res://scripts/gun.gd" id="1_x0345"]
 
 [sub_resource type="Gradient" id="Gradient_008ed"]
-offsets = PackedFloat32Array(0.633574, 1)
-colors = PackedColorArray(0.19, 0.1653, 0.17518, 1, 0.1596, 0.57, 0.24168, 1)
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.498195, 0.925993)
+colors = PackedColorArray(0.1596, 0.57, 0.24168, 1, 0.19, 0.1653, 0.17518, 1, 0.1596, 0.57, 0.24168, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_tdqg5"]
 gradient = SubResource("Gradient_008ed")
@@ -25,9 +26,13 @@ rings = 1
 
 [node name="Gun" type="Node3D" node_paths=PackedStringArray("muzzle_node")]
 script = ExtResource("1_x0345")
+fire_rate = 0.075
 muzzle_node = NodePath("Muzzle")
+shake_angle_multiplier = 32.0
+shake_frequency = 0.01
+recoil_intensity = 1.0
 
-[node name="Muzzle" type="Marker3D" parent="."]
+[node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.07473, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

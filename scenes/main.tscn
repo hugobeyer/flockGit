@@ -58,24 +58,31 @@ surface_material_override/0 = SubResource("StandardMaterial3D_k8qkx")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.449397, 0.893332, 0, -0.893332, 0.449397, 10, 15, 14)
-light_energy = 1.327
-light_indirect_energy = 6.75
-light_volumetric_fog_energy = 3.04
+light_energy = 2.0
 shadow_enabled = true
-directional_shadow_mode = 0
-directional_shadow_split_1 = 0.405
-directional_shadow_fade_start = 0.315
-directional_shadow_max_distance = 109.0
-directional_shadow_pancake_size = 81.5
+shadow_opacity = 0.65
+shadow_blur = 0.1
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.37
+directional_shadow_fade_start = 1.0
+directional_shadow_max_distance = 80.0
 
 [node name="player_pos" parent="." instance=ExtResource("1_to1an")]
 transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53, 0)
+
+[node name="Camera" parent="player_pos" index="1"]
+transform = Transform3D(0.707107, -0.353553, 0.612373, 0, 0.866026, 0.5, -0.707107, -0.353553, 0.612373, 0.0140219, 0.00799942, 0.00414276)
+fov = 25.0
+camera_offset = Vector3(16, 55, 16)
 
 [node name="Spawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("3_et5j8")
 enemy_resources = Array[ExtResource("4_o5no5")]([ExtResource("4_gcig3")])
-max_spawned = 256
+spawn_rate = 0.7
+min_spawn_radius = 20.0
+max_spawn_radius = 32.0
+max_spawned = 50
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.98458, 1.51668, -10.7509)

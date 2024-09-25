@@ -11,11 +11,8 @@ var timer: float = 0.0  # Timer to track bullet lifetime
 func set_bullet_properties(new_damage: float, direction: Vector3, new_speed: float) -> void:
 	damage = new_damage
 	speed = new_speed
-	velocity = direction.normalized() * speed  # Set velocity based on direction and speed
-
-	# Rotate the bullet to face the direction of travel (Z+ axis)
-	var bullet_direction = direction.normalized()
-	look_at(global_transform.origin + bullet_direction, Vector3.UP)  # Rotate to face the correct direction
+	velocity = direction.normalized() * speed  # Calculate velocity based on direction and speed
+	look_at(global_transform.origin + velocity, Vector3.UP)  # Rotate to face direction
 
 # Called when the node enters the scene tree for the first time
 func _ready():

@@ -5,8 +5,8 @@ signal enemy_killed  # Declare the signal for when the enemy dies
 @export var health: float = 100.0
 @export var max_health: float = 100.0
 @export var move_speed: float = 4.0
-@export var knockback_force: float = -0.5
-@export var knockback_duration: float = 0.1
+@export var knockback_force: float = -4
+@export var knockback_duration: float = 0.015
 
 var player_target: CharacterBody3D
 var neighbors: Array = []
@@ -88,8 +88,11 @@ func on_bullet_hit(damage: float, bullet_direction: Vector3):
 
 	# Deduct health based on remaining damage
 	health -= remaining_damage
+	var show_health =  health/max_health
 	knockback_direction = bullet_direction.normalized()  # Set knockback direction
 	knockback_timer = knockback_duration  # Apply knockback for the duration
+	$MeshInstance3D.set_instance_shader_parameter("low_health", 1-show_health)
+
 
 	# Check for death
 	if health <= 0:

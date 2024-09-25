@@ -1,0 +1,6 @@
+[gd_resource type="VisualShaderNodeParticleMeshEmitter" load_steps=2 format=3 uid="uid://6vurbjqayth3"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jhvla"]
+
+[resource]
+mesh = SubResource("ArrayMesh_jhvla")

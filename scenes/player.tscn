@@ -29,7 +29,6 @@ radius = 0.6
 input_ray_pickable = false
 safe_margin = 0.1
 script = ExtResource("1_tc6aq")
-SPEED = 7.0
 
 [node name="player_rot" type="Node3D" parent="."]
 script = ExtResource("2_ehop1")

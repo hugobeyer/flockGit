@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=16 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://scenes/player.tscn" id="1_to1an"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_x328l"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/enemy_data.gd" id="4_o5no5"]
 [ext_resource type="Script" path="res://scripts/label_kills.gd" id="5_2dbct"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="7_ymsw7"]
+[ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://scenes/enemy_features/melee.tscn" id="10_xclxa"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_faju1"]
 size = Vector3(512, 1, 512)
@@ -75,7 +76,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("3_et5j8")
 enemy_resources = Array[ExtResource("4_o5no5")]([ExtResource("4_gcig3")])
 spawn_rate = 0.125
-min_spawn_radius = 16.0
+min_spawn_radius = 20.0
 max_spawn_radius = 32.0
 max_spawned = 1000
 
@@ -113,9 +114,12 @@ fov = 24.0
 script = ExtResource("7_ymsw7")
 player_pos = NodePath("../player_pos")
 camera_offset = Vector3(24, 42, 24)
-max_offset = 2.0
-recovery_speed = 1.0
-damping = 0.75
+max_offset = 3.0
+recovery_speed = 2.0
+damping = 0.6
+
+[node name="Melee" parent="." instance=ExtResource("10_xclxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3462, 0.102213, 5.56793)
 
 [editable path="player_pos"]
 [editable path="player_pos/player_rot/Gun"]

@@ -200,7 +200,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-1541.24, -141.744)
 modes/specular = 2
 varyings/vertex_pos = "0,4"
 nodes/vertex/2/node = SubResource("VisualShaderNodeInput_gy1wg")

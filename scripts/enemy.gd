@@ -68,6 +68,8 @@ func apply_knockback():
 	var knockback_velocity = knockback_direction * knockback_force
 	self.velocity.x += knockback_velocity.x
 	self.velocity.z += knockback_velocity.z
+	#self.velocity.y += knockback_velocity.y
+
 	move_and_slide()  # Apply movement
 
 # Visual feedback for taking damage

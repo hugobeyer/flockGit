@@ -15,15 +15,18 @@ height = 1.5
 radial_segments = 9
 rings = 3
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_teltu"]
-radius = 0.43
-height = 1.775
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4jrr0"]
+custom_solver_bias = 0.1
+radius = 0.45
 
 [sub_resource type="SystemFont" id="SystemFont_kudoq"]
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 collision_layer = 15
+floor_constant_speed = true
+floor_max_angle = 0.261799
 script = ExtResource("1_ia10i")
+knockback_force = -0.25
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.759621, 0)
@@ -34,8 +37,8 @@ instance_shader_parameters/lower_health = 0.0
 mesh = SubResource("CapsuleMesh_8gq4w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000423421, 0.912326, 0.000549709)
-shape = SubResource("CapsuleShape3D_teltu")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.001)
+shape = SubResource("CylinderShape3D_4jrr0")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.0124288, 1.78304, 0.0144378)
@@ -48,16 +51,16 @@ font_size = 100
 outline_size = 25
 
 [node name="Flocking" parent="." instance=ExtResource("3_7blfl")]
-separation_weight = 3.0
-alignment_weight = 5.0
-cohesion_weight = 1.0
-separation_radius = 5.0
-alignment_radius = 10.0
-cohesion_radius = 5.0
+separation_weight = 100.0
+alignment_weight = 80.0
+cohesion_weight = 32.0
+alignment_radius = 12.0
+cohesion_radius = 24.0
 obstacle_avoidance_radius = 3.0
-pursuit_radius = 16.0
+pursuit_radius = 64.0
 
 [node name="Shield" parent="." instance=ExtResource("4_earu6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.840122, 0.463381)
-recharge_rate = 32.0
-recharge_delay = 4.0
+shield_strength = 64.0
+max_shield = 32.0
+recharge_delay = 2.0

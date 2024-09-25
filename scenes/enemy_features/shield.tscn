@@ -18,7 +18,7 @@ is_hemisphere = true
 script = ExtResource("1_r75qv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.0141082, -1.19209e-07, 0.00925779)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.00957942, 0.0205101, -0.0178895)
 material_override = SubResource("ShaderMaterial_ijv5f")
 instance_shader_parameters/shield_die = 0.0
 instance_shader_parameters/shield_hit = 0.0

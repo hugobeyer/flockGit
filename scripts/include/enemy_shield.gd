@@ -56,7 +56,7 @@ func display_shield_effect():
 		display_timer = shield_display_duration  # Start shield display timer
 		$MeshInstance3D.set_instance_shader_parameter("shield_die", 0.0)  # Reset shield die effect
 		$MeshInstance3D.set_instance_shader_parameter("shield_hit", 1.0)  # Trigger shield hit effect
-		$MeshInstance3D.set_instance_shader_parameter("shield_size_hit", 1.0)  # Set size for shield hit effect
+		$MeshInstance3D.set_instance_shader_parameter("shield_size_hit", 2.0)  # Set size for shield hit effect
 
 # Update shader parameters over time
 func update_shader_parameters():

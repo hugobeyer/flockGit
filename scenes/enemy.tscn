@@ -24,11 +24,12 @@ height = 4.0
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 collision_layer = 15
 floor_constant_speed = true
-floor_max_angle = 0.261799
+floor_max_angle = 0.0872665
+floor_snap_length = 0.5
 script = ExtResource("1_ia10i")
-health = 200.0
-max_health = 200.0
-knockback_force = -0.25
+move_speed = 5.0
+knockback_force = -0.5
+knockback_duration = 0.025
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.759621, 0)
@@ -55,11 +56,12 @@ outline_size = 25
 
 [node name="Flocking" parent="." instance=ExtResource("3_7blfl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0179081, 0, -0.00741792)
-separation_weight = 64.0
-alignment_weight = 32.0
-cohesion_weight = 12.0
+separation_weight = 100.0
+alignment_weight = 55.0
+cohesion_weight = 15.0
+separation_radius = 2.5
 alignment_radius = 32.0
-cohesion_radius = 5.0
+cohesion_radius = 12.0
 obstacle_avoidance_radius = 3.0
 pursuit_radius = 24.0
 

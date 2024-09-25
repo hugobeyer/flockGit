@@ -1,35 +1,28 @@
-[gd_scene load_steps=14 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=15 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://scenes/player.tscn" id="1_to1an"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_x328l"]
+[ext_resource type="Shader" uid="uid://bkc5nlnk5nl84" path="res://shaders/vis_ground_shader.tres" id="2_iphrn"]
+[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://scenes/gun.tscn" id="3_b4jh3"]
 [ext_resource type="Script" path="res://scripts/spawner.gd" id="3_et5j8"]
 [ext_resource type="Resource" uid="uid://bx5s5knwhcoe7" path="res://scenes/enemy_types/enemy_imp_regular.tres" id="4_gcig3"]
 [ext_resource type="Script" path="res://scripts/enemy_data.gd" id="4_o5no5"]
 [ext_resource type="Script" path="res://scripts/label_kills.gd" id="5_2dbct"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="7_ymsw7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_faju1"]
 size = Vector3(512, 1, 512)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pkwvj"]
+render_priority = 1
+shader = ExtResource("2_iphrn")
+shader_parameter/Color_01 = Color(0.226757, 0.384658, 0.0133662, 1)
+shader_parameter/Color_02 = Color(0.268075, 0.419387, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kgwl2"]
 lightmap_size_hint = Vector2i(2562, 2562)
 uv2_padding = 1.0
 size = Vector2(512, 512)
-
-[sub_resource type="Gradient" id="Gradient_1wbtd"]
-offsets = PackedFloat32Array(0.858962, 0.976494, 0.989226)
-colors = PackedColorArray(0.84623, 0.98, 0.5978, 1, 0.5742, 0.87, 0.66294, 1, 0.698421, 0.829019, 0.515584, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_j5fro"]
-gradient = SubResource("Gradient_1wbtd")
-fill = 2
-fill_from = Vector2(0.5, 0.5)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k8qkx"]
-render_priority = 1
-albedo_color = Color(0.271575, 0.45, 0.1755, 1)
-albedo_texture = SubResource("GradientTexture2D_j5fro")
-uv1_scale = Vector3(256, 256, 256)
-point_size = 53.5
 
 [sub_resource type="BoxMesh" id="BoxMesh_ltsny"]
 size = Vector3(4, 1, 4)
@@ -51,38 +44,40 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_faju1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-sorting_offset = 0.05
+material_override = SubResource("ShaderMaterial_pkwvj")
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_kgwl2")
-surface_material_override/0 = SubResource("StandardMaterial3D_k8qkx")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.449397, 0.893332, 0, -0.893332, 0.449397, 10, 15, 14)
 light_energy = 2.0
 shadow_enabled = true
+shadow_transmittance_bias = 0.22
 shadow_opacity = 0.65
-shadow_blur = 0.1
+shadow_blur = 0.87
 directional_shadow_mode = 1
-directional_shadow_split_1 = 0.37
+directional_shadow_split_1 = 0.186
 directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 80.0
 
-[node name="player_pos" parent="." instance=ExtResource("1_to1an")]
+[node name="player_pos" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("1_to1an")]
 transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53, 0)
+camera = NodePath("../Camera3D")
 
-[node name="Camera" parent="player_pos" index="1"]
-transform = Transform3D(0.707107, -0.353553, 0.612373, 0, 0.866026, 0.5, -0.707107, -0.353553, 0.612373, 0.0140219, 0.00799942, 0.00414276)
-fov = 25.0
-camera_offset = Vector3(16, 55, 16)
+[node name="player_rot" parent="player_pos" index="0" node_paths=PackedStringArray("camera")]
+camera = NodePath("../../Camera3D")
+
+[node name="Gun" parent="player_pos/player_rot" index="2" instance=ExtResource("3_b4jh3")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.348979, 1.13522, 0.420391)
 
 [node name="Spawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("3_et5j8")
 enemy_resources = Array[ExtResource("4_o5no5")]([ExtResource("4_gcig3")])
-spawn_rate = 0.7
-min_spawn_radius = 20.0
+spawn_rate = 0.125
+min_spawn_radius = 16.0
 max_spawn_radius = 32.0
-max_spawned = 50
+max_spawned = 1000
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.98458, 1.51668, -10.7509)
@@ -111,6 +106,16 @@ text = "00"
 horizontal_alignment = 2
 text_direction = 1
 script = ExtResource("5_2dbct")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("player_pos")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, -1.78814e-07, 0)
+fov = 24.0
+script = ExtResource("7_ymsw7")
+player_pos = NodePath("../player_pos")
+camera_offset = Vector3(24, 42, 24)
+max_offset = 2.0
+recovery_speed = 1.0
+damping = 0.75
 
 [editable path="player_pos"]
 [editable path="player_pos/player_rot/Gun"]

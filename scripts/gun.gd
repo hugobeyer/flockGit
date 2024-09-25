@@ -7,24 +7,25 @@ extends Node3D
 @export var bullet_damage: float = 10.0  # Damage dealt by the bullets
 @export var muzzle_node: Node3D  # Node where bullets spawn
 
-# Spread Properties
+# Spread and Recoil Properties
 @export var spread_count_bullet: int = 1  # Number of bullets to shoot in a spread
 @export var spread_total_angle: float = 20.0  # Total angle for the bullet spread
-
-# Shake Properties
-@export var shake_angle_multiplier: float = 1.0  # Multiplier for shake angle randomness
-@export var shake_frequency: float = 5.0  # Frequency of shake randomness (how fast the angle changes)
-@export var shake_intensity: float = 0.2  # Intensity of shake (affects how much the angle deviates)
+@export var spread_max_angle: float = 40.0  # Max angle spread can reach over time
+@export var spread_increase_speed: float = 5.0  # Speed of spread angle increase
+@export var spread_polar_angle: float = 5.0  # Max polar angle shake to apply to spread
 
 # Recoil Properties
-@export var recoil_intensity: float = 0.5  # How strong the recoil effect is
-@export var recoil_smoothness: float = 0.2  # How smooth the recoil is
-@export var recoil_randomness: float = 0.05  # Adds some random variation to the recoil
+@export var recoil_force: float = 0.1  # Force of the recoil applied to the player
+@export var recoil_randomness: float = 0.1  # Adds some random variation to the recoil
+@export var recoil_smoothness: float = 0.2  # How smooth the recoil effect is
+@export var max_recoil_offset: float = 1.0  # Max recoil offset allowed
 
 # Internal Variables
 var bullet_scene: PackedScene = null
 var time_since_last_shot: float = 0.0  # Track time between shots
-var current_recoil_offset: Vector3 = Vector3.ZERO  # Track recoil offset
+var current_spread_angle: float = 0.0  # Gradually increase the spread angle
+var current_polar_angle: float = 0.0  # Track spread's polar angle deviation
+var current_recoil_offset: Vector3 = Vector3.ZERO  # Track current recoil offset
 
 # Player references
 var player_pos: Node3D
@@ -40,13 +41,14 @@ func _process(delta: float):
 	if Input.is_action_pressed("shoot") and time_since_last_shot >= fire_rate:
 		shoot()
 		time_since_last_shot = 0.0
+		increase_spread_angle(delta)  # Gradually increase spread angle while shooting
 	else:
-		reset_recoil()  # Reset recoil when not shooting
+		reset_spread_angle()  # Reset spread angle when player stops shooting
 
-	# Apply smooth recoil to the player
-	smooth_recoil(delta)
+	# Apply recoil force to the player
+	apply_recoil_force(delta)
 
-# Function to handle shooting bullets with spread and shake
+# Function to handle shooting bullets with spread and recoil effect
 func shoot():
 	if bullet_scene == null or muzzle_node == null:
 		return  # Ensure bullet scene and muzzle node are set
@@ -57,20 +59,31 @@ func shoot():
 		shoot_bullet(muzzle_node.global_transform.basis.z.normalized())
 	else:
 		# Calculate the base spread angle between bullets
-		var angle_increment = spread_total_angle / (spread_count_bullet - 1)
+		var angle_increment = current_spread_angle / (spread_count_bullet - 1)
 
 		for i in range(spread_count_bullet):
-			var base_angle = deg_to_rad(-spread_total_angle / 2 + i * angle_increment)
+			var base_angle = deg_to_rad(-current_spread_angle / 2 + i * angle_increment)
 
-			# Get the bullet direction based on spread
+			# Get the bullet direction based on spread, but add recoil-induced deviation
 			var bullet_direction = muzzle_node.global_transform.basis.z.normalized().rotated(Vector3.UP, base_angle)
 
-			# Apply shake to each bullet's direction (independent of spread)
-			var shake_noise = calculate_shake()
-			var final_direction = bullet_direction.rotated(Vector3.UP, shake_noise)
+			# Apply polar angle shake based on recoil, which affects both horizontal and vertical directions
+			bullet_direction = apply_polar_angle_shake(bullet_direction)
 
 			# Shoot the bullet
-			shoot_bullet(final_direction)
+			shoot_bullet(bullet_direction)
+
+# Apply a gradual polar angle shake to bullet direction based on recoil
+func apply_polar_angle_shake(bullet_direction: Vector3) -> Vector3:
+	# Apply gradual polar angle deviation (simulating recoil causing inaccuracy)
+	current_polar_angle += spread_polar_angle * randf()  # Gradually increase the polar angle
+
+	# Apply random horizontal and vertical shake, clamped to max spread polar angle
+	var horizontal_shake = deg_to_rad(clamp(randf_range(-current_polar_angle, current_polar_angle), -spread_polar_angle, spread_polar_angle))
+	var vertical_shake = deg_to_rad(clamp(randf_range(-current_polar_angle, current_polar_angle), -spread_polar_angle, spread_polar_angle))
+
+	# Rotate the bullet direction using the polar angles
+	return bullet_direction.rotated(Vector3.UP, horizontal_shake).rotated(Vector3.RIGHT, vertical_shake)
 
 # Helper function to shoot a single bullet
 func shoot_bullet(bullet_direction: Vector3):
@@ -82,35 +95,37 @@ func shoot_bullet(bullet_direction: Vector3):
 	bullet.global_transform.origin = muzzle_node.global_transform.origin
 	bullet.set_bullet_properties(bullet_damage, bullet_direction, bullet_speed)
 
-	# Apply recoil after shooting
+	# Apply recoil force after shooting
 	apply_recoil(bullet_direction)
 
-# Apply recoil based on shooting
+# Gradually increase the spread angle while shooting
+func increase_spread_angle(delta: float):
+	# Increase the spread angle, clamping to a maximum value
+	current_spread_angle = min(current_spread_angle + spread_increase_speed * delta, spread_max_angle)
+
+# Reset spread angle when the player stops shooting
+func reset_spread_angle():
+	current_spread_angle = spread_total_angle  # Reset to base spread
+	current_polar_angle = 0.0  # Reset polar angle deviation
+
+# Apply recoil force based on shooting
 func apply_recoil(bullet_direction: Vector3):
 	# Calculate recoil direction (opposite of shooting direction)
-	var recoil_direction = -player_rot.global_transform.basis.z.normalized()  # Use player_rot for recoil direction
+	var recoil_direction = -player_rot.global_transform.basis.z.normalized()
 
 	# Add a random factor to the recoil
 	var random_recoil = Vector3(randf_range(-recoil_randomness, recoil_randomness), 0, randf_range(-recoil_randomness, recoil_randomness))
 
-	# Apply recoil intensity
-	var recoil_vector = (recoil_direction + random_recoil) * recoil_intensity
+	# Accumulate the recoil force for smooth application
+	var total_recoil = (recoil_direction + random_recoil) * recoil_force
 
-	# Accumulate recoil effect for smooth application
-	current_recoil_offset += recoil_vector
+	# Apply recoil to the player position
+	current_recoil_offset += total_recoil
 
-# Smoothly return player to original position after recoil
-func smooth_recoil(delta: float):
+# Apply the accumulated recoil force to the player smoothly
+func apply_recoil_force(delta: float):
 	# Interpolate recoil offset back to zero smoothly
 	current_recoil_offset = current_recoil_offset.lerp(Vector3.ZERO, delta / recoil_smoothness)
 
 	# Apply the recoil offset to the player position
 	player_pos.translate(current_recoil_offset)
-
-# Calculate the shake based on randomness and frequency
-func calculate_shake() -> float:
-	return sin(randf() * shake_frequency) * shake_intensity * shake_angle_multiplier
-
-# Reset recoil when the player stops shooting
-func reset_recoil():
-	current_recoil_offset = Vector3.ZERO  # Reset recoil offset to zero

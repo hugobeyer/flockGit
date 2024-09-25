@@ -6,7 +6,7 @@ func _ready():
 	if not camera:
 		print("Camera node not assigned!")
 
-func _process(_delta):
+func _process(delta):
 	rotate_player_to_mouse()
 
 func rotate_player_to_mouse():

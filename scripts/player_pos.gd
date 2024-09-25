@@ -3,10 +3,9 @@ extends CharacterBody3D
 
 @export var SPEED: float = 8.0
 var GRAVITY = ProjectSettings.get_setting("physics/3d/default_gravity")
-var camera: Camera3D  # Reference to the camera
+@export var camera: Camera3D  # Exported so you can assign the Camera node in the Inspector
 
-func _ready():
-	camera = get_node("Camera")
+##unc _ready():
 
 func _physics_process(delta):
 	var input_direction = Vector3.ZERO

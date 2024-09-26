@@ -23,14 +23,15 @@ const WaveResourceScript = preload("res://scripts/wave_resource.gd")
 # @export var wave_resource: Node = WaveResourceScript.new()
 func _ready():
 	player = get_tree().get_first_node_in_group("player")
-	assert(player != null, "Player node not found!")
-	main_scene = get_tree().current_scene  # Get reference to the main scene
+	if player == null:
+		push_error("Player node not found in 'player' group!")
+		return
+	main_scene = get_tree().current_scene
 
-	# Initialize waves here if not done elsewhere
-	# waves = [WaveResource.new(), WaveResource.new(), ...]  # Example
+	if waves.is_empty():
+		#push_error("No waves defined!")
+		return
 
-	# Remove the direct enemy spawning code
-	# Instead, you can start the wave system here if desired
 	start_waves()
 
 func start_waves():
@@ -71,6 +72,9 @@ func spawn_enemy(new_enemy_scene: PackedScene, spawn_point: Vector3, wave: WaveR
 	main_scene.add_child(enemy)  # Add to the main scene
 	enemy.global_position = spawn_point
 	
+	# Add the enemy to the "enemies" group
+	enemy.add_to_group("enemies")
+	
 	# Apply wave-specific customizations
 	if enemy.has_method("set_health"):
 		enemy.set_health(enemy.health * wave.enemy_health_multiplier)
@@ -100,3 +104,6 @@ func on_enemy_defeated():
 		if current_wave is WaveResource:
 			await get_tree().create_timer(current_wave.wave_interval).timeout
 		start_next_wave()
+
+signal wave_completed
+signal all_waves_completed

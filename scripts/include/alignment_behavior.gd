@@ -8,11 +8,15 @@ func _init(alignment_radius: float = 5.0):
 
 func calculate(boid, neighbors) -> Vector3:
 	var average_velocity = Vector3.ZERO
-	for neighbor in neighbors:
-		average_velocity += neighbor.velocity
+	var neighbor_count = 0
 	
-	if neighbors.size() > 0:
-		average_velocity /= neighbors.size()
-		return (average_velocity - boid.velocity).normalized() * boid.max_speed
+	for neighbor in neighbors:
+		if neighbor != boid and neighbor.global_position.distance_to(boid.global_position) <= radius:
+			average_velocity += neighbor.velocity
+			neighbor_count += 1
+	
+	if neighbor_count > 0:
+		average_velocity /= neighbor_count
+		return (average_velocity.normalized() * boid.move_speed - boid.velocity).limit_length(boid.max_force)
 	
 	return Vector3.ZERO

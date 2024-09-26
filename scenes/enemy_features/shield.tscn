@@ -14,7 +14,7 @@ radial_segments = 12
 rings = 7
 is_hemisphere = true
 
-[node name="Shield" type="Node3D"]
+[node name="EnemyShield" type="Node3D"]
 script = ExtResource("1_r75qv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

@@ -17,7 +17,7 @@ var current_wave_index: int = 0
 const WaveResourceScript = preload("res://scripts/wave_resource.gd")
 
 func _ready():
-	gun = get_node("/root/Main/Player/player_rot/Gun")  # Adjust to the correct gun node path
+	gun = get_node("Player/player_rot/Gun")  # Adjust to the correct gun node path
 	
 	# Connect to the SignalBus signal "enemy_killed"
 	if SignalBus.has_signal("enemy_killed"):
@@ -26,8 +26,8 @@ func _ready():
 			print("SignalBus does not have 'enemy_killed' signal.")
 
 	# Connect to WaveSystem signals
-	wave_system.connect("wave_completed", _on_wave_completed)
-	wave_system.connect("all_waves_completed", _on_all_waves_completed)
+	$WaveSystem.wave_completed.connect(_on_wave_completed)
+	$WaveSystem.all_waves_completed.connect(_on_all_waves_completed)
 	wave_system.start_waves()
 
 # Called when an enemy is killed

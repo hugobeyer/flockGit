@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var camera: Camera3D  # Exported so you can assign the Camera node in the Inspector
+var camera: Camera3D  
 @export var rotation_speed: float = 10.0  # Increased rotation speed
 @export var min_rotation_speed: float = 0.1  # Minimum rotation speed to prevent very slow rotations
 
@@ -8,7 +8,7 @@ var target_rotation: float = 0.0
 
 func _ready():
 	if not camera:
-		camera = get_node("/root/Main/Camera3D")
+		camera = get_node("/root/Main/GameCamera")
 	if not camera:
 		push_error("Camera3D not found in the scene tree.")
 
@@ -33,7 +33,7 @@ func rotate_player_to_mouse(delta):
 		direction.y = 0  # Ensure we only rotate on the Y axis
 		
 		if direction.length_squared() > 0.001:  # Avoid division by zero
-			var target_rotation = atan2(direction.x, direction.z)
+			target_rotation = atan2(direction.x, direction.z)
 			
 			# Calculate the shortest rotation difference
 			var rotation_difference = fmod((target_rotation - rotation.y + PI), (PI * 2)) - PI

@@ -15,4 +15,4 @@ func calculate(boid, obstacles) -> Vector3:
 		if distance < radius:
 			avoidance_force -= to_obstacle.normalized() * (radius - distance)
 	
-	return avoidance_force.normalized() * boid.max_speed if avoidance_force != Vector3.ZERO else Vector3.ZERO
+	return avoidance_force.normalized() * boid.move_speed if avoidance_force != Vector3.ZERO else Vector3.ZERO

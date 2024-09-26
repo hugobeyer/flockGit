@@ -1,13 +1,24 @@
-[gd_scene load_steps=11 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=13 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://scenes/player.tscn" id="1_to1an"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_x328l"]
 [ext_resource type="Shader" uid="uid://bkc5nlnk5nl84" path="res://shaders/vis_ground_shader.tres" id="2_iphrn"]
-[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://scenes/gun.tscn" id="3_b4jh3"]
-[ext_resource type="Script" path="res://scripts/spawner.gd" id="3_et5j8"]
 [ext_resource type="Script" path="res://scripts/label_kills.gd" id="5_2dbct"]
+[ext_resource type="PackedScene" uid="uid://deykio3jwy2vg" path="res://scenes/enemy.tscn" id="5_qh010"]
+[ext_resource type="PackedScene" uid="uid://vlhe276mkt0b" path="res://scenes/wave_system.tscn" id="5_qxbqk"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="7_ymsw7"]
-[ext_resource type="Script" path="res://scripts/wave_system.gd" id="8_xmdid"]
+[ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://scenes/spawner.tscn" id="8_nhsbs"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_ya65r"]
+vertices = PackedVector3Array(-255.25, 0.5, -255.25, -255.25, 0.5, 255.25, 255.25, 0.5, 255.25, 255.25, 0.5, -255.25)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+agent_height = 3.0
+agent_radius = 0.75
+agent_max_slope = 15.0
+filter_walkable_low_height_spans = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_umerp"]
+size = Vector2(512, 512)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pkwvj"]
 render_priority = 1
@@ -23,6 +34,16 @@ size = Vector2(512, 512)
 [node name="Main" type="Node3D"]
 script = ExtResource("1_x328l")
 kills_required_for_spread = 5
+enemy_scene = ExtResource("5_qh010")
+
+[node name="EnemyContainer" type="Node3D" parent="."]
+transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53, 0)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_ya65r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+mesh = SubResource("PlaneMesh_umerp")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.449397, 0.893332, 0, -0.893332, 0.449397, 10, 15, 14)
@@ -35,26 +56,6 @@ directional_shadow_mode = 1
 directional_shadow_split_1 = 0.186
 directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 80.0
-
-[node name="Player" parent="." instance=ExtResource("1_to1an")]
-transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53, 0)
-axis_lock_linear_y = true
-axis_lock_angular_y = true
-
-[node name="player_rot" parent="Player" index="0" node_paths=PackedStringArray("camera")]
-camera = NodePath("../../Camera3D")
-rotation_speed = 256.0
-
-[node name="Gun" parent="Player/player_rot" index="2" instance=ExtResource("3_b4jh3")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.377587, 1.13522, 0.402445)
-
-[node name="Spawner" type="Node3D" parent="."]
-script = ExtResource("3_et5j8")
-player_path = NodePath("../Player")
-max_enemies = 15
-min_spawn_radius = 12.0
-max_spawn_radius = 24.0
-spawn_height = 0.01
 
 [node name="LabelKills" type="Label" parent="."]
 layout_direction = 1
@@ -73,21 +74,20 @@ horizontal_alignment = 2
 text_direction = 1
 script = ExtResource("5_2dbct")
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("player_pos")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, -1.78814e-07, 0)
+[node name="GameCamera" type="Camera3D" parent="." node_paths=PackedStringArray("player_pos")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 24, 46, 24)
 fov = 24.0
 script = ExtResource("7_ymsw7")
 player_pos = NodePath("../Player")
-camera_offset = Vector3(24, 48, 24)
+camera_offset = Vector3(24, 46, 24)
 max_offset = 3.0
 recovery_speed = 2.0
 damping = 0.6
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-navigation_layers = 15
+path_max_distance = 0.01
 
-[node name="WaveSystem" type="Node3D" parent="."]
-script = ExtResource("8_xmdid")
+[node name="WaveSystem" parent="." instance=ExtResource("5_qxbqk")]
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206244, 0.102213, -0.222153)
@@ -96,4 +96,9 @@ cast_shadow = 0
 mesh = SubResource("PlaneMesh_kgwl2")
 skeleton = NodePath("")
 
-[editable path="Player"]
+[node name="Player" parent="." instance=ExtResource("1_to1an")]
+unique_name_in_owner = true
+collision_mask = 15
+axis_lock_linear_y = true
+
+[node name="Spawner" parent="." groups=["enemies"] instance=ExtResource("8_nhsbs")]

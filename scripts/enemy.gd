@@ -1,86 +1,171 @@
+class_name Enemy
 extends CharacterBody3D
 
-class_name Enemy
+var initial_position: Vector3
+var direction: Vector3
 
-@export var max_speed: float = 100.0
-@export var max_health: float = 100.0  # This will always be 100 (representing 100%)
-@export var health: float = 100.0  # This represents the current health percentage
+@export var move_speed: float = 5.0
+@export var max_force: float = 0.5
+@export var use_dash: bool = true
+@export var health: float = 100.0
+@export var max_health: float = 100.0
 
-var player_target: CharacterBody3D
-var target: Node3D
+# Flocking parameters
+@export var separation_weight: float = 1.5
+@export var alignment_weight: float = 1.0
+@export var cohesion_weight: float = 1.0
+@export var flocking_radius: float = 5.0
 
-@onready var effects: EnemyEffects = $EnemyEffects
-@onready var flocking: Node3D = $Flocking
-@onready var enemy_shield: Node3D = $EnemyShield
-@onready var health_label: Label3D = $HealthLabel
-@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+# Melee attack parameters
+@export var melee_damage: float = 10.0
+@export var melee_cooldown: float = 1.0
+
+@onready var dash_behavior: EnemyDash = $EnemyDash if has_node("EnemyDash") else null
+@onready var shield = $EnemyShield if has_node("EnemyShield") else null
+@onready var melee_hitbox: Area3D = $MeleeWeapon/SwordArea
+@onready var melee_animation: AnimationPlayer = $MeleeWeapon/AnimationPlayer
+@onready var effects: Node3D = $EnemyEffects
+@onready var player_target: CharacterBody3D = get_node("/root/Main/Player")
+
+var steering: Vector3 = Vector3.ZERO
+var last_melee_time: float = 0.0
 
 func _ready():
-	assert(effects, "EnemyEffects node not found. Please add it as a child of the Enemy.")
-	assert(flocking, "Flocking node not found. Please add it as a child of the Enemy.")
-	assert(enemy_shield, "EnemyShield node not found. Please add it as a child of the Enemy.")
-	assert(health_label, "HealthLabel node not found. Please add a Label3D as a child of the Enemy.")
-	assert(mesh_instance, "MeshInstance3D node not found. Please add it as a child of the Enemy.")
-	update_health_display()
+	initial_position = global_position
+	if not dash_behavior:
+		push_error("EnemyDash node not found")
+	if not shield:
+		push_warning("EnemyShield node not found on " + name)
+	if not melee_hitbox:
+		push_error("MeleeHitbox node not found")
+	if not effects:
+		push_error("Effects node not found")
+	
+	if dash_behavior:
+		dash_behavior.connect("dash_completed", Callable(self, "_on_dash_completed"))
+	if shield:
+		shield.connect("shield_depleted", Callable(self, "_on_shield_depleted"))
+		shield.connect("shield_recharged", Callable(self, "_on_shield_recharged"))
+	
+	if use_dash:
+		start_new_dash()
 
-func _physics_process(delta):
-	var all_enemies = get_tree().get_nodes_in_group("enemies")
-	var flocking_force = flocking.calculate_flocking_force(self, all_enemies)
-	velocity += flocking_force * delta
-	velocity = velocity.limit_length(flocking.max_speed)
-
-	set_velocity(velocity)
+func _physics_process(delta: float):
+	if dash_behavior and dash_behavior.is_dashing:
+		velocity = dash_behavior.process(delta, global_position)
+	else:
+		apply_flocking_behavior(delta)
+	
 	move_and_slide()
-	velocity = velocity  # This updates velocity after collision
-
+	
 	if velocity.length() > 0.1:
 		look_at(global_position + velocity, Vector3.UP)
-
-func get_position_2d() -> Vector2:
-	return Vector2(global_position.x, global_position.z)
-
-func take_damage(amount: float, damage_direction: Vector3) -> void:
-	if enemy_shield:
-		amount = enemy_shield.take_damage(amount)
 	
-	if amount > 0:
-		health -= amount
-		health = max(health, 0)  # Ensure health doesn't go below 0
-		update_health_display()
-		effects.apply_damage_effect(Vector2(damage_direction.x, damage_direction.z))
-		update_low_health_shader()
+	attempt_melee_attack()
+
+func apply_flocking_behavior(delta: float):
+	var separation = get_separation_force()
+	var alignment = get_alignment_force()
+	var cohesion = get_cohesion_force()
+	var pursuit = get_pursuit_force()
 	
+	steering = (separation * separation_weight +
+				alignment * alignment_weight +
+				cohesion * cohesion_weight +
+				pursuit)
+	
+	steering = steering.limit_length(max_force)
+	velocity += steering
+	velocity = velocity.limit_length(move_speed)
+
+# ... (keep the flocking-related functions: get_separation_force, get_alignment_force, get_cohesion_force, get_pursuit_force, get_neighbors)
+
+func start_new_dash():
+	if not use_dash or not dash_behavior:
+		return
+	
+	if player_target:
+		var direction_to_player = (player_target.global_position - global_position).normalized()
+		dash_behavior.start_dash(global_position, direction_to_player)
+	else:
+		var random_direction = Vector3(randf_range(-1, 1), 0, randf_range(-1, 1)).normalized()
+		dash_behavior.start_dash(global_position, random_direction)
+
+func _on_dash_completed():
+	if use_dash:
+		await get_tree().create_timer(randf_range(1.0, 3.0)).timeout
+		start_new_dash()
+
+func toggle_dash(enable: bool):
+	use_dash = enable
+	if use_dash:
+		start_new_dash()
+	elif dash_behavior:
+		dash_behavior.stop_dash()
+
+func take_damage(damage: float):
+	if shield:
+		var remaining_damage = shield.take_damage(damage)
+		if remaining_damage > 0:
+			apply_health_damage(remaining_damage)
+	else:
+		apply_health_damage(damage)
+	
+	if effects:
+		effects.play("hit")
+
+func apply_health_damage(damage: float):
+	health -= damage
+	health = max(health, 0)
 	if health <= 0:
-		on_defeated()
+		die()
 
-func set_player_target(player: CharacterBody3D):
-	self.player_target = player
-
-func set_target(new_target: Node3D):
-	target = new_target
-	# Set up navigation to the target
-
-func on_defeated():
-	# Call this when the enemy is defeated
-	get_node("/root/Main/WaveSystem").on_enemy_defeated()
+func die():
+	if effects:
+		effects.play("death")
+	# Wait for death animation to finish
+	await get_tree().create_timer(1.0).timeout
 	queue_free()
 
-# Function to get health as a percentage string
-func get_health_percentage() -> String:
-	return str(round(health)) + "%"
+func _on_shield_depleted():
+	if effects:
+		effects.play("shield_break")
 
-func update_health_display() -> void:
-	if health_label:
-		health_label.text = get_health_percentage()
+func _on_shield_recharged():
+	if effects:
+		effects.play("shield_recharge")
 
-func flash_red() -> void:
-	var tween = create_tween()
-	tween.tween_method(set_flash_intensity, 0.0, 1.0, 0.1)
-	tween.tween_method(set_flash_intensity, 1.0, 0.0, 0.1)
+func attempt_melee_attack():
+	var current_time = Time.get_ticks_msec() / 1000.0
+	if current_time - last_melee_time >= melee_cooldown:
+		if melee_hitbox and melee_animation:  # Ensure melee_hitbox and melee_animation are valid
+			melee_animation.play("swing_animation")  # Play the swing animation
+			var targets = melee_hitbox.get_overlapping_bodies()
+			for target in targets:
+				if target.has_method("take_damage"):
+					target.take_damage(melee_damage)
+					last_melee_time = current_time
+					if effects:
+						effects.play("melee_attack")
+					break
+		else:
+			push_error("MeleeHitbox or AnimationPlayer node not found")
 
-func set_flash_intensity(value: float) -> void:
-	mesh_instance.set_instance_shader_parameter("flash_intensity", value)
+# ... (rest of the existing code)
 
-func update_low_health_shader() -> void:
-	var low_health_value = 1 - (health / 100)
-	mesh_instance.set_instance_shader_parameter("low_health", low_health_value)
+# Add this function
+func get_cohesion_force():
+	# Implement cohesion logic here
+	return Vector3.ZERO  # Placeholder return, replace with actual implementation
+
+func get_separation_force():
+	# Implement separation logic
+	return Vector3.ZERO  # Placeholder
+
+func get_alignment_force():
+	# Implement alignment logic
+	return Vector3.ZERO  # Placeholder
+
+func get_pursuit_force():
+	# Implement pursuit logic
+	return Vector3.ZERO  # Placeholder

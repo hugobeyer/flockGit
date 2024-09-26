@@ -21,4 +21,4 @@ func calculate(boid, neighbors) -> Vector3:
 	if close_neighbors > 0:
 		separation_force /= close_neighbors
 	
-	return separation_force.normalized() * boid.max_speed if separation_force != Vector3.ZERO else Vector3.ZERO
+	return separation_force.normalized() * boid.move_speed if separation_force != Vector3.ZERO else Vector3.ZERO

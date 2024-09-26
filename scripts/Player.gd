@@ -2,7 +2,7 @@
 extends CharacterBody3D
 
 @export var SPEED: float = 32.0
-@onready var camera: Camera3D = get_node("/root/Main/Camera3D")
+@onready var camera: Camera3D = get_node("/root/Main/GameCamera")
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 

@@ -1,7 +1,7 @@
-extends CharacterBody3D  # Change from Node3D to CharacterBody3D
+extends Node3D  # Change from Node3D to CharacterBody3D
 
 @export var animation_player_path: NodePath = "AnimationPlayer"
-@export var melee_node_path: NodePath = "Root/simple_sword"
+@export var melee_node_path: NodePath = "/root/Main/Enemy/MeleeWeapon/SwordArea"
 @export var swing_animation: String = "swing_animation"
 @export var player_pos_path: NodePath = "/root/Main/Player"
 
@@ -27,6 +27,8 @@ func _ready():
 	
 	if melee_node:
 		melee_node.visible = false
+	#else:
+		#push_error("Melee node not found at path: " + melee_node_path)
 
 func _physics_process(delta: float):
 	if can_attack and player_pos:
@@ -42,7 +44,10 @@ func start_attack():
 		is_attacking = true
 		can_attack = false
 		attack_timer = 0.0
-		melee_node.visible = true
+		if melee_node:  # Ensure melee_node is valid
+			melee_node.visible = true
+		else:
+			push_error("Melee node is null when starting attack.")
 		play_swing_animation()
 
 func update_attack(delta: float):
@@ -63,7 +68,8 @@ func check_hit():
 
 func end_attack():
 	is_attacking = false
-	melee_node.visible = false
+	if melee_node:
+		melee_node.visible = false
 	animation_player.stop()
 	can_attack = true
 

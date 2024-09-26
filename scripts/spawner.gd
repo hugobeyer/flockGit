@@ -1,9 +1,8 @@
+class_name Spawner
 extends Node3D
 
-class_name Spawner
-
-@export var player_path: NodePath
 @export var enemy_scene: PackedScene = preload("res://scenes/enemy.tscn")
+
 @export var spawn_interval: float = 2.0
 @export var max_enemies: int = 10
 @export var min_spawn_radius: float = 5.0
@@ -15,22 +14,17 @@ var enemy_count: int = 0
 var player: CharacterBody3D
 var enemy_container: Node3D
 
+@onready var nav_region: NavigationRegion3D = get_node("../NavigationRegion3D")
+
 func _ready():
-	print("Spawner _ready() called")
-	print("Current player_path: ", player_path)
-	await get_tree().process_frame
-	
-	if player_path.is_empty():
-		push_error("player_path is not set in the Inspector")
-	else:
-		player = get_node_or_null(player_path)
-		if player:
-			print("Player found at path: ", player_path)
-		else:
-			push_error("Player not found at path: " + str(player_path))
-	
+	print_scene_tree()  # This will help debug the scene structure
+	call_deferred("setup")
+	# ... (other initialization code)
+
+func setup():
+	player = get_node("/root/Main/Player")
 	if not player:
-		push_warning("Spawner will not function correctly without a valid player reference")
+		push_error("Player not found in 'player' group!")
 		return
 
 	enemy_container = Node3D.new()
@@ -38,40 +32,30 @@ func _ready():
 	add_child(enemy_container)
 
 	timer = Timer.new()
+	timer.wait_time = spawn_interval
+	timer.connect("timeout", Callable(self, "_on_spawn_timer_timeout"))
 	add_child(timer)
-	timer.timeout.connect(_on_spawn_timer_timeout)
-	timer.set_wait_time(spawn_interval)
 	timer.start()
-	print("Timer started with interval: %s" % spawn_interval)
+
+	if not nav_region:
+		push_warning("NavigationRegion3D not found. Path might be incorrect.")
 
 func _on_spawn_timer_timeout():
-	print("Timer timeout")
 	if enemy_count < max_enemies:
+		print("Attempting to spawn enemy. Current count: ", enemy_count)
 		call_deferred("spawn_enemy")
 	else:
-		print("Max enemies reached: %s/%s" % [enemy_count, max_enemies])
+		print("Max enemies reached: ", enemy_count)
+
+# Preload the enemy scene at the top of the script
+var EnemyScene = preload("res://scenes/enemy.tscn")
 
 func spawn_enemy():
-	print("Attempting to spawn enemy")
-	if not player:
-		push_error("Player is not set in the Spawner")
-		return
-
-	var enemy: Enemy = enemy_scene.instantiate()
-	
-	# Add the enemy to the container
-	enemy_container.add_child(enemy)
-	
-	# Set the position after adding to the scene tree
-	var spawn_position = get_random_position_around_player()
-	enemy.global_position = spawn_position
-	
-	# Set the player target for the enemy
-	enemy.set_player_target(player)
-	
-	enemy_count += 1
-
-	print("Enemy spawned at: %s. Total enemies: %s" % [spawn_position, enemy_count])
+	var enemy_instance = EnemyScene.instantiate()
+	if enemy_instance:
+		add_child(enemy_instance)
+	else:
+		push_error("Failed to spawn enemy")
 
 func get_random_position_around_player() -> Vector3:
 	if not player:
@@ -84,14 +68,10 @@ func get_random_position_around_player() -> Vector3:
 	var spawn_offset = Vector3(cos(angle) * distance, spawn_height, sin(angle) * distance)
 	return player.global_position + spawn_offset
 
-func _process(_delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		print("Debug: enemy_count = %s, max_enemies = %s" % [enemy_count, max_enemies])
-		print("Timer time left: %s" % timer.time_left)
-		if player:
-			print("Player position: %s" % player.global_position)
-		else:
-			print("Player not set")
+func _process(delta):
+	if Input.is_action_just_pressed("ui_accept"):  # Spacebar by default
+		print("Manual spawn triggered")
+		spawn_enemy()
 
 # Define enemy_resources before the loop
 var enemy_resources = [
@@ -100,3 +80,9 @@ var enemy_resources = [
 	# { "weight": 0.3, "enemy_type": "Orc" },
 	# { "weight": 0.2, "enemy_type": "Dragon" }
 ]
+
+# Add this function to print the entire scene tree for debugging
+func print_scene_tree(node = get_tree().get_root(), indent = ""):
+	print(indent + node.name + " (" + node.get_class() + ")")
+	for child in node.get_children():
+		print_scene_tree(child, indent + "  ")

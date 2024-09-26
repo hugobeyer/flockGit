@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://02l4fil5f7hb"]
+
+[ext_resource type="Script" path="res://scripts/spawner.gd" id="1_etucb"]
+
+[node name="Spawner" type="Node3D"]
+script = ExtResource("1_etucb")
+spawn_interval = 0.1
+max_enemies = 64
+max_spawn_radius = 12.0
+spawn_height = 0.1

@@ -81,5 +81,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838214, 0.47096)
 [node name="Flocking" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0359755, -0.0110035, -0.0624723)
 script = ExtResource("7_vud72")
-enemy_scene = null
 playerPath = NodePath("/root/Main/Player")

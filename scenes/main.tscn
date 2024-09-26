@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=14 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://scenes/player.tscn" id="1_to1an"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_x328l"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://vlhe276mkt0b" path="res://scenes/wave_system.tscn" id="5_qxbqk"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="7_ymsw7"]
 [ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://scenes/spawner.tscn" id="8_nhsbs"]
+[ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://scenes/buddy.tscn" id="9_wxq6t"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ya65r"]
 vertices = PackedVector3Array(-255.25, 0.5, -255.25, -255.25, 0.5, 255.25, 255.25, 0.5, 255.25, 255.25, 0.5, -255.25)
@@ -100,5 +101,12 @@ skeleton = NodePath("")
 unique_name_in_owner = true
 collision_mask = 15
 axis_lock_linear_y = true
+buddy_scene = null
 
 [node name="Spawner" parent="." groups=["enemies"] instance=ExtResource("8_nhsbs")]
+max_spawn_radius = 32.0
+spawn_height = 0.5
+
+[node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
+player_path = NodePath("/root/Main/Player")
+offset = Vector3(1, 4, -2)

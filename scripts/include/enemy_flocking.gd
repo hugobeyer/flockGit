@@ -145,6 +145,7 @@ func apply_flocking_behavior(delta: float, enemy: CharacterBody3D):
 	var cohesion = get_cohesion_force()
 	var pursuit = get_pursuit_force()
 	
+	
 	steering = (separation * separation_weight +
 				alignment * alignment_weight +
 				 cohesion * cohesion_weight +

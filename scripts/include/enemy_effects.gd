@@ -1,5 +1,5 @@
 class_name EnemyEffects
-extends Node
+extends Node3D
 
 signal knockback_finished
 
@@ -17,7 +17,7 @@ func _ready():
 	mesh_instance = enemy.get_node("MeshInstance3D")
 	assert(mesh_instance, "MeshInstance3D not found on enemy")
 
-func apply_knockback(direction: Vector2, force: float):
+func apply_knockback(direction: Vector3, force: float):
 	var knockback_vector = direction.normalized() * force
 	# Use knockback_vector instead of a global knockback variable
 	# Apply the knockback to the enemy's position or velocity here
@@ -30,6 +30,6 @@ func flash_red():
 func set_flash_intensity(value: float):
 	mesh_instance.set_instance_shader_parameter("flash_intensity", value)
 
-func apply_damage_effect(damage_direction: Vector2):
+func apply_damage_effect(damage_direction: Vector3):
 	apply_knockback(damage_direction, 1.0)
 	flash_red()

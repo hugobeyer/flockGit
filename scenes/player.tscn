@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=8 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_tc6aq"]
 [ext_resource type="Script" path="res://scripts/player_rot.gd" id="2_ehop1"]
@@ -17,19 +17,6 @@ shader = ExtResource("3_o6ral")
 radius = 0.6
 radial_segments = 12
 rings = 5
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_pt2k7"]
-radius = 0.45
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dwnk0"]
-render_priority = 0
-shader = ExtResource("3_o6ral")
-
-[sub_resource type="SphereMesh" id="SphereMesh_c47to"]
-radius = 0.33
-height = 0.595
-radial_segments = 12
-rings = 8
 
 [node name="Player" type="CharacterBody3D" groups=["player", "player_global"]]
 collision_mask = 14
@@ -54,31 +41,4 @@ mesh = SubResource("CapsuleMesh_ayx0v")
 skeleton = NodePath("../..")
 
 [node name="Gun" parent="player_rot" instance=ExtResource("2_ixejd")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.206471, 1.2878, -0.441555)
-
-[node name="HingeJoint3D" type="HingeJoint3D" parent="player_rot"]
-node_a = NodePath("../..")
-node_b = NodePath("../../Fluffy")
-
-[node name="Fluffy" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000651002, 2.28746, 0.901579)
-collision_layer = 0
-collision_mask = 0
-mass = 32.0
-gravity_scale = 3.11
-inertia = Vector3(0, 12, 0)
-can_sleep = false
-linear_velocity = Vector3(0, 4, 0)
-angular_velocity = Vector3(0.0174533, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Fluffy"]
-shape = SubResource("SphereShape3D_pt2k7")
-
-[node name="Hat" type="MeshInstance3D" parent="Fluffy"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-material_override = SubResource("ShaderMaterial_dwnk0")
-instance_shader_parameters/Bottom_Color = Color(0.133, 0.3306, 0.38, 1)
-instance_shader_parameters/Top_Color = Color(0.5035, 0.90535, 0.95, 1)
-instance_shader_parameters/take_damage = 0.0
-mesh = SubResource("SphereMesh_c47to")
-skeleton = NodePath("../../player_rot")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.206471, 1.2878, 0.451036)

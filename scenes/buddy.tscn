@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwr26kclpyg6b"]
+
+[ext_resource type="Shader" uid="uid://c6uq36d2ey58h" path="res://shaders/player_shader.tres" id="1_0xhdo"]
+[ext_resource type="Script" path="res://scripts/buddy.gd" id="1_gouxi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tvfre"]
+render_priority = 0
+shader = ExtResource("1_0xhdo")
+
+[sub_resource type="SphereMesh" id="SphereMesh_hjovk"]
+radius = 0.6
+height = 1.2
+radial_segments = 12
+rings = 8
+
+[node name="Buddy" type="Node3D"]
+script = ExtResource("1_gouxi")
+
+[node name="BuddyHead" type="Node3D" parent="."]
+
+[node name="Hat" type="MeshInstance3D" parent="BuddyHead"]
+material_override = SubResource("ShaderMaterial_tvfre")
+instance_shader_parameters/Bottom_Color = Color(0.133, 0.3306, 0.38, 1)
+instance_shader_parameters/Top_Color = Color(0.5035, 0.90535, 0.95, 1)
+instance_shader_parameters/take_damage = 0.0
+mesh = SubResource("SphereMesh_hjovk")
+skeleton = NodePath("../..")

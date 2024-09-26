@@ -1,14 +1,22 @@
 # This script is for movement (attached to the Player (CharacterBody3D))
 extends CharacterBody3D
 
-@export var SPEED: float = 32.0
+@export var SPEED: float = 20.0
 @onready var camera: Camera3D = get_node("/root/Main/GameCamera")
-
+@export var buddy_scene: PackedScene
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+# Remove the buddy_scene and buddy variables
+
+var buddy: Node = null  # Declare buddy as a class variable
 
 func _ready():
 	if not camera:
 		push_error("Camera3D not found in the scene tree.")
+		return  # Exit the function early if the camera is not found
+
+	# Remove the buddy-related code since it's no longer needed
+		push_warning("Buddy scene not set in Player.")
 
 func _physics_process(delta: float):
 	var input_direction = get_input_direction()

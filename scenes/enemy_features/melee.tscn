@@ -4,16 +4,11 @@
 [ext_resource type="AnimationLibrary" uid="uid://bavw52fdajpd6" path="res://animations/enemy_animation_library.tres" id="2_xhtyw"]
 [ext_resource type="PackedScene" uid="uid://dark23y2wrj47" path="res://meshes/items/simple_sword1.gltf" id="4_nsba3"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wgm5t"]
-radius = 0.350254
-height = 2.09981
+[sub_resource type="SphereShape3D" id="SphereShape3D_io6mw"]
+radius = 2.25
 
-[node name="Melee" type="Node3D"]
+[node name="Melee" type="CharacterBody3D"]
 script = ExtResource("1_dw47a")
-swing_animation = "swing_animation"
-animation_speed = 3.0
-attack_radius = 5.75
-animation_delay = 2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Root")
@@ -24,15 +19,11 @@ libraries = {
 playback_auto_capture_transition_type = 5
 
 [node name="Root" type="Node3D" parent="."]
-transform = Transform3D(0.361727, 0, -0.203417, 0, 0.415, 0, 0.203417, 0, 0.361727, -0.151653, 0.6, 0.0295392)
+transform = Transform3D(-0.05, 0, -0.0866026, 0, 0.1, 0, 0.0866026, 0, -0.05, 0.230541, 0.6, -0.133103)
 rotation_order = 0
 
-[node name="Area3D" type="Area3D" parent="Root"]
-transform = Transform3D(2.38434e-15, 4.37114e-08, 1, 1, -4.37114e-08, -4.73656e-16, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+[node name="simple_sword" parent="Root" instance=ExtResource("4_nsba3")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Root/Area3D"]
-transform = Transform3D(1.04641, 0, 0, 0, 1.04641, 0, 0, 0, 1.04641, 1.19209e-07, 3.2131, 5.96046e-08)
-shape = SubResource("CapsuleShape3D_wgm5t")
-
-[node name="simple_sword" parent="Root/Area3D" instance=ExtResource("4_nsba3")]
-transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -8.74228e-08, 2, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+visible = false
+shape = SubResource("SphereShape3D_io6mw")

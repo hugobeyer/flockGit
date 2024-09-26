@@ -1,81 +1,81 @@
-extends Node3D
+extends CharacterBody3D  # Change from Node3D to CharacterBody3D
 
-@export var animation_player_path: NodePath = "AnimationPlayer"  # Path to the AnimationPlayer within the node hierarchy
-@export var melee_node_path: NodePath = "."  # Path to the melee root node (default is current node)
-@export var swing_animation: String = "swing"  # Name of the swing animation
-@export var player_pos_path: NodePath = "/root/Main/player_pos"  # Path to the player_pos node
+@export var animation_player_path: NodePath = "AnimationPlayer"
+@export var melee_node_path: NodePath = "Root/simple_sword"
+@export var swing_animation: String = "swing_animation"
+@export var player_pos_path: NodePath = "/root/Main/Player"
 
-# Timing parameters
-@export var animation_speed: float = 1.0  # Speed of the swing animation
-@export var attack_radius: float = 1.66  # Radius within which the enemy can hit the player
-@export var damage_interval: float = 0.2  # Time between each damage attempt
-@export var damage_amount: float = 10.0  # Damage dealt to the player on each hit
-@export var animation_delay: float = 0.1  # Offset delay before damage is applied
+@export var animation_speed: float = 3.0
+@export var attack_radius: float = 5.75
+@export var damage_amount: float = 10.0
+
+@export var animation_length: float = 2.0
+@export var hit_window_start: float = 0.75
+@export var hit_window_end: float = 1.25
 
 var player_pos: Node3D
 var animation_player: AnimationPlayer
-var melee_node: Node3D  # The node responsible for melee (could be the sword or similar)
-var damage_timer: float = 0.0  # Internal timer to track damage intervals
+var melee_node: Node3D
+var can_attack: bool = true
+var is_attacking: bool = false
+var attack_timer: float = 0.0
 
 func _ready():
-	# Find player_pos using the node path
 	player_pos = get_node_or_null(player_pos_path)
-	if player_pos == null:
-		print("player_pos not found at path: ", player_pos_path)
-	else:
-		print("player_pos found: ", player_pos)
-
-	# Find the animation player using the node path
 	animation_player = get_node_or_null(animation_player_path)
-	if animation_player == null:
-		print("AnimationPlayer not found at path: ", animation_player_path)
-	else:
-		print("AnimationPlayer found: ", animation_player)
-
-	# Get the melee node (this is the root node of the Melee object)
 	melee_node = get_node_or_null(melee_node_path)
-	if melee_node == null:
-		print("Melee node not found at path: ", melee_node_path)
-	else:
-		melee_node.visible = false  # Make melee node invisible until in range
+	
+	if melee_node:
+		melee_node.visible = false
 
-# Function to play the swing animation with the correct settings
+func _physics_process(delta: float):
+	if can_attack and player_pos:
+		var distance = global_position.distance_to(player_pos.global_position)
+		if distance <= attack_radius:
+			start_attack()
+	
+	if is_attacking:
+		update_attack(delta)
+
+func start_attack():
+	if not is_attacking:
+		is_attacking = true
+		can_attack = false
+		attack_timer = 0.0
+		melee_node.visible = true
+		play_swing_animation()
+
+func update_attack(delta: float):
+	attack_timer += delta
+	
+	if hit_window_start <= attack_timer and attack_timer <= hit_window_end:
+		check_hit()
+	
+	if attack_timer >= animation_length:
+		end_attack()
+
+func check_hit():
+	if player_pos.has_method("take_damage"):
+		var distance = global_position.distance_to(player_pos.global_position)
+		if distance <= attack_radius:
+			player_pos.take_damage(damage_amount)
+			print("Player hit for ", damage_amount, " damage.")
+
+func end_attack():
+	is_attacking = false
+	melee_node.visible = false
+	animation_player.stop()
+	can_attack = true
+
 func play_swing_animation():
 	if animation_player.has_animation(swing_animation):
 		animation_player.play(swing_animation)
 		animation_player.speed_scale = animation_speed
-	else:
-		print("Animation not found: ", swing_animation)
 
-# Function to apply damage to the player if within range
-func apply_damage_to_player(delta: float):
-	if player_pos == null:
-		return  # No player found
-
-	var distance_to_player = global_transform.origin.distance_to(player_pos.global_transform.origin)
-
-	if distance_to_player <= attack_radius:
-		if melee_node.visible == false:
-			melee_node.visible = true  # Make the melee node visible when within attack range
-			play_swing_animation()  # Start playing the animation
-
-		damage_timer += delta
-		if damage_timer >= damage_interval + animation_delay:
-			# Damage player and reset timer
-			damage_player()
-			damage_timer = 0.0
-	else:
-		melee_node.visible = false  # Hide melee node when out of range
-		animation_player.stop()  # Stop the swing animation when the player is out of range
-
-# Function to deal damage to the player (you can adjust this based on your player's health system)
-func damage_player():
-	if player_pos.has_method("take_damage"):
-		player_pos.take_damage(damage_amount)
-		print("Player hit for ", damage_amount, " damage.")
-	else:
-		print("Player does not have take_damage method.")
-
-# Main update function
-func _process(delta: float):
-	apply_damage_to_player(delta)
+func take_damage():
+	can_attack = false
+	is_attacking = false
+	var tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0, 0.2)
+	await tween.finished
+	queue_free()

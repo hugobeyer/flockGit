@@ -26,26 +26,22 @@ func _ready():
 
 func _process(delta):
 	if player_pos:
-		# Calculate the target position for the camera, based on player position and offset
-		var target_position = player_pos.global_transform.origin + camera_offset
-
-		# Calculate the direction and distance to the target position
-		var direction_to_target = target_position - global_transform.origin
+		# Calculate target position in global space
+		var target_position = player_pos.global_position + camera_offset
+		
+		var direction_to_target = target_position - global_position
 		var distance_to_target = direction_to_target.length()
 
-		# Limit the offset to the max distance allowed
 		if distance_to_target > max_offset:
 			direction_to_target = direction_to_target.normalized() * max_offset
+			target_position = global_position + direction_to_target
 
-		# Apply a physics-based spring force to smoothly attract the camera to the target position
-		var force = direction_to_target * attraction_strength  # Attraction force
-		camera_velocity += force * delta  # Update camera velocity based on force
-
-		# Apply damping to reduce velocity over time (smooth recovery)
+		var force = direction_to_target * attraction_strength
+		camera_velocity += force * delta
 		camera_velocity = camera_velocity.lerp(Vector3.ZERO, damping * delta)
 
-		# Update the camera's position based on the calculated velocity
-		global_transform.origin += camera_velocity * delta
+		# Update position, including Y-axis
+		global_position += camera_velocity * delta
 
-		# Ensure the camera is looking at the player
-		look_at(player_pos.global_transform.origin, Vector3.UP)
+		# Look at the player, but keep the camera's up vector vertical
+		look_at(player_pos.global_position, Vector3.UP)

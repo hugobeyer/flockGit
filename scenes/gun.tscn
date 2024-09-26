@@ -39,7 +39,7 @@ spread_polar_angle = 25.0
 recoil_force = 0.008
 recoil_randomness = 2.0
 recoil_smoothness = 0.075
-max_recoil_offset = 0.013
+max_recoil_offset = 0.003
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.07473, 0)

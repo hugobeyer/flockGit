@@ -35,7 +35,7 @@ func _on_save_button_pressed():
 func save_json_data():
 	var file = FileAccess.open(config_file_path, FileAccess.WRITE)
 	var data = {"enemy_scenes": scene_data}
-	file.store_string(JSON.print(data))
+	file.store_string(JSON.stringify(data))
 	file.close()
 
 # Load existing JSON data

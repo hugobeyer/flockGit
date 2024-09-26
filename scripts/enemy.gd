@@ -1,138 +1,86 @@
 extends CharacterBody3D
 
-signal enemy_killed  # Declare the signal for when the enemy dies
+class_name Enemy
 
-@export var health: float = 100.0
-@export var max_health: float = 100.0
-@export var move_speed: float = 4.0
-@export var knockback_force: float = -4
-@export var knockback_duration: float = 0.015
+@export var max_speed: float = 100.0
+@export var max_health: float = 100.0  # This will always be 100 (representing 100%)
+@export var health: float = 100.0  # This represents the current health percentage
 
 var player_target: CharacterBody3D
-var neighbors: Array = []
-var health_label: Label3D
-var knockback_timer: float = 0.0
-var knockback_direction: Vector3 = Vector3.ZERO
-var flocking: Node3D
+var target: Node3D
 
-# Initialize the enemy
+@onready var effects: EnemyEffects = $EnemyEffects
+@onready var flocking: Node3D = $Flocking
+@onready var enemy_shield: Node3D = $EnemyShield
+@onready var health_label: Label3D = $HealthLabel
+@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+
 func _ready():
-	health_label = $Label3D
-	flocking = $Flocking  # Reference to the Flocking node
-	update_health_label()
+	assert(effects, "EnemyEffects node not found. Please add it as a child of the Enemy.")
+	assert(flocking, "Flocking node not found. Please add it as a child of the Enemy.")
+	assert(enemy_shield, "EnemyShield node not found. Please add it as a child of the Enemy.")
+	assert(health_label, "HealthLabel node not found. Please add a Label3D as a child of the Enemy.")
+	assert(mesh_instance, "MeshInstance3D node not found. Please add it as a child of the Enemy.")
+	update_health_display()
 
-# Update every frame
-func _process(delta):
-	if knockback_timer > 0:
-		knockback_timer -= delta
-		apply_knockback()
-		flash_red()  # Visual feedback for damage
-	else:
-		if player_target:
-			normal_movement()
+func _physics_process(delta):
+	var all_enemies = get_tree().get_nodes_in_group("enemies")
+	var flocking_force = flocking.calculate_flocking_force(self, all_enemies)
+	velocity += flocking_force * delta
+	velocity = velocity.limit_length(flocking.max_speed)
 
-# Handle enemy movement logic
-func normal_movement():
-	if player_target:
-		var distance_to_player = global_transform.origin.distance_to(player_target.global_transform.origin)
+	set_velocity(velocity)
+	move_and_slide()
+	velocity = velocity  # This updates velocity after collision
 
-		# Calculate pursuit force
-		var pursuit_force = Vector3.ZERO
-		if distance_to_player <= flocking.pursuit_radius:
-			pursuit_force = (player_target.global_transform.origin - global_transform.origin).normalized() * move_speed
+	if velocity.length() > 0.1:
+		look_at(global_position + velocity, Vector3.UP)
 
-		# Flocking behavior forces
-		neighbors = get_neighbors(flocking.separation_radius)
-		var separation = flocking.calculate_separation(self, neighbors) * flocking.separation_weight
-		var alignment = flocking.calculate_alignment(self, neighbors) * flocking.alignment_weight
-		var cohesion = flocking.calculate_cohesion(self, neighbors) * flocking.cohesion_weight
-		var avoidance = flocking.avoid_obstacles(self) * 2.0
-		var flocking_force = (separation + alignment + cohesion + avoidance).normalized() * move_speed
+func get_position_2d() -> Vector2:
+	return Vector2(global_position.x, global_position.z)
 
-		# Combine pursuit and flocking forces
-		var combined_force = (flocking_force + pursuit_force).normalized() * move_speed
-		self.velocity = combined_force
-
-		# Apply movement and face movement direction
-		move_and_slide()
-		if self.velocity.length() > 0.01:
-			var direction = self.velocity.normalized()
-			direction.y = 0  # Ensure the Y-axis remains unaffected
-			var rotation_angle = atan2(direction.x, direction.z)
-			var target_basis = Basis(Vector3(0, 1, 0), rotation_angle)
-			global_transform.basis = global_transform.basis.slerp(target_basis, 0.1)  # Smooth rotation
-
-# Apply knockback effect
-func apply_knockback():
-	knockback_direction.y = 0  # Ensure Y-axis remains unaffected
-	var knockback_velocity = knockback_direction * knockback_force
-	self.velocity.x += knockback_velocity.x
-	self.velocity.z += knockback_velocity.z
-	#self.velocity.y += knockback_velocity.y
-
-	move_and_slide()  # Apply movement
-
-# Visual feedback for taking damage
-func flash_red() -> void:
-	$MeshInstance3D.set_instance_shader_parameter("flash_intensity", 1.0)
-
-	# Wait for a short duration and then reset the shader
-	await get_tree().create_timer(0.2).timeout
-	$MeshInstance3D.set_instance_shader_parameter("flash_intensity", 0.0)
-
-# Called when hit by a bullet
-func on_bullet_hit(damage: float, bullet_direction: Vector3):
-	var remaining_damage = damage
-	if $Shield != null:
-		remaining_damage = $Shield.take_damage(damage)  # Shield absorbs part of the damage
-
-	# Deduct health based on remaining damage
-	health -= remaining_damage
-	var show_health =  health/max_health
-	knockback_direction = bullet_direction.normalized()  # Set knockback direction
-	knockback_timer = knockback_duration  # Apply knockback for the duration
-	$MeshInstance3D.set_instance_shader_parameter("low_health", 1-show_health)
-
-
-	# Check for death
+func take_damage(amount: float, damage_direction: Vector3) -> void:
+	if enemy_shield:
+		amount = enemy_shield.take_damage(amount)
+	
+	if amount > 0:
+		health -= amount
+		health = max(health, 0)  # Ensure health doesn't go below 0
+		update_health_display()
+		effects.apply_damage_effect(Vector2(damage_direction.x, damage_direction.z))
+		update_low_health_shader()
+	
 	if health <= 0:
-		die()
-	else:
-		flash_red()  # Show damage effect
-		update_health_label()
+		on_defeated()
 
-# Trigger enemy death
-func die():
-	SignalBus.emit_signal("enemy_killed", self)  # Emit the signal for enemy death
-	queue_free()  # Remove the enemy from the scene
+func set_player_target(player: CharacterBody3D):
+	self.player_target = player
 
-# Update health label
-func update_health_label():
-	if health_label != null:
-		health = clamp(health, 0, max_health)
-		var health_percentage = (health / max_health) * 100
-		health_label.text = str(int(health_percentage)) + "%"
+func set_target(new_target: Node3D):
+	target = new_target
+	# Set up navigation to the target
 
-# Get nearby neighbors for flocking
-func get_neighbors(radius: float) -> Array:
-	var nearby_enemies = []
-	var space_state = get_world_3d().direct_space_state
+func on_defeated():
+	# Call this when the enemy is defeated
+	get_node("/root/Main/WaveSystem").on_enemy_defeated()
+	queue_free()
 
-	# Create spherical shape for querying neighbors
-	var sphere_shape = SphereShape3D.new()
-	sphere_shape.radius = radius
+# Function to get health as a percentage string
+func get_health_percentage() -> String:
+	return str(round(health)) + "%"
 
-	# Query setup
-	var query = PhysicsShapeQueryParameters3D.new()
-	query.transform = global_transform  # Query location
-	query.shape = sphere_shape  # Set query shape
-	query.collide_with_bodies = true
+func update_health_display() -> void:
+	if health_label:
+		health_label.text = get_health_percentage()
 
-	# Perform the query and collect results
-	var result = space_state.intersect_shape(query, 32)
-	for item in result:
-		var body = item.collider
-		if body != self and body.is_in_group("enemies"):
-			nearby_enemies.append(body)
+func flash_red() -> void:
+	var tween = create_tween()
+	tween.tween_method(set_flash_intensity, 0.0, 1.0, 0.1)
+	tween.tween_method(set_flash_intensity, 1.0, 0.0, 0.1)
 
-	return nearby_enemies
+func set_flash_intensity(value: float) -> void:
+	mesh_instance.set_instance_shader_parameter("flash_intensity", value)
+
+func update_low_health_shader() -> void:
+	var low_health_value = 1 - (health / 100)
+	mesh_instance.set_instance_shader_parameter("low_health", low_health_value)

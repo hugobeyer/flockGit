@@ -1,7 +1,7 @@
 extends Node3D
 
 # Bullet and Shooting Properties
-@export var bullet_scene_path: String = "res://scenes/bullet.tscn"
+var bullet_scene_path: String = "res://scenes/bullet.tscn"
 @export var fire_rate: float = 0.05  # Time between shots
 @export var bullet_speed: float = 50.0  # Speed of the bullets
 @export var bullet_damage: float = 10.0  # Damage dealt by the bullets
@@ -33,8 +33,8 @@ var player_rot: Node3D
 
 func _ready():
 	bullet_scene = load(bullet_scene_path)
-	player_pos = get_node("/root/Main/player_pos")  # Reference to player position
-	player_rot = get_node("/root/Main/player_pos/player_rot")  # Reference to player rotation
+	player_pos = get_node("/root/Main/Player")  # Reference to player position
+	player_rot = get_node("/root/Main/Player/player_rot")  # Reference to player rotation
 
 func _process(delta: float):
 	time_since_last_shot += delta
@@ -53,7 +53,6 @@ func shoot():
 	if bullet_scene == null or muzzle_node == null:
 		return  # Ensure bullet scene and muzzle node are set
 
-	# Spread Logic
 	if spread_count_bullet == 1:
 		# No spread, shoot straight
 		shoot_bullet(muzzle_node.global_transform.basis.z.normalized())
@@ -65,7 +64,7 @@ func shoot():
 			var base_angle = deg_to_rad(-current_spread_angle / 2 + i * angle_increment)
 
 			# Get the bullet direction based on spread, but add recoil-induced deviation
-			var bullet_direction = muzzle_node.global_transform.basis.z.normalized().rotated(Vector3.UP, base_angle)
+			var bullet_direction = muzzle_node.global_transform.basis.z.normalized().rotated(muzzle_node.global_transform.basis.y, base_angle)
 
 			# Apply polar angle shake based on recoil, which affects both horizontal and vertical directions
 			bullet_direction = apply_polar_angle_shake(bullet_direction)
@@ -83,7 +82,7 @@ func apply_polar_angle_shake(bullet_direction: Vector3) -> Vector3:
 	var vertical_shake = deg_to_rad(clamp(randf_range(-current_polar_angle, current_polar_angle), -spread_polar_angle, spread_polar_angle))
 
 	# Rotate the bullet direction using the polar angles
-	return bullet_direction.rotated(Vector3.UP, horizontal_shake).rotated(Vector3.RIGHT, vertical_shake)
+	return bullet_direction.rotated(muzzle_node.global_transform.basis.y, horizontal_shake).rotated(muzzle_node.global_transform.basis.x, vertical_shake)
 
 # Helper function to shoot a single bullet
 func shoot_bullet(bullet_direction: Vector3):
@@ -92,7 +91,7 @@ func shoot_bullet(bullet_direction: Vector3):
 	add_child(bullet)
 
 	# Set bullet's position to muzzle's position and initialize its properties
-	bullet.global_transform.origin = muzzle_node.global_transform.origin
+	bullet.global_transform = muzzle_node.global_transform
 	bullet.set_bullet_properties(bullet_damage, bullet_direction, bullet_speed)
 
 	# Apply recoil force after shooting
@@ -111,7 +110,7 @@ func reset_spread_angle():
 # Apply recoil force based on shooting
 func apply_recoil(bullet_direction: Vector3):
 	# Calculate recoil direction (opposite of shooting direction)
-	var recoil_direction = -player_rot.global_transform.basis.z.normalized()
+	var recoil_direction = -player_rot.transform.basis.z.normalized()
 
 	# Add a random factor to the recoil
 	var random_recoil = Vector3(randf_range(-recoil_randomness, recoil_randomness), 0, randf_range(-recoil_randomness, recoil_randomness))
@@ -128,4 +127,4 @@ func apply_recoil_force(delta: float):
 	current_recoil_offset = current_recoil_offset.lerp(Vector3.ZERO, delta / recoil_smoothness)
 
 	# Apply the recoil offset to the player position
-	player_pos.translate(current_recoil_offset)
+	player_pos.translate_object_local(current_recoil_offset)

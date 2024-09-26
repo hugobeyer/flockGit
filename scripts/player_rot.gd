@@ -1,52 +1,48 @@
 extends Node3D
 
 @export var camera: Camera3D  # Exported so you can assign the Camera node in the Inspector
+@export var rotation_speed: float = 10.0  # Increased rotation speed
+@export var min_rotation_speed: float = 0.1  # Minimum rotation speed to prevent very slow rotations
+
+var target_rotation: float = 0.0
 
 func _ready():
 	if not camera:
-		print("Camera node not assigned!")
+		camera = get_node("/root/Main/Camera3D")
+	if not camera:
+		push_error("Camera3D not found in the scene tree.")
 
 func _process(delta):
-	rotate_player_to_mouse()
+	rotate_player_to_mouse(delta)
 
-func rotate_player_to_mouse():
+func rotate_player_to_mouse(delta):
 	if not camera:
 		return
 
-	# Get mouse position and project ray from the camera through the mouse position
 	var mouse_position = get_viewport().get_mouse_position()
-	var ray_origin = camera.project_ray_origin(mouse_position)
-	var ray_direction = camera.project_ray_normal(mouse_position)
 	
-	# Set ray length and end point
-	var ray_length = 1000.0
-	var ray_end = ray_origin + ray_direction * ray_length
-
-	# Prepare raycast query
-	var space_state = get_world_3d().direct_space_state
-	var ray_query = PhysicsRayQueryParameters3D.new()
-	ray_query.from = ray_origin
-	ray_query.to = ray_end
-	ray_query.collide_with_areas = true
-	ray_query.collide_with_bodies = true
-
-	# Perform raycast
-	var result = space_state.intersect_ray(ray_query)
-
-	if result:
-		var hit_position = result.position
-		var player_position = global_transform.origin
-
-		# Calculate direction to the mouse position, ignore Y axis (XZ plane)
-		var direction_to_mouse = (hit_position - player_position).normalized()
-		direction_to_mouse.y = 0
-
-		# Calculate the yaw rotation (rotation around Y axis)
-		var new_rotation_y = atan2(direction_to_mouse.x, direction_to_mouse.z)
+	# Project a ray from the camera to a plane at the player's height
+	var from = camera.project_ray_origin(mouse_position)
+	var to = from + camera.project_ray_normal(mouse_position) * 1000
+	var player_plane = Plane(Vector3.UP, global_position.y)
+	
+	var cursor_pos = player_plane.intersects_ray(from, to)
+	
+	if cursor_pos:
+		var direction = cursor_pos - global_position
+		direction.y = 0  # Ensure we only rotate on the Y axis
 		
-		# Apply the rotation to the player
-		rotation_degrees.y = rad_to_deg(new_rotation_y)
-
-		#print("Player rotation set to: ", rotation_degrees.y)
-	#else:
-		#print("Raycast did not hit anything")
+		if direction.length_squared() > 0.001:  # Avoid division by zero
+			var target_rotation = atan2(direction.x, direction.z)
+			
+			# Calculate the shortest rotation difference
+			var rotation_difference = fmod((target_rotation - rotation.y + PI), (PI * 2)) - PI
+			
+			# Apply a minimum rotation speed
+			var rotation_step = sign(rotation_difference) * max(abs(rotation_difference) * rotation_speed * delta, min_rotation_speed * delta)
+			
+			# Clamp the rotation step to prevent overshooting
+			rotation_step = clamp(rotation_step, -abs(rotation_difference), abs(rotation_difference))
+			
+			# Apply the rotation
+			rotation.y += rotation_step

@@ -122,7 +122,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-1059.48, -129.766)
 modes/diffuse = 3
 varyings/vertex_pos = "0,4"
 varyings/vertex_color = "0,5"

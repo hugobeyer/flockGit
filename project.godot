@@ -19,20 +19,28 @@ config/icon="res://icon.svg"
 [autoload]
 
 SignalBus="*res://scripts/signal_bus.gd"
+WaveResourceGlobal="*res://scripts/wave_resource.gd"
 
 [debug]
 
 settings/stdout/print_fps=true
 settings/stdout/print_gpu_profile=true
 settings/stdout/verbose_stdout=true
+gdscript/warnings/unused_variable=0
+gdscript/warnings/unused_parameter=0
+gdscript/warnings/unused_signal=0
 
 [display]
 
-window/size/viewport_width=1200
-window/size/viewport_height=1200
+window/size/viewport_width=900
+window/size/viewport_height=900
 window/size/always_on_top=true
 window/size/transparent=true
 window/stretch/aspect="keep_width"
+display_server/driver.windows="windows"
+display_server/driver.android="android"
+display_server/driver.ios="iOS"
+display_server/driver.macos="macos"
 
 [editor]
 
@@ -86,14 +94,19 @@ shoot={
 
 [rendering]
 
-rendering_device/driver="OpenGL"
+rendering_device/vulkan/max_descriptors_per_pool=16
+textures/canvas_textures/default_texture_repeat=1
+rendering_device/driver="d3d12"
+rendering_device/driver.windows="d3d12"
+rendering_device/fallback_to_vulkan=false
 rendering_device/fallback_to_d3d12=false
 renderer/rendering_method="mobile"
-renderer/rendering_method.web="mobile"
 lights_and_shadows/directional_shadow/size=2048
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=1
 shader_compiler/shader_cache/strip_debug=true
+textures/default_filters/anisotropic_filtering_level=1
 environment/ssao/quality=1
+occlusion_culling/occlusion_rays_per_thread=64
 environment/screen_space_reflection/roughness_quality=0
 environment/subsurface_scattering/subsurface_scattering_quality=0
 limits/opengl/max_renderable_lights=4

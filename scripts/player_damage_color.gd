@@ -10,7 +10,7 @@ var time_since_last_spawn: float = 0.0
 var player: CharacterBody3D
 
 func _ready():
-	player = get_node("/root/Main/player_pos") as CharacterBody3D
+	player = get_node("/root/Main/Player") as CharacterBody3D
 
 # Called every frame to manage enemy spawning
 func _process(delta):

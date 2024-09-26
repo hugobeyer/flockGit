@@ -1,42 +1,47 @@
 # This script is for movement (attached to the Player (CharacterBody3D))
 extends CharacterBody3D
 
-@export var SPEED: float = 8.0
-var GRAVITY = ProjectSettings.get_setting("physics/3d/default_gravity")
-@export var camera: Camera3D  # Exported so you can assign the Camera node in the Inspector
+@export var SPEED: float = 32.0
+@onready var camera: Camera3D = get_node("/root/Main/Camera3D")
 
-##unc _ready():
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-func _physics_process(delta):
-	var input_direction = Vector3.ZERO
+func _ready():
+	if not camera:
+		push_error("Camera3D not found in the scene tree.")
 
-	if Input.is_action_pressed("move_forward"):
-		input_direction.z -= 1
-	if Input.is_action_pressed("move_backward"):
-		input_direction.z += 1
-	if Input.is_action_pressed("move_left"):
-		input_direction.x -= 1
-	if Input.is_action_pressed("move_right"):
-		input_direction.x += 1
-
+func _physics_process(delta: float):
+	var input_direction = get_input_direction()
+	
 	if input_direction != Vector3.ZERO:
-		input_direction = input_direction.normalized()
-
-		# Move relative to the camera's XZ plane
-		var camera_basis = camera.global_transform.basis
-		var move_direction = (camera_basis.x * input_direction.x) + (camera_basis.z * input_direction.z)
-		move_direction.y = 0  # Ignore vertical movement
-		move_direction = move_direction.normalized()
-
-		velocity.x = move_direction.x * SPEED
-		velocity.z = move_direction.z * SPEED
+		apply_movement(input_direction)
 	else:
-		# Gradually stop the player
-		velocity.x = lerp(velocity.x, 0.0, 0.1)
-		velocity.z = lerp(velocity.z, 0.0, 0.1)
+		apply_friction()
 
-	# Apply gravity
-	velocity.y += -GRAVITY * delta
-
-	# Move the player
+	apply_gravity(delta)
 	move_and_slide()
+
+func get_input_direction() -> Vector3:
+	return Vector3(
+		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
+		0,
+		Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+	).normalized()
+
+func apply_movement(input_direction: Vector3):
+	if camera:
+		var camera_transform = camera.global_transform
+		var flat_camera_basis = camera_transform.basis
+		flat_camera_basis.y = Vector3.ZERO
+		flat_camera_basis = flat_camera_basis.orthonormalized()
+		
+		var move_direction = flat_camera_basis * input_direction
+		velocity = move_direction * SPEED
+	else:
+		velocity = input_direction * SPEED
+
+func apply_friction():
+	velocity = velocity.move_toward(Vector3.ZERO, SPEED * 0.05)
+
+func apply_gravity(delta: float):
+	velocity.y -= gravity * delta

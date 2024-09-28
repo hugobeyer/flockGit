@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Flock"
-run/main_scene="res://_scenes/start.tscn"
+run/main_scene="res://_scenes/main.tscn"
 run/enable_alt_space_menu=true
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -22,7 +22,6 @@ SignalBus="*res://_scripts/signal_bus.gd"
 WaveResourceGlobal="*res://_scripts/wave_resource.gd"
 GlobalPaths="*res://_scripts/global_paths.gd"
 SceneManager="*res://_scripts/SceneManager.gd"
-ProcessBoids="*res://addons/boids/process_boids.tscn"
 
 [debug]
 
@@ -55,7 +54,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/3dEnemyToolkit/plugin.cfg", "res://addons/3d_controls_toolkit/plugin.cfg", "res://addons/behaviour_toolkit/plugin.cfg", "res://addons/boids/plugin.cfg", "res://addons/material_editor/plugin.cfg")
+enabled=PackedStringArray("res://addons/3dEnemyToolkit/plugin.cfg", "res://addons/3d_controls_toolkit/plugin.cfg")
 
 [file_customization]
 
@@ -71,10 +70,26 @@ folder_colors={
 
 import/blender/enabled=false
 
+[global]
+
+_global_script_classes=[{
+"base": "Resource",
+"class": &"BaseBehavior",
+"language": "GDScript",
+"path": "res://_scripts/behaviors/BaseBehavior.gd"
+}, {
+"base": "BaseBehavior",
+"class": &"BehaviorOnEnterLerp",
+"language": "GDScript",
+"path": "res://_scripts/behaviors/BehaviorOnEnterLerp.gd"
+}]
+_global_script_class_icons={}
+
 [global_group]
 
 shield=""
 player=""
+enemies=""
 
 [input]
 
@@ -115,7 +130,7 @@ shoot={
 3d_physics/layer_2="enemies"
 3d_physics/layer_3="ground"
 3d_physics/layer_4="enemyWeapon"
-3d_physics/layer_5="playerWeapon"
+3d_physics/layer_5="buddy"
 
 [physics]
 

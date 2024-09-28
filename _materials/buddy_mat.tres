@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d3ch6woe05ohi"]
+
+[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="1_3q4px"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_3q4px")
+shader_parameter/blend_mode = 0
+shader_parameter/diffuse_softness = 0.3
+shader_parameter/diffuse_bias = 0.0
+shader_parameter/diffuse_contrast = 1.0
+shader_parameter/diffuse_wrap = 0.0
+shader_parameter/diffuse_offset = 0.0
+shader_parameter/specular_intensity = 0.91
+shader_parameter/specular_size = 0.05
+shader_parameter/specular_smoothness = 0.16
+shader_parameter/specular_offset = 0.162
+shader_parameter/fresnel_power = 4.0
+shader_parameter/fresnel_intensity = 1.0
+shader_parameter/fresnel_contrast = 2.0
+shader_parameter/fresnel_offset = 0.25

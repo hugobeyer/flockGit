@@ -28,6 +28,21 @@ script = ExtResource("2_ehop1")
 [node name="Player" type="MeshInstance3D" parent="player_rot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000651002, 1.00677, -0.00327277)
 material_override = ExtResource("2_qw1fv")
+instance_shader_parameters/blend_mode = 0
+instance_shader_parameters/color_bottom = Color(0.106659, 0.910156, 0.815996, 1)
+instance_shader_parameters/color_top = Color(0.0498962, 0.588516, 0.851563, 1)
+instance_shader_parameters/fresnel_color = Color(0.145691, 0.847656, 0.567967, 1)
+instance_shader_parameters/gradient_smoothness = 0.405
+instance_shader_parameters/lerp_color = Color(0.2133, 0.746094, 0.0641174, 1)
+instance_shader_parameters/lerp_displace_normal = 0.0
+instance_shader_parameters/lerp_wave = 0.0
+instance_shader_parameters/lerp_wave_contrast = 0.27
+instance_shader_parameters/lerp_wave_freq = 4.0
+instance_shader_parameters/lerp_wave_offset = -12.0
+instance_shader_parameters/lerp_wave_type = 4
+instance_shader_parameters/specular_color = Color(1, 1, 1, 1)
+instance_shader_parameters/vertex_color_mix = 0.0
+instance_shader_parameters/wave_range_lerp = 2.174
 mesh = SubResource("CapsuleMesh_ayx0v")
 skeleton = NodePath("../..")
 

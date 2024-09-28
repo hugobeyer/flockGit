@@ -1,25 +1,23 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c0y0m1vx5fhrr"]
 
-[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="1_da1ik"]
+[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_blend_actors.gdshader" id="1_muf41"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_da1ik")
-shader_parameter/specular_intensity = 0.5
+shader = ExtResource("1_muf41")
+shader_parameter/gradient_offset = 0.0
 shader_parameter/diffuse_softness = 0.3
+shader_parameter/diffuse_bias = 0.0
 shader_parameter/diffuse_contrast = 1.0
 shader_parameter/diffuse_steps = 1
 shader_parameter/diffuse_step_softness = 0.1
 shader_parameter/diffuse_wrap = 0.0
-shader_parameter/diffuse_bias = 0.0
 shader_parameter/diffuse_offset = 0.0
-shader_parameter/specular_size = 0.5
+shader_parameter/specular_intensity = 1.0
+shader_parameter/specular_size = 0.2
+shader_parameter/specular_smoothness = 0.25
 shader_parameter/specular_offset = 0.0
-shader_parameter/specular_smoothness = 0.1
-shader_parameter/specular_power = 2.0
-shader_parameter/specular_contrast = 1.0
-shader_parameter/specular_steps = 1
-shader_parameter/specular_step_softness = 0.1
-shader_parameter/fresnel_power = 5.0
-shader_parameter/fresnel_contrast = 1.0
-shader_parameter/fresnel_intensity = 0.5
+shader_parameter/fresnel_power = 4.0
+shader_parameter/fresnel_intensity = 1.0
+shader_parameter/fresnel_contrast = 2.0
+shader_parameter/fresnel_offset = 0.25

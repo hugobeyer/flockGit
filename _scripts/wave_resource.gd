@@ -1,4 +1,4 @@
-# wave_resource.gd
+#wave_resource.gd
 @tool
 extends Node
 

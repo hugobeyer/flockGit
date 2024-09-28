@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://hvh3kln5nli8"]
+
+[ext_resource type="Script" path="res://_scripts/shaders/ShaderController.gd" id="1_2w4y5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7elw"]
+
+[resource]
+script = ExtResource("1_2w4y5")
+material = SubResource("ShaderMaterial_h7elw")
+material = SubResource("ShaderMaterial_h7elw")

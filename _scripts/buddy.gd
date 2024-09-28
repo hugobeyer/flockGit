@@ -110,14 +110,14 @@ func handle_wandering(delta):
 
 func handle_moving_to_enemy(delta):
     pass
-    # if is_instance_valid(current_enemy):
-    #     target_position = current_enemy.global_position + enemy_hover_offset
-    #     print("Moving to enemy. Target position: ", target_position)
-    #     if state_timer >= move_to_enemy_time:
-    #         change_state(State.HOVERING)
-    # else:
-    #     print("Current enemy is not valid")
-    #     change_state(State.RETURNING)
+    if is_instance_valid(current_enemy):
+        target_position = current_enemy.global_position + enemy_hover_offset
+        print("Moving to enemy. Target position: ", target_position)
+        if state_timer >= move_to_enemy_time:
+            change_state(State.HOVERING)
+    else:
+        print("Current enemy is not valid")
+        change_state(State.RETURNING)
 
 func handle_hovering(delta):
     if is_instance_valid(current_enemy):
@@ -137,7 +137,7 @@ func handle_returning(delta):
 
 func _process(_delta):
     var mesh_instance = $BuddyHead/BuddyMesh
-    mesh_instance.set_instance_shader_parameter("take_damage", take_damage)
+    mesh_instance.set_instance_shader_parameter("lerp_wave", take_damage)
     if current_state == State.WANDERING:
         var overlapping_bodies = detection_area.get_overlapping_bodies()
         print("Number of overlapping bodies: ", overlapping_bodies.size())

@@ -11,7 +11,7 @@ var enemies: Array = []
 var nav_region: NavigationRegion3D
 var spawn_timer: Timer
 
-var EnemyScene = preload("res://scenes/enemy.tscn")
+var EnemyScene = preload("res://_scenes/enemy.tscn")
 
 func _ready():
 	player = get_node("/root/Main/Player")

@@ -1,7 +1,7 @@
 extends Node3D
 
 # Bullet and Shooting Properties
-var bullet_scene_path: String = "res://scenes/bullet.tscn"
+var bullet_scene_path: String = "res://_scenes/bullet.tscn"
 @export var fire_rate: float = 0.05  # Time between shots
 @export var bullet_speed: float = 50.0  # Speed of the bullets
 @export var bullet_damage: float = 10.0  # Damage dealt by the bullets

@@ -3,77 +3,49 @@ extends CharacterBody3D
 
 @export var speed: float = 5.0
 @export var turn_speed: float = 2.0
-@export var separation_weight: float = 1.5
-@export var alignment_weight: float = 1.0
-@export var cohesion_weight: float = 1.0
-@export var player_attraction_weight: float = 1.2
-@export var neighbor_radius: float = 5.0
 
 var player: Node3D
-var flock: Array = []
-var nav_agent: NavigationAgent3D
+var nav_ready = false
+
+# Remove the flock property if it's not being used
+# var flock: Array[Node3D]
 
 func _ready():
-	nav_agent = NavigationAgent3D.new()
-	add_child(nav_agent)
-	nav_agent.path_desired_distance = 0.5
-	nav_agent.target_desired_distance = 0.5
+	$NavigationAgent3D.path_desired_distance = 0.5
+	$NavigationAgent3D.target_desired_distance = 0.5
+	
+	# Find the player using the correct path
+	player = get_tree().get_root().get_node("Main/Player")
+	print("Enemy ready, player: ", player)
+	print("Initial enemy position: ", global_position)
+
+	# Wait for the navigation map to be ready
+	get_tree().create_timer(0.5).timeout.connect(func(): nav_ready = true)
 
 func _physics_process(delta):
-	if is_instance_valid(player):
-		nav_agent.set_target_position(player.global_position)
+	if not nav_ready or not is_instance_valid(player):
+		return
 	
-	var next_path_position: Vector3 = nav_agent.get_next_path_position()
-	var current_position: Vector3 = global_position
+	var player_position = player.global_position
+	var enemy_position = global_position
+	print("Player position: ", player_position)
+	print("Enemy position: ", enemy_position)
 	
-	var movement_vector: Vector3 = (next_path_position - current_position).normalized()
+	$NavigationAgent3D.set_target_position(player_position)
 	
-	var separation = get_separation()
-	var alignment = get_alignment()
-	var cohesion = get_cohesion()
+	var next_path_position: Vector3 = $NavigationAgent3D.get_next_path_position()
+	print("Next path position: ", next_path_position)
 	
-	var flocking_vector = (separation * separation_weight + 
-						   alignment * alignment_weight + 
-						   cohesion * cohesion_weight).normalized()
+	var direction = (next_path_position - enemy_position).normalized()
+	print("Direction to player: ", direction)
 	
-	var desired_velocity = (movement_vector * player_attraction_weight + flocking_vector).normalized() * speed
-	
+	var desired_velocity = direction * speed
 	velocity = velocity.lerp(desired_velocity, turn_speed * delta)
+	print("Current velocity: ", velocity)
 	
 	move_and_slide()
 	
 	if velocity.length() > 0.1:
-		look_at(global_position + velocity, Vector3.UP)
-
-func get_separation() -> Vector3:
-	var separation = Vector3.ZERO
-	var neighbors = 0
-	for enemy in flock:
-		if enemy != self and is_instance_valid(enemy):
-			var distance = global_position.distance_to(enemy.global_position)
-			if distance < neighbor_radius:
-				separation += (global_position - enemy.global_position).normalized() / distance
-				neighbors += 1
-	return separation / neighbors if neighbors > 0 else Vector3.ZERO
-
-func get_alignment() -> Vector3:
-	var alignment = Vector3.ZERO
-	var neighbors = 0
-	for enemy in flock:
-		if enemy != self and is_instance_valid(enemy):
-			var distance = global_position.distance_to(enemy.global_position)
-			if distance < neighbor_radius:
-				alignment += enemy.velocity
-				neighbors += 1
-	return (alignment / neighbors).normalized() if neighbors > 0 else Vector3.ZERO
-
-func get_cohesion() -> Vector3:
-	var center = Vector3.ZERO
-	var neighbors = 0
-	for enemy in flock:
-		if enemy != self and is_instance_valid(enemy):
-			var distance = global_position.distance_to(enemy.global_position)
-			if distance < neighbor_radius:
-				center += enemy.global_position
-				neighbors += 1
-	return ((center / neighbors) - global_position).normalized() if neighbors > 0 else Vector3.ZERO
+		var look_at_position = enemy_position + velocity.normalized()
+		look_at(look_at_position, Vector3.UP)
+		print("Looking at: ", look_at_position)

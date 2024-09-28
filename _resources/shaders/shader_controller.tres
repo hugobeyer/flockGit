@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://c5o248lj6nnq"]
+
+[ext_resource type="Material" uid="uid://d3ch6woe05ohi" path="res://_materials/buddy_mat.tres" id="1_p2s6s"]
+[ext_resource type="Script" path="res://_scripts/shaders/ShaderController.gd" id="2_4ixsf"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("2_4ixsf")
+material = ExtResource("1_p2s6s")
+material = ExtResource("1_p2s6s")

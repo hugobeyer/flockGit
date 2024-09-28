@@ -1,0 +1,16 @@
+[orchestration type="OScript" load_steps=3 format=3 uid="uid://tjqrrp1bobes"]
+
+[obj type="OScriptGraph" id="OScriptGraph_00hxa"]
+graph_name = &"EventGraph"
+flags = 8
+
+[obj type="OScriptVariable" id="OScriptVariable_v7qdw"]
+name = "ShaderMaterial"
+category = "Default"
+classification = "class:ShaderMaterial"
+type = 24
+
+[resource]
+base_type = &"CharacterBody3D"
+variables = Array[OScriptVariable]([SubResource("OScriptVariable_v7qdw")])
+graphs = Array[OScriptGraph]([SubResource("OScriptGraph_00hxa")])

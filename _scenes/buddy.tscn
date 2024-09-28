@@ -1,12 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwr26kclpyg6b"]
+[gd_scene load_steps=6 format=3 uid="uid://bwr26kclpyg6b"]
 
-[ext_resource type="Shader" uid="uid://c6uq36d2ey58h" path="res://_shaders/player_shader.tres" id="1_0xhdo"]
 [ext_resource type="Script" path="res://_scripts/buddy.gd" id="1_gouxi"]
-[ext_resource type="Curve" uid="uid://2i561tqfd26p" path="res://_resources/buddy/wandering_curve.tres" id="2_wdnn0"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tvfre"]
-render_priority = 0
-shader = ExtResource("1_0xhdo")
+[ext_resource type="Curve" uid="uid://2i561tqfd26p" path="res://_resources/buddy/wandering_curve.tres" id="2_4oik1"]
+[ext_resource type="Material" uid="uid://d3ch6woe05ohi" path="res://_materials/buddy_mat.tres" id="3_afx0b"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_hjovk"]
 radius = 0.6
@@ -20,20 +16,28 @@ radius = 0.735
 
 [node name="Buddy" type="CharacterBody3D"]
 script = ExtResource("1_gouxi")
-noise_intensity_curve = ExtResource("2_wdnn0")
-noise_time_scale = 32.0
+offset_to_player = Vector3(2, 5, 0)
+noise_intensity_curve = ExtResource("2_4oik1")
 
 [node name="BuddyHead" type="Node3D" parent="."]
 
 [node name="BuddyMesh" type="MeshInstance3D" parent="BuddyHead"]
-material_override = SubResource("ShaderMaterial_tvfre")
-gi_mode = 0
-instance_shader_parameters/Bottom_Color = Color(0.133, 0.3306, 0.38, 1)
-instance_shader_parameters/Top_Color = Color(0.5035, 0.90535, 0.95, 1)
-instance_shader_parameters/damange_warning = Color(0.71, 0.414167, 0, 1)
-instance_shader_parameters/take_damage = 0.0
+material_override = ExtResource("3_afx0b")
+gi_mode = 2
+instance_shader_parameters/color_bottom = Color(0.878906, 0.878906, 0.878906, 1)
+instance_shader_parameters/color_top = Color(0.475586, 0.5, 0.421875, 1)
+instance_shader_parameters/fresnel_color = Color(0.795537, 0.796875, 0.625671, 1)
+instance_shader_parameters/gradient_smoothness = 0.83
+instance_shader_parameters/lerp_color = Color(0.957031, 0.56076, 0, 1)
+instance_shader_parameters/lerp_displace_normal = 4.75e-08
+instance_shader_parameters/lerp_wave = 1.0
+instance_shader_parameters/lerp_wave_contrast = 0.257
+instance_shader_parameters/lerp_wave_freq = 2.389
+instance_shader_parameters/lerp_wave_offset = 16.241
+instance_shader_parameters/vertex_color_mix = 0.0
+instance_shader_parameters/wave_range_lerp = -0.155
 mesh = SubResource("SphereMesh_hjovk")
-skeleton = NodePath("../..")
+skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_vktsj")

@@ -1,11 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=14 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://_scenes/player.tscn" id="1_to1an"]
 [ext_resource type="Script" path="res://_scripts/main.gd" id="1_x328l"]
 [ext_resource type="Material" uid="uid://bb5cgdyl5gj2y" path="res://_shaders/grounds/ground_patterns_mat.tres" id="3_q3a4a"]
 [ext_resource type="Script" path="res://_scripts/label_kills.gd" id="5_2dbct"]
 [ext_resource type="PackedScene" uid="uid://deykio3jwy2vg" path="res://_scenes/enemy.tscn" id="5_qh010"]
-[ext_resource type="PackedScene" uid="uid://vlhe276mkt0b" path="res://_scenes/wave_system.tscn" id="5_qxbqk"]
 [ext_resource type="Script" path="res://_scripts/camera.gd" id="7_ymsw7"]
 [ext_resource type="Script" path="res://_scripts/spawner2.gd" id="8_d0k6m"]
 [ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://_scenes/spawner.tscn" id="8_nhsbs"]
@@ -27,8 +26,6 @@ size = Vector2(512, 512)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0mh81"]
 friction = 0.0
-bounce = 6.16
-absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_seigk"]
 size = Vector3(512, 8, 512)
@@ -42,6 +39,7 @@ enemy_scene = ExtResource("5_qh010")
 transform = Transform3D(0.999919, 0, 0, 0, 0.999919, 0, 0, 0, 0.999919, 0, 0.53, 0)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0664346, 0.0533853, -0.138232)
 navigation_mesh = SubResource("NavigationMesh_ya65r")
 
 [node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D" groups=["navigation_mesh_source_group"]]
@@ -59,6 +57,8 @@ skeleton = NodePath("")
 
 [node name="MeshInstance3D" type="StaticBody3D" parent="NavigationRegion3D/Floor" groups=["navigation_mesh_source_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.206244, -0.102213, 0.222153)
+collision_layer = 4
+collision_mask = 19
 physics_material_override = SubResource("PhysicsMaterial_0mh81")
 
 [node name="CollisionPolygon3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/MeshInstance3D" groups=["navigation_mesh_source_group"]]
@@ -104,29 +104,21 @@ max_offset = 3.0
 recovery_speed = 2.0
 damping = 0.6
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-path_max_distance = 0.01
-
-[node name="WaveSystem" parent="." instance=ExtResource("5_qxbqk")]
-
-[node name="Spawner" parent="." node_paths=PackedStringArray("player") groups=["enemies"] instance=ExtResource("8_nhsbs")]
+[node name="Spawner" parent="." node_paths=PackedStringArray("player") instance=ExtResource("8_nhsbs")]
 script = ExtResource("8_d0k6m")
-player = NodePath("../Player")
 spawn_scene = ExtResource("5_qh010")
-min_radius = 16.0
-max_radius = 20.0
-spawn_count = 5
-respawn_time = 12.0
-pursuit_speed = 5.0
+player = NodePath("../Player")
+respawn_time = 3.0
 
 [node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 16
+collision_mask = 6
 input_ray_pickable = false
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
-offset_to_player = Vector3(0, 8, 1)
-noise_time_scale = 9.365
+noise_time_scale = 3.0
+warning_lerp_speed = 12.0
 
 [node name="Player" parent="." instance=ExtResource("1_to1an")]
+collision_mask = 6

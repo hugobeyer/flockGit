@@ -18,7 +18,7 @@ var player: CharacterBody3D
 var main_scene: Node  # Reference to the main scene
 var waves = []  # Add this line at the beginning of your script
 
-const WaveResourceScript = preload("res://scripts/wave_resource.gd")
+const WaveResourceScript = preload("res://_scripts/wave_resource.gd")
 
 # @export var wave_resource: Node = WaveResourceScript.new()
 func _ready():

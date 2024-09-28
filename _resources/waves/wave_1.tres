@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WaveResource" load_steps=2 format=3 uid="uid://blkd64spf82ju"]
+
+[ext_resource type="Script" path="res://_scripts/wave_resource.gd" id="1_nf8rc"]
+
+[resource]
+script = ExtResource("1_nf8rc")
+enemy_count = 1
+size_multiplier = 1.0
+spawn_interval = 10.0
+difficulty = 0

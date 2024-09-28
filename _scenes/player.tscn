@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://cqhe3y3sj4vb3"]
+
+[ext_resource type="Script" path="res://_scripts/player_rot.gd" id="2_ehop1"]
+[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="2_ixejd"]
+[ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
+margin = 0.25
+radius = 0.6
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ayx0v"]
+radius = 0.6
+radial_segments = 12
+rings = 5
+
+[node name="Player" type="CharacterBody3D" groups=["player", "player_global"]]
+collision_mask = 14
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_3lyym")
+
+[node name="player_rot" type="Node3D" parent="."]
+script = ExtResource("2_ehop1")
+
+[node name="Player" type="MeshInstance3D" parent="player_rot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000651002, 1.00677, -0.00327277)
+material_override = ExtResource("2_qw1fv")
+mesh = SubResource("CapsuleMesh_ayx0v")
+skeleton = NodePath("../..")
+
+[node name="Gun" parent="player_rot" instance=ExtResource("2_ixejd")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.206471, 1.2878, 0.451036)

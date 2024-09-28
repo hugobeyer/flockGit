@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwpsppfskic5x"]
+
+[ext_resource type="Script" path="res://_scripts/include/enemy_melee.gd" id="1_dw47a"]
+[ext_resource type="AnimationLibrary" uid="uid://bavw52fdajpd6" path="res://animations/enemy_animation_library.tres" id="2_xhtyw"]
+[ext_resource type="PackedScene" uid="uid://blrkn1s3n87us" path="res://weapons/melee_sword.tscn" id="3_kih5r"]
+[ext_resource type="Material" uid="uid://c0y0m1vx5fhrr" path="res://_materials/prop_inst_mat.tres" id="4_pndo5"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4hhvc"]
+height = 0.35
+radius = 1.71084
+
+[node name="MeleeWeapon" type="Node3D"]
+script = ExtResource("1_dw47a")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Root")
+audio_max_polyphony = 1
+libraries = {
+"": ExtResource("2_xhtyw")
+}
+playback_auto_capture_transition_type = 5
+
+[node name="Root" type="Node3D" parent="."]
+transform = Transform3D(0.125658, 0, 0.744243, 0, 0.754777, 0, -0.744243, 0, 0.125658, -0.0471548, 0.6, -0.079509)
+rotation_order = 0
+
+[node name="MeleeMesh" type="Node3D" parent="Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="simple_sword" parent="Root/MeleeMesh" instance=ExtResource("3_kih5r")]
+material_override = ExtResource("4_pndo5")
+
+[node name="SwordArea" type="Area3D" parent="."]
+collision_layer = 15
+collision_mask = 7
+
+[node name="SwordCollider" type="CollisionShape3D" parent="SwordArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+shape = SubResource("CylinderShape3D_4hhvc")

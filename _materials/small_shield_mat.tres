@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dgwepgsd2e6j"]
+
+[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="1_gqnkt"]
+
+[resource]
+render_priority = 1
+shader = ExtResource("1_gqnkt")

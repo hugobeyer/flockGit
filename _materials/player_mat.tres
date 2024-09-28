@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bo5ngu2glawxm"]
+
+[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="1_hosdt"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_hosdt")

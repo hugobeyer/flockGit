@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbg8lda400aod"]
+
+[ext_resource type="Script" path="res://_scripts/bullet.gd" id="1_6qr1r"]
+
+[sub_resource type="Gradient" id="Gradient_hht6s"]
+offsets = PackedFloat32Array(0.180505, 0.436823, 0.626354)
+colors = PackedColorArray(0.782877, 0.25334, 0, 1, 1, 0.816667, 0, 1, 0.998659, 0.812633, 1.15514e-06, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_01q70"]
+gradient = SubResource("Gradient_hht6s")
+fill_to = Vector2(0, 0.649573)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wnxb4"]
+transparency = 1
+diffuse_mode = 3
+specular_mode = 1
+disable_ambient_light = true
+albedo_texture = SubResource("GradientTexture2D_01q70")
+roughness = 0.5
+emission = Color(0.226707, 0.226707, 0.226707, 1)
+rim_enabled = true
+rim_tint = 0.51
+backlight_enabled = true
+backlight = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_0a1fa"]
+radius = 0.325
+radial_segments = 7
+rings = 6
+is_hemisphere = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n6m6w"]
+margin = 0.01
+radius = 0.35
+
+[node name="Bullet" type="Area3D"]
+top_level = true
+collision_layer = 15
+linear_damp_space_override = 1
+linear_damp = 32.0
+script = ExtResource("1_6qr1r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0.018622, 0.00477612, -0.803015)
+material_override = SubResource("StandardMaterial3D_wnxb4")
+mesh = SubResource("SphereMesh_0a1fa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.368953)
+shape = SubResource("SphereShape3D_n6m6w")

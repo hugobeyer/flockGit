@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://deykio3jwy2vg"]
+
+[ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_ia10i"]
+[ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_gr5oo"]
+[ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="3_qf47k"]
+[ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_earu6"]
+[ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="5_l18yt"]
+[ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="6_i2yu8"]
+[ext_resource type="Script" path="res://_scripts/include/enemy_dash.gd" id="7_fw1pw"]
+[ext_resource type="Script" path="res://_scripts/include/enemy_flocking.gd" id="7_vud72"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4jrr0"]
+custom_solver_bias = 0.1
+height = 1.93929
+
+[sub_resource type="SystemFont" id="SystemFont_kudoq"]
+subpixel_positioning = 0
+
+[node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 3
+axis_lock_linear_y = true
+axis_lock_angular_y = true
+floor_constant_speed = true
+floor_max_angle = 0.0872665
+floor_snap_length = 0.5
+platform_on_leave = 2
+script = ExtResource("1_ia10i")
+separation_weight = 3.0
+alignment_weight = 5.0
+cohesion_weight = 3.0
+player_attraction_weight = 12.0
+neighbor_radius = 4.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["enemies"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 31
+material_override = ExtResource("2_gr5oo")
+instance_shader_parameters/alpha = 1.0
+instance_shader_parameters/blend_mode = 0
+instance_shader_parameters/color_bottom = Color(0.84938, 0.851563, 0.841583, 1)
+instance_shader_parameters/color_top = Color(0.925781, 0.0578613, 0.0578613, 1)
+instance_shader_parameters/gradient_offset = 0.0
+instance_shader_parameters/gradient_smoothness = 0.5
+mesh = ExtResource("3_qf47k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["enemies"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21042, 0)
+shape = SubResource("CylinderShape3D_4jrr0")
+
+[node name="HealthLabel" type="Label3D" parent="."]
+transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.0124288, 1.88637, 0.0144378)
+billboard = 1
+double_sided = false
+texture_filter = 1
+text = "100%"
+font = SubResource("SystemFont_kudoq")
+font_size = 100
+outline_size = 25
+
+[node name="EnemyEffects" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("6_i2yu8")
+flash_duration = 32.0
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="MeleeWeapon" parent="." instance=ExtResource("5_l18yt")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="EnemyDash" type="Node3D" parent="."]
+script = ExtResource("7_fw1pw")
+dash_distance = 3.0
+dash_speed = 2.0
+pause_time = 3.0
+
+[node name="EnemyShield" parent="." instance=ExtResource("4_earu6")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8.79148e-08, 0.838214, -0.534668)
+
+[node name="Flocking" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.0359755, -0.0110035, -0.0624723)
+script = ExtResource("7_vud72")
+playerPath = NodePath("/root/Main/Player")
+separation_weight = 4.0
+alignment_weight = 3.0
+cohesion_weight = 3.0
+separation_radius = 4.0
+max_force = 2.0

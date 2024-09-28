@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ddfv0eni7itfh"]
 
 [ext_resource type="PackedScene" uid="uid://dark23y2wrj47" path="res://meshes/items/simple_sword1.gltf" id="1_e2uoe"]
-[ext_resource type="Shader" uid="uid://dek6cu2ngrju1" path="res://shaders/enemy_features/melee_small_sword.tres" id="2_e7541"]
+[ext_resource type="Shader" uid="uid://dek6cu2ngrju1" path="res://_shaders/enemy_features/melee_small_sword.tres" id="2_e7541"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l5deb"]
 render_priority = 0

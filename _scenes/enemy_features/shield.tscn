@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bud2p2xgbdxj4"]
+
+[ext_resource type="Script" path="res://_scripts/include/enemy_shield.gd" id="1_r75qv"]
+[ext_resource type="Material" uid="uid://dgwepgsd2e6j" path="res://_materials/small_shield_mat.tres" id="2_01ufx"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_bk26o"]
+radius = 0.7
+height = 0.25
+radial_segments = 12
+rings = 7
+is_hemisphere = true
+
+[node name="EnemyShield" type="Node3D"]
+script = ExtResource("1_r75qv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.00957942, 0.0205101, -0.0178895)
+material_override = ExtResource("2_01ufx")
+mesh = SubResource("SphereMesh_bk26o")

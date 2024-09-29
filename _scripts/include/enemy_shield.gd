@@ -47,7 +47,7 @@ func _process(delta):
 func hide_shield():
 	if mesh_instance:
 		mesh_instance.scale = Vector3.ZERO  # Hide shield
-		mesh_instance.set_instance_shader_parameter("shield_die", 1.0)  # Trigger shield die effect
+		mesh_instance.set_instance_shader_parameter("lerp_wave_offset", 1.0)  # Trigger shield die effect
 
 func take_damage(damage: float) -> float:
 	recharge_timer = 0.0  # Reset recharge timer on damage
@@ -58,7 +58,7 @@ func take_damage(damage: float) -> float:
 		if shield_strength < 0:
 			shield_strength = 0
 		if mesh_instance:
-			mesh_instance.set_instance_shader_parameter("shield_die", 1.0)  # Reset shield die effect
+			mesh_instance.set_instance_shader_parameter("lerp_wave_offset", 0.0)  # Reset shield die effect
 		return max(remaining_damage, 0)  # Return remaining damage to health
 	return damage  # If no shield, all damage goes through
 
@@ -66,19 +66,19 @@ func display_shield_effect():
 	if shield_strength > 0 and mesh_instance:  # Only show if shield still has strength
 		mesh_instance.scale = Vector3.ONE  # Make shield visible
 		display_timer = shield_display_duration  # Start shield display timer
-		mesh_instance.set_instance_shader_parameter("shield_die", 0.0)  # Reset shield die effect
-		mesh_instance.set_instance_shader_parameter("shield_hit", 1.0)  # Trigger shield hit effect
-		mesh_instance.set_instance_shader_parameter("shield_size_hit", 2.0)  # Set size for shield hit effect
+		mesh_instance.set_instance_shader_parameter("lerp_wave_offset", 0.0)  # Reset shield die effect
+		mesh_instance.set_instance_shader_parameter("lerp_wave", 1.0)  # Trigger shield hit effect
+		mesh_instance.set_instance_shader_parameter("lerp_displace_normal", 0.5)  # Set size for shield hit effect
 
 func update_shader_parameters():
 	if mesh_instance:
-		var hit_value = lerp(mesh_instance.get_instance_shader_parameter("shield_hit"), 0.0, 0.1)
-		var size_value = lerp(mesh_instance.get_instance_shader_parameter("shield_size_hit"), 0.0, 0.1)
-		var die_value = lerp(mesh_instance.get_instance_shader_parameter("shield_die"), 0.0, 0.1)
+		var hit_value = lerp(mesh_instance.get_instance_shader_parameter("lerp_wave"), 0.0, 0.1)
+		var size_value = lerp(mesh_instance.get_instance_shader_parameter("lerp_displace_normal"), 0.0, 0.1)
+		var die_value = lerp(mesh_instance.get_instance_shader_parameter("shield_lerp_wave_offsetdie"), 0.0, 0.1)
 
-		mesh_instance.set_instance_shader_parameter("shield_die", die_value)
-		mesh_instance.set_instance_shader_parameter("shield_hit", hit_value)
-		mesh_instance.set_instance_shader_parameter("shield_size_hit", size_value)
+		mesh_instance.set_instance_shader_parameter("lerp_wave_offset", die_value)
+		mesh_instance.set_instance_shader_parameter("lerp_wave", hit_value)
+		mesh_instance.set_instance_shader_parameter("lerp_displace_normal", size_value)
 
 func get_shield_percentage() -> float:
 	return (shield_strength / max_shield) * 100.0

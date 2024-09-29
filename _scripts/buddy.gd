@@ -1,42 +1,52 @@
-extends CharacterBody3D
+extends RigidBody3D
 
-
-@export var offset_to_player: Vector3 = Vector3(2, 0, 0)
-@export var enemy_hover_offset: Vector3 = Vector3(0, 2, 0)
-@export var smoothness: float = 0.1
+@export var offset_to_player: Vector3 = Vector3(2, 2, 0)
 @export var speed: float = 5.0
+@export var max_speed: float = 15.0
 @export var detection_radius: float = 10.0
+@export var protection_radius: float = 5.0
 @export var max_distance_from_player: float = 15.0
-@export var move_to_enemy_time: float = 0.5
-@export var hover_time: float = 1.0
-@export var return_time: float = 0.5
-@export var bounce_height: float = 0.5
-@export var bounce_speed: float = 5.0
-@export var noise_intensity_curve: Curve
+@export var noise_intensity: float = 2.0
 @export var noise_time_scale: float = 1.0
-@export var warning_lerp_speed: float = 2.0  # Control how fast the warning effect changes
+@export var orbit_speed: float = 2.0
+@export var orbit_radius: float = 3.0
+@export var push_force: float = 20.0
+@export var push_duration: float = 0.5
+@export var cooldown_duration: float = 3.0
+@export var fear_threshold: int = 5
+@export var bravery_recovery_rate: float = 0.1
+@export var attraction_force: float = 5.0
+@export var bounce_force: float = 10.0
 
 var player: Node3D
-var original_position: Vector3
 var target_position: Vector3
 var noise = FastNoiseLite.new()
 var time: float = 0.0
 var detection_area: Area3D
-var take_damage: float = 0.0
+var warning_effect: float = 0.0
+var bravery: float = 1.0
+var push_timer: float = 0.0
+var cooldown_timer: float = 0.0
 
-enum State { WANDERING, MOVING_TO_ENEMY, HOVERING, RETURNING }
-var current_state = State.WANDERING
-var state_timer: float = 0.0
-var current_enemy: Node3D = null
+enum State { ORBITING, PUSHING, FLEEING, RETURNING }
+var current_state = State.ORBITING
+var current_enemies: Array = []
+var orbit_angle: float = 0.0
 
+@onready var buddy_mesh: MeshInstance3D = $BuddyHead/BuddyMesh
 
 func _ready():
-
     noise.seed = randi()
-    player = get_node("/root/Main/Player")  # Adjust this path if necessary
+    noise.fractal_octaves = 4
+    noise.frequency = 0.5
+    player = get_node("/root/Main/Player")
+    global_position = player.global_position + offset_to_player
     create_detection_area()
-    print("Buddy initialized")
-
+    set_as_top_level(true)
+    contact_monitor = true
+    max_contacts_reported = 4
+    connect("body_entered", Callable(self, "_on_body_entered"))
+    # print("Buddy initialized")
 
 func create_detection_area():
     detection_area = Area3D.new()
@@ -50,101 +60,112 @@ func create_detection_area():
     add_child(detection_area)
     
     detection_area.collision_mask = 0b10  # Set to detect layer 2
-    
     detection_area.connect("body_entered", Callable(self, "_on_body_entered"))
-    print("Detection area created with radius: ", detection_radius, " and collision mask: ", detection_area.collision_mask)
+    detection_area.connect("body_exited", Callable(self, "_on_body_exited"))
 
 func _on_body_entered(body):
-    print("Body entered detection area: ", body.name)
-    if body.is_in_group("enemies") and current_state == State.WANDERING:
-        print("Enemy detected: ", body.name)
-        current_enemy = body
-        change_state(State.MOVING_TO_ENEMY)
+    if body.is_in_group("enemies") and body not in current_enemies:
+        current_enemies.append(body)
+
+func _on_body_exited(body):
+    if body.is_in_group("enemies"):
+        current_enemies.erase(body)
 
 func change_state(new_state):
-    print("Changing state from ", current_state, " to ", new_state)
+    # print("Changing state from ", current_state, " to ", new_state)
     current_state = new_state
-    state_timer = 0.0
+    if new_state == State.PUSHING:
+        push_timer = 0.0
 
 func _physics_process(delta):
     time += delta
-    state_timer += delta
+    cooldown_timer -= delta
     
     match current_state:
-        State.WANDERING:
-            handle_wandering(delta)
-        State.MOVING_TO_ENEMY:
-            handle_moving_to_enemy(delta)
-        State.HOVERING:
-            handle_hovering(delta)
+        State.ORBITING:
+            handle_orbiting(delta)
+        State.PUSHING:
+            handle_pushing(delta)
+        State.FLEEING:
+            handle_fleeing(delta)
         State.RETURNING:
             handle_returning(delta)
     
-    # Ensure buddy doesn't go too far from player
-    var distance_to_player = global_position.distance_to(player.global_position)
-    if distance_to_player > max_distance_from_player:
+    if global_position.distance_to(player.global_position) > max_distance_from_player:
         change_state(State.RETURNING)
     
-    # Clamp the Y component of the target position to be at least 2.0
-    target_position.y = max(target_position.y, 2.0)
-    
-    # Lerp position
-    global_position = global_position.lerp(target_position, smoothness)
-    
-    # Ensure the final position is also not below 2.0
-    global_position.y = max(global_position.y, 2.0)
-    
-    # Update buddy_warning
-    var target_warning = 1.0 if current_state != State.WANDERING else 0.0
-    take_damage = lerp(take_damage, target_warning, delta * warning_lerp_speed)
+    update_warning_effect(delta)
+    update_bravery(delta)
 
+func handle_orbiting(delta):
+    orbit_angle += orbit_speed * delta
+    var target_position = calculate_orbit_position()
     
-    print("Current state: ", State.keys()[current_state], ", Position: ", global_position, ", Target: ", target_position, ", Warning: ", take_damage)
+    var attraction = (target_position - global_position).normalized() * attraction_force
+    apply_central_force(attraction)
+    
+    check_for_threats()
 
-func handle_wandering(delta):
-    original_position = player.global_position + offset_to_player
-    var noise_value = noise.get_noise_1d(time * noise_time_scale)
-    var noise_intensity = noise_intensity_curve.sample(abs(noise_value))
-    var noise_offset = Vector3(noise_value, noise.get_noise_1d(time * noise_time_scale + 100), 0) * noise_intensity
-    target_position = original_position + noise_offset
+func calculate_orbit_position() -> Vector3:
+    var orbit_offset = Vector3(cos(orbit_angle), sin(orbit_angle) * 0.5, sin(orbit_angle)) * orbit_radius
+    return player.global_position + offset_to_player + orbit_offset
 
-func handle_moving_to_enemy(delta):
-    pass
-    if is_instance_valid(current_enemy):
-        target_position = current_enemy.global_position + enemy_hover_offset
-        print("Moving to enemy. Target position: ", target_position)
-        if state_timer >= move_to_enemy_time:
-            change_state(State.HOVERING)
+func handle_pushing(delta):
+    push_timer += delta
+    if push_timer <= push_duration:
+        var push_direction = (global_position - player.global_position).normalized()
+        apply_central_force(push_direction * push_force)
+        
+        for enemy in current_enemies:
+            if is_instance_valid(enemy):
+                var push_vector = (enemy.global_position - global_position).normalized() * push_force
+                if enemy is RigidBody3D:
+                    enemy.apply_central_impulse(push_vector)
+                elif enemy.has_method("apply_impulse"):
+                    enemy.apply_impulse(push_vector)
+                else:
+                    enemy.global_position += push_vector * delta
     else:
-        print("Current enemy is not valid")
-        change_state(State.RETURNING)
+        cooldown_timer = cooldown_duration
+        change_state(State.ORBITING)
 
-func handle_hovering(delta):
-    if is_instance_valid(current_enemy):
-        var bounce_offset = Vector3.UP * sin(state_timer * bounce_speed) * bounce_height
-        target_position = current_enemy.global_position + enemy_hover_offset + bounce_offset
-        if state_timer >= hover_time:
-            change_state(State.RETURNING)
-    else:
-        change_state(State.RETURNING)
+func handle_fleeing(delta):
+    var flee_direction = (global_position - player.global_position).normalized()
+    apply_central_force(flee_direction * max_speed)
 
 func handle_returning(delta):
-    original_position = player.global_position + offset_to_player
-    target_position = original_position
-    if state_timer >= return_time:
-        change_state(State.WANDERING)
-        current_enemy = null
+    var return_vector = (player.global_position + offset_to_player - global_position).normalized() * max_speed
+    apply_central_force(return_vector)
+    if global_position.distance_to(player.global_position + offset_to_player) < 1.0:
+        change_state(State.ORBITING)
+
+func update_warning_effect(delta):
+    var target_warning = 1.0 if current_state in [State.PUSHING, State.FLEEING] else 0.0
+    warning_effect = lerp(warning_effect, target_warning, delta * 5.0)
+    buddy_mesh.set_instance_shader_parameter("lerp_wave", warning_effect)
+
+func check_for_threats():
+    if cooldown_timer <= 0:
+        var close_enemies = 0
+        for enemy in current_enemies:
+            if is_instance_valid(enemy) and enemy.global_position.distance_to(player.global_position) < protection_radius:
+                close_enemies += 1
+        
+        if close_enemies > 0 and bravery > 0.5 and current_state == State.ORBITING:
+            change_state(State.PUSHING)
+        elif close_enemies >= fear_threshold or bravery <= 0.2:
+            change_state(State.FLEEING)
+
+func update_bravery(delta):
+    var enemy_count = len(current_enemies)
+    if enemy_count > 0:
+        bravery = max(bravery - delta * enemy_count * 0.1, 0.0)
+    else:
+        bravery = min(bravery + delta * bravery_recovery_rate, 1.0)
+
+func _integrate_forces(state):
+    if state.linear_velocity.length() > max_speed:
+        state.linear_velocity = state.linear_velocity.normalized() * max_speed
 
 func _process(_delta):
-    var mesh_instance = $BuddyHead/BuddyMesh
-    mesh_instance.set_instance_shader_parameter("lerp_wave", take_damage)
-    if current_state == State.WANDERING:
-        var overlapping_bodies = detection_area.get_overlapping_bodies()
-        print("Number of overlapping bodies: ", overlapping_bodies.size())
-        for body in overlapping_bodies:
-            print("Overlapping body: ", body.name, ", in group 'enemies': ", body.is_in_group("enemies"))
-            if body.is_in_group("enemies"):
-                print("Enemy found in _process: ", body.name)
-                current_enemy = body
-                change_state(State.MOVING_TO_ENEMY)
-                break
+    check_for_threats()

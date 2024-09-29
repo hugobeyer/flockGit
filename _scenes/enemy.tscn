@@ -1,79 +1,56 @@
-[gd_scene load_steps=10 format=3 uid="uid://deykio3jwy2vg"]
+[gd_scene load_steps=8 format=3 uid="uid://deykio3jwy2vg"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_ia10i"]
 [ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_gr5oo"]
 [ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="3_qf47k"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_earu6"]
-[ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="5_l18yt"]
+[ext_resource type="FontVariation" uid="uid://cws4onh6frwva" path="res://_resources/fonts/font_health_overhead.tres" id="4_f5756"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="6_i2yu8"]
-[ext_resource type="Script" path="res://_scripts/include/enemy_shield.gd" id="8_v6oak"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejukm"]
-height = 2.255
-
-[sub_resource type="SystemFont" id="SystemFont_kudoq"]
-subpixel_positioning = 0
+margin = 0.1
+radius = 0.537
+height = 1.837
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
-collision_layer = 6
-collision_mask = 0
+collision_layer = 2
+collision_mask = 29
 axis_lock_linear_y = true
-axis_lock_angular_y = true
+slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
-floor_snap_length = 0.5
-platform_on_leave = 2
 script = ExtResource("1_ia10i")
-turn_speed = 32.0
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-path_desired_distance = 0.5
-target_desired_distance = 0.5
-debug_enabled = true
-debug_use_custom = true
-debug_path_custom_color = Color(1, 0, 0, 1)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-layers = 31
-material_override = ExtResource("2_gr5oo")
-instance_shader_parameters/blend_mode = 0
-instance_shader_parameters/color_bottom = Color(0.728951, 0.757813, 0.686768, 1)
-instance_shader_parameters/color_top = Color(0.667969, 0.203522, 0.203522, 1)
-instance_shader_parameters/fresnel_color = Color(0.726563, 0.559822, 0.0596008, 1)
-instance_shader_parameters/gradient_smoothness = 0.6
-instance_shader_parameters/lerp_wave = 0.0
-instance_shader_parameters/specular_color = Color(1, 0.15625, 0.15625, 1)
-mesh = ExtResource("3_qf47k")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19, 0)
-shape = SubResource("CapsuleShape3D_ejukm")
+movement_speed = 2.0
 
 [node name="HealthLabel" type="Label3D" parent="."]
-transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.0124288, 1.88637, 0.0144378)
+transform = Transform3D(0.999724, -0.00759387, -0.0221883, 0.00782988, 0.999912, 0.0105687, 0.0221061, -0.0107396, 0.999697, 0, 2.425, 0)
 billboard = 1
 double_sided = false
-texture_filter = 1
+alpha_antialiasing_mode = 1
+outline_modulate = Color(0.31815, 0.063, 0.63, 0.937255)
 text = "100%"
-font = SubResource("SystemFont_kudoq")
-font_size = 100
+font = ExtResource("4_f5756")
+font_size = 84
 outline_size = 25
 
 [node name="EnemyEffects" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("6_i2yu8")
-flash_duration = 32.0
-
-[node name="MeleeWeapon" parent="." instance=ExtResource("5_l18yt")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="EnemyShield" parent="." instance=ExtResource("4_earu6")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 8.79148e-08, 0.838214, -0.534668)
-script = ExtResource("8_v6oak")
-shield_strength = 60.0
-max_shield = 32.0
+shield_strength = 32.0
+max_shield = 15.0
 
-[node name="DebugLineToPlayer" type="MeshInstance3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00306, 0)
+shape = SubResource("CapsuleShape3D_ejukm")
 
-[node name="DebugLineVelocity" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.984784, 0)
+layers = 31
+material_override = ExtResource("2_gr5oo")
+instance_shader_parameters/alpha = 0.0
+instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
+instance_shader_parameters/lerp_wave = 0.0
+mesh = ExtResource("3_qf47k")

@@ -115,8 +115,8 @@ void light() {
     // Diffuse lighting
     float ndotl = dot(NORMAL, LIGHT);
     float wrapped_ndotl = (ndotl + diffuse_wrap) / (1.0 + diffuse_wrap);
-    float diffuse = wrapped_ndotl + diffuse_bias;
-    diffuse = smoothstep(-diffuse_softness, 1.0, diffuse + diffuse_offset);
+    float diffuse = wrapped_ndotl;
+    diffuse = smoothstep(-diffuse, 1.0, diffuse + diffuse_offset);
     diffuse = clamp((diffuse - 0.5) * diffuse_contrast + 0.5, 0.0, 1.0);
     diffuse = clamp(diffuse, 0.0, 1.0);
 

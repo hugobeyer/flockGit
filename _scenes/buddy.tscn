@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwr26kclpyg6b"]
+[gd_scene load_steps=5 format=3 uid="uid://bwr26kclpyg6b"]
 
 [ext_resource type="Script" path="res://_scripts/buddy.gd" id="1_gouxi"]
-[ext_resource type="Curve" uid="uid://2i561tqfd26p" path="res://_resources/buddy/wandering_curve.tres" id="2_4oik1"]
 [ext_resource type="Material" uid="uid://d3ch6woe05ohi" path="res://_materials/buddy_mat.tres" id="3_afx0b"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_hjovk"]
@@ -14,28 +13,25 @@ rings = 8
 margin = 0.1
 radius = 0.735
 
-[node name="Buddy" type="CharacterBody3D"]
+[node name="Buddy" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0120239, 4.76837e-07, 0.0131907)
+collision_layer = 16
+collision_mask = 6
 script = ExtResource("1_gouxi")
-offset_to_player = Vector3(2, 5, 0)
-noise_intensity_curve = ExtResource("2_4oik1")
+offset_to_player = Vector3(1, 3, 0)
 
 [node name="BuddyHead" type="Node3D" parent="."]
 
 [node name="BuddyMesh" type="MeshInstance3D" parent="BuddyHead"]
 material_override = ExtResource("3_afx0b")
 gi_mode = 2
-instance_shader_parameters/color_bottom = Color(0.878906, 0.878906, 0.878906, 1)
-instance_shader_parameters/color_top = Color(0.475586, 0.5, 0.421875, 1)
-instance_shader_parameters/fresnel_color = Color(0.795537, 0.796875, 0.625671, 1)
-instance_shader_parameters/gradient_smoothness = 0.83
-instance_shader_parameters/lerp_color = Color(0.957031, 0.56076, 0, 1)
-instance_shader_parameters/lerp_displace_normal = 4.75e-08
-instance_shader_parameters/lerp_wave = 1.0
-instance_shader_parameters/lerp_wave_contrast = 0.257
-instance_shader_parameters/lerp_wave_freq = 2.389
-instance_shader_parameters/lerp_wave_offset = 16.241
-instance_shader_parameters/vertex_color_mix = 0.0
-instance_shader_parameters/wave_range_lerp = -0.155
+instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
+instance_shader_parameters/lerp_displace_normal = 0.0
+instance_shader_parameters/lerp_wave = 0.0
+instance_shader_parameters/lerp_wave_contrast = 1.0
+instance_shader_parameters/lerp_wave_freq = 1.0
+instance_shader_parameters/lerp_wave_offset = 0.0
+instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("SphereMesh_hjovk")
 skeleton = NodePath("")
 

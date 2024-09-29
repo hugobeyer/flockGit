@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bud2p2xgbdxj4"]
+[gd_scene load_steps=4 format=3 uid="uid://bud2p2xgbdxj4"]
 
+[ext_resource type="Script" path="res://_scripts/include/enemy_shield.gd" id="1_02fak"]
 [ext_resource type="Material" uid="uid://dgwepgsd2e6j" path="res://_materials/small_shield_mat.tres" id="2_01ufx"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_bk26o"]
@@ -10,25 +11,19 @@ rings = 6
 is_hemisphere = true
 
 [node name="EnemyShield" type="Node3D"]
+script = ExtResource("1_02fak")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -2.3167e-08, -1, 0, 0.53, -4.37114e-08, 0, 0, 0)
 material_override = ExtResource("2_01ufx")
-instance_shader_parameters/blend_mode = 0
-instance_shader_parameters/color_bottom = Color(0.916667, 1, 0, 1)
-instance_shader_parameters/color_top = Color(0.702, 0.81, 0, 0)
-instance_shader_parameters/fresnel_color = Color(0.5, 0.5, 0.5, 1)
-instance_shader_parameters/gradient_rotation_mode = 1
-instance_shader_parameters/gradient_smoothness = 0.2
-instance_shader_parameters/lerp_color = Color(0.651944, 0.664063, 0.544739, 1)
-instance_shader_parameters/lerp_displace_normal = 4.75e-08
+cast_shadow = 0
+instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
+instance_shader_parameters/lerp_displace_normal = 0.0
 instance_shader_parameters/lerp_wave = 0.0
-instance_shader_parameters/lerp_wave_contrast = 4.0
-instance_shader_parameters/lerp_wave_freq = 12.0
-instance_shader_parameters/lerp_wave_offset = 4.0
-instance_shader_parameters/lerp_wave_type = 12
-instance_shader_parameters/specular_color = Color(0, 0, 0, 1)
-instance_shader_parameters/vertex_color_mix = 0.0
-instance_shader_parameters/wave_range_lerp = -0.49
+instance_shader_parameters/lerp_wave_contrast = 1.0
+instance_shader_parameters/lerp_wave_freq = 1.0
+instance_shader_parameters/lerp_wave_offset = 0.0
+instance_shader_parameters/lerp_wave_type = 0
+instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("SphereMesh_bk26o")
 skeleton = NodePath("")

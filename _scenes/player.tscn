@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cqhe3y3sj4vb3"]
 
-[ext_resource type="Script" path="res://_scripts/player_rot.gd" id="2_ehop1"]
+[ext_resource type="Script" path="res://_scripts/Player.gd" id="1_7wjim"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="2_ixejd"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
 
@@ -14,37 +14,34 @@ radial_segments = 12
 rings = 5
 
 [node name="Player" type="CharacterBody3D" groups=["player", "player_global"]]
-collision_mask = 14
-input_ray_pickable = false
+collision_mask = 22
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+script = ExtResource("1_7wjim")
+rotation_speed = 12.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.390731, 0.748079, -0.536382, 0, 0.582705, 0.812684, 0.920505, -0.317541, 0.227681, -2.26042, 3.25874, 0.959493)
+shadow_enabled = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_3lyym")
 
-[node name="player_rot" type="Node3D" parent="."]
-script = ExtResource("2_ehop1")
-
-[node name="Player" type="MeshInstance3D" parent="player_rot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000651002, 1.00677, -0.00327277)
+[node name="Player" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.999908, -0.0120488, 0.0062203, 0.0120859, 0.999909, -0.00596117, -0.00614791, 0.0060358, 0.999963, -0.000651002, 1.00677, -0.00327277)
 material_override = ExtResource("2_qw1fv")
-instance_shader_parameters/blend_mode = 0
-instance_shader_parameters/color_bottom = Color(0.106659, 0.910156, 0.815996, 1)
-instance_shader_parameters/color_top = Color(0.0498962, 0.588516, 0.851563, 1)
-instance_shader_parameters/fresnel_color = Color(0.145691, 0.847656, 0.567967, 1)
-instance_shader_parameters/gradient_smoothness = 0.405
-instance_shader_parameters/lerp_color = Color(0.2133, 0.746094, 0.0641174, 1)
+instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
 instance_shader_parameters/lerp_displace_normal = 0.0
 instance_shader_parameters/lerp_wave = 0.0
-instance_shader_parameters/lerp_wave_contrast = 0.27
-instance_shader_parameters/lerp_wave_freq = 4.0
-instance_shader_parameters/lerp_wave_offset = -12.0
-instance_shader_parameters/lerp_wave_type = 4
-instance_shader_parameters/specular_color = Color(1, 1, 1, 1)
-instance_shader_parameters/vertex_color_mix = 0.0
-instance_shader_parameters/wave_range_lerp = 2.174
+instance_shader_parameters/lerp_wave_contrast = 1.0
+instance_shader_parameters/lerp_wave_freq = 1.0
+instance_shader_parameters/lerp_wave_offset = 0.0
+instance_shader_parameters/lerp_wave_type = 0
+instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("CapsuleMesh_ayx0v")
-skeleton = NodePath("../..")
 
-[node name="Gun" parent="player_rot" instance=ExtResource("2_ixejd")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.206471, 1.2878, 0.451036)
+[node name="Gun" parent="." instance=ExtResource("2_ixejd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4752e-08, 1.24015, 0.445113)

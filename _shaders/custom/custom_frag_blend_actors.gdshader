@@ -75,7 +75,8 @@ float saturate(float x) {
     return clamp(x, 0.0, 1.0);
 }
 
-void fragment() {
+void fragment() {// Your existing shader code here
+   
     vec3 gradient_direction;
     if (gradient_rotation_mode == 0) {
         gradient_direction = vec3(1.0, 0.0, 0.0); // X-axis
@@ -92,20 +93,21 @@ void fragment() {
 
     // Blend gradient with vertex color
     vec4 base_color = mix(gradient_color, vertex_color, vertex_color_mix);
+    float base_alpha = mix(gradient_color.x, vertex_color.x, alpha);
 
     vec4 final_color = base_color;
-
+	final_color.a = base_alpha;
     // Apply blend modes
     if (blend_mode == 0) { // Mix blend
         // Already done in the previous step
     } else if (blend_mode == 1) { // Additive blend
         final_color.rgb += vertex_color.rgb * vertex_color_mix;
-        final_color.a = max(base_color.a, vertex_color.a * vertex_color_mix);
+        final_color.a = min(base_color.a, vertex_color.a * alpha);
     } else if (blend_mode == 2) { // Multiply blend
         final_color *= mix(vec4(1.0), vertex_color, vertex_color_mix);
     } else if (blend_mode == 3) { // Screen blend
         final_color.rgb = vec3(1.0) - (vec3(1.0) - final_color.rgb) * (vec3(1.0) - vertex_color.rgb * vertex_color_mix);
-        final_color.a = max(base_color.a, vertex_color.a * vertex_color_mix);
+        final_color.a = min(base_color.a, vertex_color.a * alpha);
     }
 
     float overlay_intensity = 0.0;
@@ -130,7 +132,7 @@ void fragment() {
     }
 
     // Apply lerp color with wave effect
-    final_color = mix(final_color, lerp_color, overlay_intensity);
+    final_color.rgb = mix(final_color.rgb, lerp_color.rgb, overlay_intensity);
 
     ALBEDO = final_color.rgb;
     ALPHA = final_color.a;
@@ -146,8 +148,8 @@ void light() {
     // Diffuse lighting
     float ndotl = dot(NORMAL, LIGHT);
     float wrapped_ndotl = (ndotl + diffuse_wrap) / (1.0 + diffuse_wrap);
-    float diffuse = wrapped_ndotl + diffuse_bias;
-    diffuse = smoothstep(-diffuse_softness, 1.0, diffuse + diffuse_offset);
+    float diffuse = wrapped_ndotl;
+    diffuse = smoothstep(-diffuse, 1.0, diffuse + diffuse_offset);
     diffuse = apply_contrast(diffuse, diffuse_contrast);
     diffuse = clamp(diffuse, 0.0, 1.0);
 

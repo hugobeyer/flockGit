@@ -13,27 +13,14 @@ rings = 1
 [node name="Gun" type="Node3D" node_paths=PackedStringArray("muzzle_node")]
 physics_interpolation_mode = 1
 script = ExtResource("1_x0345")
-fire_rate = 0.03
-bullet_speed = 60.0
-bullet_damage = 8.0
 muzzle_node = NodePath("Muzzle")
-spread_count_bullet = 3
-spread_total_angle = 5.0
-spread_max_angle = 15.0
-spread_increase_speed = 4.0
-spread_polar_angle = 25.0
-recoil_force = 0.013
-recoil_randomness = 2.0
-recoil_smoothness = 0.075
-max_recoil_offset = 0.003
+recoil_force = 0.01
 
 [node name="Muzzle" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.07473, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 1.02626)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00426769, 0.5, -0.0245728)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.492335)
 material_override = ExtResource("2_dv6xq")
 gi_mode = 0
-instance_shader_parameters/color_bottom = Color(1, 0.55, 0.12, 1)
-instance_shader_parameters/color_top = Color(0, 0, 1, 1)
 mesh = SubResource("CylinderMesh_ick36")

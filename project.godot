@@ -16,13 +16,6 @@ run/enable_alt_space_menu=true
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[autoload]
-
-SignalBus="*res://_scripts/signal_bus.gd"
-WaveResourceGlobal="*res://_scripts/wave_resource.gd"
-GlobalPaths="*res://_scripts/global_paths.gd"
-SceneManager="*res://_scripts/SceneManager.gd"
-
 [debug]
 
 settings/stdout/print_fps=true
@@ -52,10 +45,6 @@ display_server/driver.macos="macos"
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/3dEnemyToolkit/plugin.cfg", "res://addons/3d_controls_toolkit/plugin.cfg")
-
 [file_customization]
 
 folder_colors={
@@ -63,7 +52,8 @@ folder_colors={
 "res://_resources/": "pink",
 "res://_scenes/": "orange",
 "res://_scripts/": "purple",
-"res://_shaders/": "blue"
+"res://_scripts/z_bkp/": "gray",
+"res://_shaders/": "red"
 }
 
 [filesystem]
@@ -98,7 +88,7 @@ move_forward={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
-move_backward={
+move_back={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
@@ -123,20 +113,22 @@ shoot={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(53, 16),"global_position":Vector2(62, 62),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+touch={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
 
 [layer_names]
 
 3d_physics/layer_1="player"
+3d_navigation/layer_1="player"
 3d_physics/layer_2="enemies"
-3d_physics/layer_3="ground"
-3d_physics/layer_4="enemyWeapon"
+3d_navigation/layer_2="enemies"
+3d_physics/layer_3="environment"
+3d_navigation/layer_3="environment"
+3d_physics/layer_4="projectiles"
 3d_physics/layer_5="buddy"
-
-[physics]
-
-3d/physics_engine="GodotPhysics3D"
-3d/solver/solver_iterations=8
-3d/solver/contact_recycle_radius=0.05
 
 [rendering]
 

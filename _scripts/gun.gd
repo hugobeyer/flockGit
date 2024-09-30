@@ -42,23 +42,20 @@ func shoot2():
 		print("bullet_scene is null")
 		return
 
-	var muzzle_position = global_transform.origin
-	var forward_direction = global_transform.basis.z.normalized()  # Removed the negative sign
+	var muzzle_position = muzzle_node.global_transform.origin
+	var forward_direction = muzzle_node.global_transform.basis.z.normalized()
 	var bullet = bullet_scene.instantiate()
 	if bullet:
 		get_tree().root.add_child(bullet)
-		bullet.global_transform.origin = muzzle_position
-		bullet.top_level = true
-		
+		bullet.global_position = muzzle_position
 		bullet.velocity = forward_direction * bullet_speed
 		
 		if bullet.has_method("set_damage"):
 			bullet.set_damage(bullet_damage)
+		if bullet.has_method("set_lifetime"):
+			bullet.set_lifetime(3.0)  # Set bullet lifetime to 3 seconds, adjust as needed
 		
-		if bullet.has_method("set_bullet_owner"):
-			bullet.set_bullet_owner(player)
-		
-		apply_recoil(-forward_direction)  # Inverted for recoil
+		apply_recoil(forward_direction)
 		
 		print("Bullet fired from position: ", muzzle_position)
 		print("Bullet direction: ", forward_direction)
@@ -66,7 +63,7 @@ func shoot2():
 		print("Failed to instantiate bullet")
 
 	var end_point = muzzle_position + forward_direction * 5
-	draw_debug_line(muzzle_position, end_point, Color.RED)
+	# draw_debug_line(muzzle_position, end_point, Color.RED)
 
 func shoot_single_bullet(direction: Vector3):
 	var bullet_instance = create_bullet_instance()
@@ -86,6 +83,9 @@ func set_bullet_properties(bullet: Area3D, direction: Vector3):
 	bullet.global_transform = muzzle_node.global_transform
 	bullet.top_level = true
 	bullet.velocity = direction * bullet_speed
+	
+	# Set the bullet's rotation to match the muzzle's orientation
+	bullet.global_rotation = muzzle_node.global_rotation
 	
 	if bullet.has_method("set_damage"):
 		bullet.set_damage(bullet_damage)
@@ -115,20 +115,20 @@ func reset_spread_angle():
 	current_spread_angle = spread_total_angle
 	current_polar_angle = 0.0
 
-func draw_debug_line(start: Vector3, end: Vector3, color: Color):
-	var im = ImmediateMesh.new()
-	var material = ORMMaterial3D.new()
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
+# func draw_debug_line(start: Vector3, end: Vector3, color: Color):
+# 	var im = ImmediateMesh.new()
+# 	var material = ORMMaterial3D.new()
+# 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+# 	material.albedo_color = color
 	
-	im.surface_begin(Mesh.PRIMITIVE_LINES)
-	im.surface_add_vertex(start)
-	im.surface_add_vertex(end)
-	im.surface_end()
+# 	im.surface_begin(Mesh.PRIMITIVE_LINES)
+# 	im.surface_add_vertex(start)
+# 	im.surface_add_vertex(end)
+# 	im.surface_end()
 	
-	var mi = MeshInstance3D.new()
-	mi.mesh = im
-	mi.material_override = material
-	add_child(mi)
-	await get_tree().create_timer(0.1).timeout
-	mi.queue_free()
+# 	var mi = MeshInstance3D.new()
+# 	mi.mesh = im
+# 	mi.material_override = material
+# 	add_child(mi)
+# 	await get_tree().create_timer(0.1).timeout
+# 	mi.queue_free()

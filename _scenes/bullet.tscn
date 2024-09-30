@@ -35,20 +35,18 @@ rings = 6
 is_hemisphere = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8016x"]
-margin = 0.05
-radius = 0.245
-height = 0.81
+radius = 0.266
+height = 0.813
 
 [node name="Bullet" type="Area3D"]
 top_level = true
 collision_layer = 8
 collision_mask = 6
 input_ray_pickable = false
-gravity_space_override = 1
 script = ExtResource("1_6qr1r")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 4.37114e-08, 1, 1, 0, 4.37114e-08, 0, 1, -4.37114e-08, -1.15183e-08, -1.32349e-23, -0.263509)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_44twl")
 instance_shader_parameters/alpha = 1.0
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
@@ -61,6 +59,5 @@ instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("SphereMesh_0a1fa")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-physics_interpolation_mode = 1
-transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.21485e-08, 0.277925)
 shape = SubResource("CapsuleShape3D_8016x")

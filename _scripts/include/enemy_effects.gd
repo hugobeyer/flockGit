@@ -16,11 +16,11 @@ func _ready():
 	if not mesh_instance:
 		push_warning("MeshInstance3D not found on enemy. Visual effects may not work.")
 
-func apply_knockback(direction: Vector3, force: float):
-	if enemy:
-		enemy.apply_impulse(direction * force, Vector3.ZERO)
-	else:
-		push_warning("Enemy reference is null. Knockback not applied.")
+# func apply_knockback(direction: Vector3, force: float):
+# 	if enemy:
+# 		enemy.apply_impulse(direction * force, Vector3.ZERO)
+# 	else:
+# 		push_warning("Enemy reference is null. Knockback not applied.")
 
 func flash_red():
 	if mesh_instance:
@@ -34,5 +34,5 @@ func set_flash_intensity(value: float):
 	mesh_instance.set_instance_shader_parameter("lerp_wave", value)
 
 func apply_damage_effect(damage_direction: Vector3):
-	apply_knockback(damage_direction, knockback_strength)
+	# apply_knockback(damage_direction, knockback_strength)
 	flash_red()

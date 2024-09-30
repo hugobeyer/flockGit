@@ -15,11 +15,11 @@ rings = 5
 
 [node name="Player" type="CharacterBody3D" groups=["player", "player_global"]]
 collision_mask = 22
+input_ray_pickable = false
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_7wjim")
-rotation_speed = 12.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.390731, 0.748079, -0.536382, 0, 0.582705, 0.812684, 0.920505, -0.317541, 0.227681, -2.26042, 3.25874, 0.959493)
@@ -45,3 +45,4 @@ mesh = SubResource("CapsuleMesh_ayx0v")
 
 [node name="Gun" parent="." instance=ExtResource("2_ixejd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4752e-08, 1.24015, 0.445113)
+fire_rate = 0.025

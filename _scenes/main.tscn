@@ -29,7 +29,7 @@ friction = 0.25
 size = Vector3(256, 10, 256)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_er31h"]
-render_priority = 0
+render_priority = -128
 shader = ExtResource("8_ygmnw")
 
 [sub_resource type="SphereMesh" id="SphereMesh_gbmjj"]
@@ -43,7 +43,6 @@ height = 3.105
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_ya65r")
-navigation_layers = 4
 
 [node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D" groups=["navigation_mesh_source_group"]]
 material_override = ExtResource("3_q3a4a")
@@ -60,6 +59,7 @@ skeleton = NodePath("")
 [node name="MeshInstance3D" type="StaticBody3D" parent="NavigationRegion3D/Floor" groups=["navigation_mesh_source_group"]]
 collision_layer = 4
 collision_mask = 27
+input_ray_pickable = false
 physics_material_override = SubResource("PhysicsMaterial_4bnel")
 
 [node name="CollisionPolygon3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/MeshInstance3D" groups=["navigation_mesh_source_group"]]
@@ -84,7 +84,7 @@ fov = 25.0
 far = 250.0
 script = ExtResource("7_ymsw7")
 player_pos = NodePath("../Player")
-camera_offset = Vector3(28, 40, 20)
+camera_offset = Vector3(32, 64, 20)
 max_offset = 3.0
 recovery_speed = 2.0
 damping = 0.6
@@ -96,7 +96,6 @@ spawn_height = 0.025
 
 [node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
 collision_mask = 2
-input_ray_pickable = false
 offset_to_player = Vector3(1, 12, 0)
 
 [node name="Player" parent="." instance=ExtResource("1_to1an")]

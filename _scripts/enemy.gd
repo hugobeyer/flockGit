@@ -3,6 +3,7 @@ extends CharacterBody3D
 @export var max_health: float = 100.0
 @export var movement_speed: float = 5.0
 @export var knockback_resistance: float = 0.5
+@export var knockback_force: float = 10.0
 
 var health: float
 var knockback_velocity: Vector3 = Vector3.ZERO
@@ -13,18 +14,19 @@ var knockback_velocity: Vector3 = Vector3.ZERO
 func _ready():
     health = max_health
 
-func hit(direction: Vector3, damage: float, knockback: float):
+func hit(direction: Vector3, damage: float, impulse: float):
     health -= damage
     if health <= 0:
         die()
     else:
-        knockback_velocity = direction * knockback * (1 - knockback_resistance)
+        knockback_velocity = -direction * impulse * (1 - knockback_resistance)
         if effects:
             effects.apply_damage_effect(direction)
 
 func _physics_process(delta):
     move_towards_player(delta)
     apply_knockback(delta)
+    move_and_slide()
 
 func move_towards_player(delta):
     var player = get_tree().get_nodes_in_group("player")
@@ -35,8 +37,7 @@ func move_towards_player(delta):
 
 func apply_knockback(delta):
     velocity += knockback_velocity
-    knockback_velocity = knockback_velocity.lerp(Vector3.ZERO, delta * 5)
-    move_and_slide()
+    knockback_velocity = knockback_velocity.lerp(Vector3.ZERO, delta * 5)  # Gradually reduce knockback
 
 func die():
     queue_free()

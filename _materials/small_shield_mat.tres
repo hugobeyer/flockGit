@@ -3,7 +3,7 @@
 [ext_resource type="Shader" path="res://_shaders/custom/custom_frag_blend_actors.gdshader" id="1_pwgv7"]
 
 [resource]
-render_priority = -1
+render_priority = 0
 shader = ExtResource("1_pwgv7")
 shader_parameter/color_top = Color(0.57, 0.534755, 0.2679, 0)
 shader_parameter/color_bottom = Color(0.90625, 0.90531, 0.846069, 1)

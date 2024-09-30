@@ -11,22 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_wxq6t"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ya65r"]
-vertices = PackedVector3Array(-127.5, 0.4, -127.5, -127.5, 0.4, 127.5, 127.5, 0.4, 127.5, 127.5, 0.4, -127.5)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 sample_partition_type = 1
 geometry_parsed_geometry_type = 2
 filter_walkable_low_height_spans = true
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_kgwl2"]
-lightmap_size_hint = Vector2i(2562, 2562)
-uv2_padding = 1.0
-size = Vector2(256, 256)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4bnel"]
-friction = 0.25
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_seigk"]
-size = Vector3(256, 10, 256)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_er31h"]
 render_priority = -128
@@ -39,32 +26,22 @@ top_radius = 0.0
 bottom_radius = 0.392
 height = 3.105
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_56ohd"]
+rough = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_seigk"]
+size = Vector3(256, 10, 256)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kgwl2"]
+lightmap_size_hint = Vector2i(2562, 2562)
+uv2_padding = 1.0
+size = Vector2(256, 256)
+
 [node name="Main" type="Node3D"]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+visible = false
 navigation_mesh = SubResource("NavigationMesh_ya65r")
-
-[node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D" groups=["navigation_mesh_source_group"]]
-material_override = ExtResource("3_q3a4a")
-gi_mode = 0
-instance_shader_parameters/border_gradient = 0.535
-instance_shader_parameters/border_size = 0.34
-instance_shader_parameters/grid_color_border = Color(0.108902, 0.238281, 0.144279, 1)
-instance_shader_parameters/grid_color_fill = Color(0.383705, 0.57, 0.3591, 1)
-instance_shader_parameters/grid_scale = 200.0
-instance_shader_parameters/randomness = 0.54
-mesh = SubResource("PlaneMesh_kgwl2")
-skeleton = NodePath("")
-
-[node name="MeshInstance3D" type="StaticBody3D" parent="NavigationRegion3D/Floor" groups=["navigation_mesh_source_group"]]
-collision_layer = 4
-collision_mask = 27
-input_ray_pickable = false
-physics_material_override = SubResource("PhysicsMaterial_4bnel")
-
-[node name="CollisionPolygon3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/MeshInstance3D" groups=["navigation_mesh_source_group"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.1, 0)
-shape = SubResource("BoxShape3D_seigk")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.449397, 0.893332, 0, -0.893332, 0.449397, 10, 15, 14)
@@ -84,24 +61,35 @@ fov = 25.0
 far = 250.0
 script = ExtResource("7_ymsw7")
 player_pos = NodePath("../Player")
-camera_offset = Vector3(32, 64, 20)
-max_offset = 3.0
-recovery_speed = 2.0
-damping = 0.6
+camera_offset = Vector3(32, 44, 12)
+max_offset = 2.0
+recovery_speed = 6.0
+damping = 0.35
 
 [node name="Spawner" parent="." instance=ExtResource("8_nhsbs")]
 script = ExtResource("5_51w43")
 enemy_scene = ExtResource("5_qh010")
-spawn_height = 0.025
+spawn_radius = 16.0
+spawn_height = 0.01
+max_enemies = 256
+spawn_interval = 0.25
 
 [node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
 collision_mask = 2
-offset_to_player = Vector3(1, 12, 0)
 
 [node name="Player" parent="." instance=ExtResource("1_to1an")]
 collision_mask = 2
 axis_lock_linear_y = true
-SPEED = 16.0
+SPEED = 24.0
+INITIAL_RECOIL_VELOCITY = 0.01
+RECOIL_PUSHBACK_VELOCITY = 4.0
+LINEAR_RECOIL_DAMPING = 24.0
+RECOIL_INTENSITY_VARIATION = 12.0
+MAX_RECOIL_INTENSITY = 3.28
+recoil_reset = 0.25
+recovery_time = 1.0
+bump = 1.0
+recoil = 1.0
 
 [node name="debug_touch" type="Node3D" parent="."]
 script = ExtResource("8_wulk2")
@@ -114,3 +102,25 @@ mesh = SubResource("SphereMesh_gbmjj")
 transform = Transform3D(0.960055, 0, 0, 0, -4.19653e-08, -0.960055, 0, 0.960055, -4.19653e-08, 0, 1.42431e-08, 3.09012)
 material_override = SubResource("ShaderMaterial_er31h")
 mesh = SubResource("CylinderMesh_50qok")
+
+[node name="MeshInstance3D" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
+collision_layer = 4
+collision_mask = 27
+physics_material_override = SubResource("PhysicsMaterial_56ohd")
+
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="MeshInstance3D" groups=["navigation_mesh_source_group"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.01196, 0)
+shape = SubResource("BoxShape3D_seigk")
+
+[node name="Floor" type="MeshInstance3D" parent="MeshInstance3D" groups=["navigation_mesh_source_group"]]
+layers = 231
+material_override = ExtResource("3_q3a4a")
+gi_mode = 0
+instance_shader_parameters/border_gradient = 0.535
+instance_shader_parameters/border_size = 0.34
+instance_shader_parameters/grid_color_border = Color(0.108902, 0.238281, 0.144279, 1)
+instance_shader_parameters/grid_color_fill = Color(0.383705, 0.57, 0.3591, 1)
+instance_shader_parameters/grid_scale = 200.0
+instance_shader_parameters/randomness = 0.54
+mesh = SubResource("PlaneMesh_kgwl2")
+skeleton = NodePath("")

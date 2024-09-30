@@ -1,9 +1,12 @@
 extends Node3D
 
+signal gun_fired(recoil_force: Vector3)
+
 var bullet_scene_path: String = "res://_scenes/bullet.tscn"
 @export var fire_rate: float = 0.05
 @export var bullet_speed: float = 50.0
 @export var bullet_damage: float = 10.0
+@export var knockback: float = 10.0  # Add this line
 @export var muzzle_node: Node3D
 
 @export var spread_count_bullet: int = 1
@@ -24,6 +27,8 @@ var current_spread_angle: float = 0.0
 var current_polar_angle: float = 0.0
 var current_recoil_offset: Vector3 = Vector3.ZERO
 
+signal shoot
+
 func _ready():
 	bullet_scene = load(bullet_scene_path)
 
@@ -39,7 +44,7 @@ func _process(delta: float):
 
 func shoot2():
 	if bullet_scene == null:
-		print("bullet_scene is null")
+		# print("bullet_scene is null")
 		return
 
 	var muzzle_position = muzzle_node.global_transform.origin
@@ -57,13 +62,15 @@ func shoot2():
 		
 		apply_recoil(forward_direction)
 		
-		print("Bullet fired from position: ", muzzle_position)
-		print("Bullet direction: ", forward_direction)
-	else:
-		print("Failed to instantiate bullet")
+		# print("Bullet fired from position: ", muzzle_position)
+		# print("Bullet direction: ", forward_direction)
+	# else:
+		# print("Failed to instantiate bullet")
 
 	var end_point = muzzle_position + forward_direction * 5
 	# draw_debug_line(muzzle_position, end_point, Color.RED)
+
+	emit_signal("gun_fired", recoil_force)
 
 func shoot_single_bullet(direction: Vector3):
 	var bullet_instance = create_bullet_instance()
@@ -76,16 +83,13 @@ func create_bullet_instance() -> Area3D:
 		get_tree().root.add_child(bullet)
 		return bullet
 	else:
-		print("Failed to instantiate bullet")
+		# print("Failed to instantiate bullet")
 		return null
 
 func set_bullet_properties(bullet: Area3D, direction: Vector3):
 	bullet.global_transform = muzzle_node.global_transform
 	bullet.top_level = true
 	bullet.velocity = direction * bullet_speed
-	
-	# Set the bullet's rotation to match the muzzle's orientation
-	bullet.global_rotation = muzzle_node.global_rotation
 	
 	if bullet.has_method("set_damage"):
 		bullet.set_damage(bullet_damage)
@@ -97,7 +101,7 @@ func set_bullet_properties(bullet: Area3D, direction: Vector3):
 
 func apply_recoil(direction: Vector3):
 	current_recoil += recoil_force
-	current_recoil = min(current_recoil, PI / 4)  # Limit maximum recoil
+	current_recoil = min(current_recoil * recoil_recovery_speed * get_process_delta_time(), PI /2)  # Limit maximum recoil
 	
 	if player and player.has_method("update_recoil_offset"):
 		player.update_recoil_offset(current_recoil)

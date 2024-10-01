@@ -27,6 +27,7 @@ func _ready():
     await get_tree().create_timer(1.0).timeout
 
 func hit(direction: Vector3, damage: float, impulse: float):
+    print("Enemy hit! Damage: ", damage)
     var remaining_damage = damage
     if shield and shield.get_shield_strength() > 0:
         remaining_damage = shield.take_damage(damage)

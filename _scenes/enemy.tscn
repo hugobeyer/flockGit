@@ -84,6 +84,7 @@ billboard = 1
 texture_filter = 1
 texture = SubResource("GradientTexture2D_jvmx3")
 script = ExtResource("7_fm5yg")
+progress = null
 
 [node name="Background" type="Sprite3D" parent="HealthBar"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0171981)

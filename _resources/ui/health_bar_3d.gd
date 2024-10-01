@@ -6,6 +6,8 @@ extends Sprite3D
         _update_bar()
 
 func _ready():
+    health = max_health
+    update_health_bar()  # Add this line
     _update_bar()
 
 func _update_bar():

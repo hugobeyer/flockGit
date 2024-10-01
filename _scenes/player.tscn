@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=9 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://_scripts/Player.gd" id="1_7wjim"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="2_ixejd"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
 
 [sub_resource type="Curve" id="Curve_a74nj"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.122511, 0), 0.0, 0.0, 0, 0, Vector2(0.306279, 0.0168976), 0.0, 0.0, 0, 0, Vector2(0.503829, 0.0385042), 0.0, 0.0, 0, 0, Vector2(0.577335, 0.0132965), 0.0, 0.0, 0, 0, Vector2(0.644717, 0), 0.0, 0.0, 0, 0, Vector2(0.693721, 0.0709141), 0.0, 0.0, 0, 0, Vector2(0.814701, 0.0673131), 0.0, 0.0, 0, 0, Vector2(0.851455, 0.441828), 1.59074, 1.59074, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0153139, 0.297784), 0.0, 0.0, 0, 0, Vector2(0.0597243, 0.359003), 0.0, 0.0, 0, 0, Vector2(0.173047, 0.405817), 0.0, 0.0, 0, 0, Vector2(0.336907, 0.405817), 0.0, 0.0, 0, 0, Vector2(0.502297, 0.603878), 0.0, 0.0, 0, 0, Vector2(0.623277, 0.582271), 0.0, 0.0, 0, 0, Vector2(0.721286, 0.765928), 0.0, 0.0, 0, 0, Vector2(0.843798, 0.881163), 1.59074, 1.59074, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 10
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
@@ -18,20 +18,35 @@ radius = 0.6
 radial_segments = 12
 rings = 5
 
+[sub_resource type="Gradient" id="Gradient_2b6n3"]
+offsets = PackedFloat32Array(0, 0.262561, 0.518639, 0.753647, 1)
+colors = PackedColorArray(0.476563, 0.476563, 0.476563, 1, 0.873732, 0.67957, 0.491382, 1, 1, 0.74411, 0.496094, 1, 0.866153, 0.675696, 0.491099, 1, 0.476563, 0.476563, 0.476563, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_asmqs"]
+gradient = SubResource("Gradient_2b6n3")
+width = 129
+height = 13
+repeat = 2
+
 [node name="Player" type="CharacterBody3D" groups=["player", "player_global"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0580378, -0.0781825, 0.0819378)
 collision_mask = 22
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_7wjim")
-INITIAL_RECOIL_VELOCITY = 0.0
-RECOIL_PUSHBACK_VELOCITY = 1.2
-ANGULAR_RECOIL_DAMPING = 3.0
-RECOIL_INTENSITY_VARIATION = 0.5
-MAX_RECOIL_RAMP_TIME = 3.835
+SPEED = 16.0
+INITIAL_RECOIL_VELOCITY = 2.0
+RECOIL_PUSHBACK_VELOCITY = 12.0
+ANGULAR_RECOIL_DAMPING = 1.0
+LINEAR_RECOIL_DAMPING = 1.0
+RECOIL_INTENSITY_VARIATION = 2.0
+MAX_RECOIL_INTENSITY = 8.0
+MAX_RECOIL_RAMP_TIME = 3.0
 RECOIL_RAMP_CURVE = SubResource("Curve_a74nj")
-recoil_reset = 4.245
-recovery_time = 0.97
+recoil_reset = 1.0
+recovery_time = 0.075
+bump = 0.1
+recoil = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 physics_interpolation_mode = 1
@@ -57,4 +72,8 @@ fire_rate = 0.025
 recoil_force = 12.0
 recoil_recovery_speed = 0.125
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
+[node name="RecoilBar" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7733, 0)
+modulate = Color(0, 0.578125, 1, 1)
+billboard = 1
+texture = SubResource("GradientTexture2D_asmqs")

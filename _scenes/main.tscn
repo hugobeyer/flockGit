@@ -1,13 +1,13 @@
 [gd_scene load_steps=17 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://_scenes/player.tscn" id="1_to1an"]
-[ext_resource type="Material" uid="uid://bb5cgdyl5gj2y" path="res://_shaders/grounds/ground_patterns_mat.tres" id="3_q3a4a"]
 [ext_resource type="Script" path="res://_scripts/spawner/spawner.gd" id="5_51w43"]
 [ext_resource type="PackedScene" uid="uid://deykio3jwy2vg" path="res://_scenes/enemy.tscn" id="5_qh010"]
 [ext_resource type="Script" path="res://_scripts/camera.gd" id="7_ymsw7"]
 [ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://_scenes/spawner.tscn" id="8_nhsbs"]
 [ext_resource type="Script" path="res://_scripts/debug_touch.gd" id="8_wulk2"]
 [ext_resource type="Shader" uid="uid://db1ycsx40c82u" path="res://_shaders/debug.tres" id="8_ygmnw"]
+[ext_resource type="Material" uid="uid://gv7apxiaeus" path="res://_shaders/custom/include/main.tres" id="9_gi1t0"]
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_wxq6t"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ya65r"]
@@ -27,20 +27,20 @@ bottom_radius = 0.392
 height = 3.105
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_56ohd"]
+friction = 0.0
 rough = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_seigk"]
 size = Vector3(256, 10, 256)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_kgwl2"]
-lightmap_size_hint = Vector2i(2562, 2562)
-uv2_padding = 1.0
+[sub_resource type="PlaneMesh" id="PlaneMesh_u173t"]
 size = Vector2(256, 256)
+subdivide_width = 64
+subdivide_depth = 64
 
 [node name="Main" type="Node3D"]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-visible = false
 navigation_mesh = SubResource("NavigationMesh_ya65r")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -78,18 +78,22 @@ spawn_interval = 0.25
 collision_mask = 2
 
 [node name="Player" parent="." instance=ExtResource("1_to1an")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_mask = 2
 axis_lock_linear_y = true
 SPEED = 24.0
 INITIAL_RECOIL_VELOCITY = 0.01
-RECOIL_PUSHBACK_VELOCITY = 4.0
-LINEAR_RECOIL_DAMPING = 24.0
-RECOIL_INTENSITY_VARIATION = 12.0
-MAX_RECOIL_INTENSITY = 3.28
+RECOIL_PUSHBACK_VELOCITY = 2.0
+ANGULAR_RECOIL_DAMPING = 0.273
+LINEAR_RECOIL_DAMPING = 4.0
+RECOIL_INTENSITY_VARIATION = 32.0
+MAX_RECOIL_INTENSITY = 2.0
+MAX_RECOIL_RAMP_TIME = 1.0
 recoil_reset = 0.25
-recovery_time = 1.0
+recovery_time = 2.0
 bump = 1.0
-recoil = 1.0
+recoil = 4.0
+debug_node_offset = Vector3(0, 0.25, 0)
 
 [node name="debug_touch" type="Node3D" parent="."]
 script = ExtResource("8_wulk2")
@@ -103,24 +107,28 @@ transform = Transform3D(0.960055, 0, 0, 0, -4.19653e-08, -0.960055, 0, 0.960055,
 material_override = SubResource("ShaderMaterial_er31h")
 mesh = SubResource("CylinderMesh_50qok")
 
-[node name="MeshInstance3D" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
+[node name="FloorStatic" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
 collision_layer = 4
 collision_mask = 27
 physics_material_override = SubResource("PhysicsMaterial_56ohd")
 
-[node name="CollisionPolygon3D" type="CollisionShape3D" parent="MeshInstance3D" groups=["navigation_mesh_source_group"]]
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="FloorStatic" groups=["navigation_mesh_source_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.01196, 0)
 shape = SubResource("BoxShape3D_seigk")
 
-[node name="Floor" type="MeshInstance3D" parent="MeshInstance3D" groups=["navigation_mesh_source_group"]]
-layers = 231
-material_override = ExtResource("3_q3a4a")
-gi_mode = 0
-instance_shader_parameters/border_gradient = 0.535
-instance_shader_parameters/border_size = 0.34
-instance_shader_parameters/grid_color_border = Color(0.108902, 0.238281, 0.144279, 1)
-instance_shader_parameters/grid_color_fill = Color(0.383705, 0.57, 0.3591, 1)
-instance_shader_parameters/grid_scale = 200.0
-instance_shader_parameters/randomness = 0.54
-mesh = SubResource("PlaneMesh_kgwl2")
-skeleton = NodePath("")
+[node name="FloorMesh" type="MeshInstance3D" parent="FloorStatic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0597019, 0.140897, 0.0823631)
+material_override = ExtResource("9_gi1t0")
+instance_shader_parameters/FloatParameter = 7.712
+instance_shader_parameters/border_gradient = 2.201
+instance_shader_parameters/border_size = 0.38
+instance_shader_parameters/grid_color_border = Color(0.106201, 0.3125, 0.147461, 1)
+instance_shader_parameters/grid_color_fill = Color(0.268608, 0.445313, 0.24527, 1)
+instance_shader_parameters/grid_scale = 110.835
+instance_shader_parameters/player_position = Vector3(0, 0, 0)
+instance_shader_parameters/randomness = 0.03
+instance_shader_parameters/smoothj1 = -28.695
+instance_shader_parameters/smoothj2 = 113.825
+mesh = SubResource("PlaneMesh_u173t")
+
+[node name="ShaderParameter" type="Node3D" parent="."]

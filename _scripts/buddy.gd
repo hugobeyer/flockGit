@@ -22,7 +22,7 @@ var cooldown_timer: float = 0.0
 var warning_progress: float = 0.0
 
 @onready var ground_check: RayCast3D
-@onready var mesh: MeshInstance3D = $MeshInstance3D  # Assuming you have a MeshInstance3D as a child
+@onready var mesh: MeshInstance3D = $BuddyHead/BuddyMesh/MeshInstance3D  # Assuming you have a MeshInstance3D as a child
 
 func _ready():
     player = get_node("/root/Main/Player")

@@ -14,6 +14,7 @@ radius = 0.537
 height = 1.837
 
 [sub_resource type="Gradient" id="Gradient_ld7nr"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_jvmx3"]
 gradient = SubResource("Gradient_ld7nr")
@@ -25,8 +26,8 @@ colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_uuhix"]
 gradient = SubResource("Gradient_f27wc")
-width = 105
-height = 19
+width = 112
+height = 24
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00491524, 0, 0.0103722)
@@ -39,11 +40,9 @@ floor_max_angle = 0.204204
 floor_snap_length = 0.02
 safe_margin = 0.1
 script = ExtResource("1_ia10i")
-knockback_resistance = 2.0
-turn_speed = 1.0
 
 [node name="HealthLabel" type="Label3D" parent="."]
-transform = Transform3D(0.999724, -0.00759387, -0.0221883, 0.00782988, 0.999912, 0.0105687, 0.0221061, -0.0107396, 0.999697, 0, 2.425, 0)
+transform = Transform3D(0.999724, -0.00759387, -0.0221883, 0.00782988, 0.999912, 0.0105687, 0.0221061, -0.0107396, 0.999697, -0.00197088, 2.68451, -0.00278731)
 visible = false
 billboard = 1
 double_sided = false
@@ -88,7 +87,6 @@ script = ExtResource("7_fm5yg")
 
 [node name="Background" type="Sprite3D" parent="HealthBar"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0171981)
-sorting_offset = -0.1
 cast_shadow = 0
 gi_mode = 0
 billboard = 1

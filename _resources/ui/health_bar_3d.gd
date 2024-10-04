@@ -1,16 +1,15 @@
 extends Sprite3D
 
-@export var progress: float = 1.0:
-    set(value):
-        progress = clamp(value, 0.0, 1.0)
-        _update_bar()
+var progress: float = 1.0
+
+func set_progress(value: float):
+    progress = clamp(value, 0.0, 1.0)
+    update_bar()
+
+func update_bar():
+    # Assuming the texture is 100 pixels wide
+    region_rect.size.x = progress * 100
+    region_enabled = true
 
 func _ready():
-    health = max_health
-    update_health_bar()  # Add this line
-    _update_bar()
-
-func _update_bar():
-    if texture:
-        region_rect.size.x = texture.get_width() * progress
-        region_enabled = true
+    update_bar()

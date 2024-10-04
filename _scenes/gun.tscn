@@ -16,8 +16,6 @@ script = ExtResource("1_x0345")
 bullet_damage = 4.0
 knockback = 1.0
 muzzle_node = NodePath("Muzzle")
-recoil_force = 0.32
-recoil_recovery_speed = 0.215
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.02626)

@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://deykio3jwy2vg"]
+[gd_scene load_steps=10 format=3 uid="uid://deykio3jwy2vg"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_ia10i"]
 [ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_gr5oo"]
 [ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="3_qf47k"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_earu6"]
-[ext_resource type="FontVariation" uid="uid://cws4onh6frwva" path="res://_resources/fonts/font_health_overhead.tres" id="4_f5756"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="6_i2yu8"]
 [ext_resource type="Script" path="res://_resources/ui/health_bar_3d.gd" id="7_fm5yg"]
 
@@ -21,43 +20,25 @@ gradient = SubResource("Gradient_ld7nr")
 width = 100
 height = 14
 
-[sub_resource type="Gradient" id="Gradient_f27wc"]
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_uuhix"]
-gradient = SubResource("Gradient_f27wc")
-width = 112
-height = 24
-
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00491524, 0, 0.0103722)
 collision_layer = 2
 collision_mask = 29
 input_ray_pickable = false
-floor_stop_on_slope = false
-floor_block_on_wall = false
-floor_max_angle = 0.204204
-floor_snap_length = 0.02
-safe_margin = 0.1
+axis_lock_linear_y = true
+axis_lock_angular_y = true
 script = ExtResource("1_ia10i")
-
-[node name="HealthLabel" type="Label3D" parent="."]
-transform = Transform3D(0.999724, -0.00759387, -0.0221883, 0.00782988, 0.999912, 0.0105687, 0.0221061, -0.0107396, 0.999697, -0.00197088, 2.68451, -0.00278731)
-visible = false
-billboard = 1
-double_sided = false
-alpha_antialiasing_mode = 1
-outline_modulate = Color(0.31815, 0.063, 0.63, 0.937255)
-text = "100%"
-font = ExtResource("4_f5756")
-font_size = 84
-outline_size = 25
+movement_speed = 6.0
+knockback_resistance = 0.25
+knockback_force = 4.0
+turn_speed = 10.0
+detection_range = 12.0
 
 [node name="EnemyEffects" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("6_i2yu8")
 
-[node name="EnemyShield" parent="." instance=ExtResource("4_earu6")]
+[node name="EnemyShield" parent="." groups=["shield"] instance=ExtResource("4_earu6")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.0116024, 0.838214, -0.559156)
 effect_duration = 0.2
 
@@ -84,15 +65,3 @@ billboard = 1
 texture_filter = 1
 texture = SubResource("GradientTexture2D_jvmx3")
 script = ExtResource("7_fm5yg")
-progress = null
-
-[node name="Background" type="Sprite3D" parent="HealthBar"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0171981)
-cast_shadow = 0
-gi_mode = 0
-billboard = 1
-transparent = false
-double_sided = false
-no_depth_test = true
-render_priority = -1
-texture = SubResource("GradientTexture2D_uuhix")

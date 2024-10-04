@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=18 format=3 uid="uid://clcwdr5begw0g"]
 
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://_scenes/player.tscn" id="1_to1an"]
 [ext_resource type="Script" path="res://_scripts/spawner/spawner.gd" id="5_51w43"]
@@ -14,6 +14,10 @@
 sample_partition_type = 1
 geometry_parsed_geometry_type = 2
 filter_walkable_low_height_spans = true
+
+[sub_resource type="Curve" id="Curve_mqvf2"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_er31h"]
 render_priority = -128
@@ -61,18 +65,15 @@ fov = 25.0
 far = 250.0
 script = ExtResource("7_ymsw7")
 player_pos = NodePath("../Player")
-camera_offset = Vector3(32, 44, 12)
-max_offset = 2.0
-recovery_speed = 6.0
-damping = 0.35
+camera_offset = Vector3(24, 32, 12)
+max_offset = 1.0
+recovery_speed = 12.0
+damping = 4.0
 
 [node name="Spawner" parent="." instance=ExtResource("8_nhsbs")]
 script = ExtResource("5_51w43")
 enemy_scene = ExtResource("5_qh010")
-spawn_radius = 16.0
-spawn_height = 0.01
-max_enemies = 256
-spawn_interval = 0.25
+spawn_radius = 15.0
 
 [node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
 collision_mask = 2
@@ -81,19 +82,15 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_mask = 2
 axis_lock_linear_y = true
-SPEED = 24.0
-INITIAL_RECOIL_VELOCITY = 0.01
-RECOIL_PUSHBACK_VELOCITY = 2.0
-ANGULAR_RECOIL_DAMPING = 0.273
-LINEAR_RECOIL_DAMPING = 4.0
-RECOIL_INTENSITY_VARIATION = 32.0
-MAX_RECOIL_INTENSITY = 2.0
+RECOIL_PUSHBACK_VELOCITY = 32.0
+ANGULAR_RECOIL_DAMPING = 1.0
+LINEAR_RECOIL_DAMPING = 1.0
+RECOIL_INTENSITY_VARIATION = 1.0
+MAX_RECOIL_INTENSITY = 32.0
 MAX_RECOIL_RAMP_TIME = 1.0
-recoil_reset = 0.25
-recovery_time = 2.0
-bump = 1.0
+RECOIL_RAMP_CURVE = SubResource("Curve_mqvf2")
 recoil = 4.0
-debug_node_offset = Vector3(0, 0.25, 0)
+debug_node_offset = Vector3(0, 0, 0)
 
 [node name="debug_touch" type="Node3D" parent="."]
 script = ExtResource("8_wulk2")

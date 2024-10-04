@@ -47,8 +47,8 @@ func hit(direction: Vector3, damage: float, impulse: float):
                 effects.apply_damage_effect(direction)
 
 func update_health_bar():
-    if health_bar:
-        health_bar.progress = health / max_health
+    if health_bar and health_bar.has_method("set_progress"):
+        health_bar.set_progress(health / max_health)
 
 func _process(delta):
     if player and global_position.distance_to(player.global_position) <= detection_range:
@@ -68,11 +68,10 @@ func _physics_process(delta):
     move_and_slide()
 
 func move_towards_player(delta):
-    var player = get_tree().get_nodes_in_group("player")
-    if player.size() > 0:
-        var direction = (player[0].global_position - global_position).normalized()
-        direction.y = 0
-        velocity = direction * movement_speed
+    var player_pos = player.global_position
+    var direction = (player_pos - global_position).normalized()
+    direction.y = 0
+    velocity = direction * movement_speed
 
 func apply_knockback(delta):
     velocity += knockback_velocity

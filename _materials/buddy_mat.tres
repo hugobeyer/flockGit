@@ -5,10 +5,10 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_3q4px")
-shader_parameter/color_top = Color(0, 0, 1, 1)
-shader_parameter/color_bottom = Color(1, 0.55, 0.12, 1)
+shader_parameter/color_top = Color(0.769531, 0.694734, 0.495987, 1)
+shader_parameter/color_bottom = Color(0.863281, 0.778785, 0.698044, 1)
 shader_parameter/specular_color = Color(1, 1, 1, 1)
-shader_parameter/fresnel_color = Color(0, 1, 0, 1)
+shader_parameter/fresnel_color = Color(0.846252, 0.917969, 0.846252, 1)
 shader_parameter/vertex_color_mix = 0.0
 shader_parameter/blend_mode = 0
 shader_parameter/gradient_rotation_mode = 1

@@ -65,8 +65,8 @@ fov = 25.0
 far = 250.0
 script = ExtResource("7_ymsw7")
 player_pos = NodePath("../Player")
-camera_offset = Vector3(24, 32, 12)
-max_offset = 1.0
+camera_offset = Vector3(32, 55, 24)
+max_offset = 2.0
 recovery_speed = 12.0
 damping = 4.0
 
@@ -123,8 +123,8 @@ instance_shader_parameters/grid_color_border = Color(0.106201, 0.3125, 0.147461,
 instance_shader_parameters/grid_color_fill = Color(0.268608, 0.445313, 0.24527, 1)
 instance_shader_parameters/grid_scale = 110.835
 instance_shader_parameters/player_position = Vector3(0, 0, 0)
-instance_shader_parameters/randomness = 0.03
-instance_shader_parameters/smoothj1 = -28.695
+instance_shader_parameters/randomness = 0.744
+instance_shader_parameters/smoothj1 = -1.61
 instance_shader_parameters/smoothj2 = 113.825
 mesh = SubResource("PlaneMesh_u173t")
 

@@ -12,19 +12,20 @@ is_hemisphere = true
 
 [node name="EnemyShield" type="Node3D"]
 script = ExtResource("1_02fak")
+effect_duration = 0.1
 
 [node name="ShieldMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -2.3167e-08, -1, 0, 0.53, -4.37114e-08, 0.0119367, 5.96046e-08, -0.00774932)
+transform = Transform3D(-1, 4.63341e-08, -3.82137e-15, 0, -2.3167e-08, -1, -8.74228e-08, -0.53, 4.37114e-08, 0, 1, -0.459047)
 material_override = ExtResource("2_01ufx")
 cast_shadow = 0
 instance_shader_parameters/alpha = 0.0
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
 instance_shader_parameters/lerp_displace_normal = 0.0
 instance_shader_parameters/lerp_wave = 0.0
-instance_shader_parameters/lerp_wave_contrast = 3.529
-instance_shader_parameters/lerp_wave_freq = 15.719
-instance_shader_parameters/lerp_wave_offset = 6.697
+instance_shader_parameters/lerp_wave_contrast = 4.0
+instance_shader_parameters/lerp_wave_freq = 24.829
+instance_shader_parameters/lerp_wave_offset = 11.717
 instance_shader_parameters/lerp_wave_type = 8
-instance_shader_parameters/wave_range_lerp = -0.585
+instance_shader_parameters/wave_range_lerp = -0.5
 mesh = SubResource("SphereMesh_bk26o")
 skeleton = NodePath("")

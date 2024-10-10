@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://deykio3jwy2vg"]
+[gd_scene load_steps=11 format=3 uid="uid://deykio3jwy2vg"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_ia10i"]
 [ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_gr5oo"]
@@ -6,11 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_earu6"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="6_i2yu8"]
 [ext_resource type="Script" path="res://_resources/ui/health_bar_3d.gd" id="7_fm5yg"]
+[ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="7_rlauf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejukm"]
 margin = 0.1
-radius = 0.537
-height = 1.837
+radius = 0.563
+height = 1.922
 
 [sub_resource type="Gradient" id="Gradient_ld7nr"]
 offsets = PackedFloat32Array(0)
@@ -29,10 +30,13 @@ input_ray_pickable = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_ia10i")
-knockback_resistance = 64.0
-flock_separation_weight = 1000.0
-flock_alignment_weight = 12.0
-flock_cohesion_weight = 3.0
+max_health = 40.0
+knockback_resistance = 50.0
+turn_speed = 2.0
+detection_range = 24.0
+flock_separation_weight = 2000.0
+flock_alignment_weight = 512.0
+flock_cohesion_weight = 0.5
 flock_neighbor_distance = 5.0
 max_flock_neighbors = 12
 
@@ -41,7 +45,6 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 script = ExtResource("6_i2yu8")
 
 [node name="EnemyShield" parent="." groups=["shield"] instance=ExtResource("4_earu6")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.0116024, 1.04476, -0.559156)
 effect_duration = 0.2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -72,3 +75,7 @@ color1 = Color(1, 0, 0.9375, 1)
 color2 = Color(0.828125, 0.0582275, 0.0582275, 1)
 color3 = Color(0, 0, 0, 1)
 bar_height_px = 32
+
+[node name="MeleeWeapon" parent="." instance=ExtResource("7_rlauf")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+melee_node_path = NodePath(".")

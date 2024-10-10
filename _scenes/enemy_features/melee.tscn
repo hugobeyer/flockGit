@@ -41,6 +41,8 @@ shadow_mesh = SubResource("ArrayMesh_dk2me")
 
 [node name="MeleeWeapon" type="Node3D"]
 script = ExtResource("1_dw47a")
+animation_speed = 4.0
+animation_length = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Root")
@@ -51,7 +53,7 @@ libraries = {
 playback_auto_capture_transition_type = 5
 
 [node name="Root" type="Node3D" parent="."]
-transform = Transform3D(0.125658, 0, 0.744243, 0, 0.754777, 0, -0.744243, 0, 0.125658, -0.0471548, 0.6, -0.079509)
+transform = Transform3D(-0.05, 0, -0.0866026, 0, 0.1, 0, 0.0866026, 0, -0.05, 0.230541, 0.6, -0.133103)
 rotation_order = 0
 
 [node name="MeleeMesh" type="Node3D" parent="Root"]
@@ -62,12 +64,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 [node name="simple_sword" type="MeshInstance3D" parent="Root/MeleeMesh/simple_sword"]
 transform = Transform3D(0.251036, 0, 0, 0, 0.251036, 0, 0, 0, 0.251036, 0, 0, 0.44474)
 material_override = ExtResource("3_bmokg")
-instance_shader_parameters/blend_mode = 0
-instance_shader_parameters/color_bottom = Color(1, 0.55, 0.12, 1)
-instance_shader_parameters/color_top = Color(0, 0, 1, 1)
-instance_shader_parameters/fresnel_color = Color(0, 1, 0, 1)
-instance_shader_parameters/gradient_rotation_mode = 1
-instance_shader_parameters/gradient_smoothness = 1.0
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
 instance_shader_parameters/lerp_displace_normal = 0.0
 instance_shader_parameters/lerp_wave = 0.0
@@ -75,8 +71,6 @@ instance_shader_parameters/lerp_wave_contrast = 0.205
 instance_shader_parameters/lerp_wave_freq = 0.0
 instance_shader_parameters/lerp_wave_offset = 32.0
 instance_shader_parameters/lerp_wave_type = 6
-instance_shader_parameters/specular_color = Color(1, 1, 1, 1)
-instance_shader_parameters/vertex_color_mix = 1.0
 instance_shader_parameters/wave_range_lerp = 1.0
 mesh = SubResource("ArrayMesh_f1vn7")
 skeleton = NodePath("")

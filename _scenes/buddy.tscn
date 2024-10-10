@@ -14,18 +14,23 @@ margin = 0.1
 radius = 0.735
 
 [node name="Buddy" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0120239, 4.76837e-07, 0.0131907)
 collision_layer = 16
 collision_mask = 7
 input_ray_pickable = false
 script = ExtResource("1_gouxi")
+offset_to_player = Vector3(2, 2, 0)
+wander_radius = 4.0
+detection_radius = 9.0
+push_force = 16.0
+warning_duration = 4.0
+warning_cooldown = 2.0
 
 [node name="BuddyHead" type="Node3D" parent="."]
 
 [node name="BuddyMesh" type="MeshInstance3D" parent="BuddyHead"]
 material_override = ExtResource("3_afx0b")
 gi_mode = 2
-instance_shader_parameters/lerp_color = Color(0.917969, 0.405197, 0.405197, 1)
+instance_shader_parameters/lerp_color = Color(1, 0.389648, 0.0234375, 1)
 instance_shader_parameters/lerp_displace_normal = 0.0
 instance_shader_parameters/lerp_wave = 0.0
 instance_shader_parameters/lerp_wave_contrast = 1.0

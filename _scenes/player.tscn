@@ -10,8 +10,8 @@ point_count = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
 margin = 0.25
-radius = 1.378
-height = 2.756
+radius = 1.0205
+height = 2.041
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ayx0v"]
 radius = 0.6

@@ -5,8 +5,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_pwgv7")
-shader_parameter/color_top = Color(0.57, 0.534755, 0.2679, 0)
-shader_parameter/color_bottom = Color(0.90625, 0.90531, 0.846069, 1)
+shader_parameter/color_top = Color(0.57, 0.535, 0.268, 0)
+shader_parameter/color_bottom = Color(0.8125, 0.809079, 0.593506, 1)
 shader_parameter/specular_color = Color(1, 1, 1, 1)
 shader_parameter/fresnel_color = Color(0, 0, 0, 1)
 shader_parameter/vertex_color_mix = 0.0
@@ -17,7 +17,7 @@ shader_parameter/gradient_smoothness = 0.029
 shader_parameter/diffuse_contrast = 0.55
 shader_parameter/diffuse_wrap = 0.0
 shader_parameter/diffuse_offset = 0.175
-shader_parameter/specular_intensity = 0.0
+shader_parameter/specular_intensity = 0.825
 shader_parameter/specular_size = 0.125
 shader_parameter/specular_smoothness = 0.25
 shader_parameter/specular_offset = 0.52

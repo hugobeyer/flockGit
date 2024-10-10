@@ -21,8 +21,8 @@ func _physics_process(delta):
             queue_free()
             break
 
-func set_initial_transform(transform: Transform3D):
-    global_transform = transform
+func set_initial_transform(v_transform: Transform3D):
+    global_transform = v_transform
 
 func _on_area_entered(area):
     if area.get_parent().has_method("hit"):

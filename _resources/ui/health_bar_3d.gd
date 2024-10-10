@@ -31,12 +31,12 @@ func _ready():
 
     # Set the gradient for the shielded texture (solid color0)
     shielded_texture.gradient.add_point(0.0, color0)
-    shielded_texture.gradient.add_point(1.0, color1)
+    shielded_texture.gradient.add_point(1.0, color0)
 
 
     # Set the gradient for the health texture (gradient from color1 to color2)
-    health_texture.gradient.add_point(0.0, color2)
-    health_texture.gradient.add_point(1.0, color3)
+    health_texture.gradient.add_point(0.0, color1)
+    health_texture.gradient.add_point(1.0, color1)
 
     # Set initial texture based on shielded state
     texture = shielded_texture if is_shielded else health_texture

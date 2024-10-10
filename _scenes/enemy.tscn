@@ -15,12 +15,11 @@ height = 1.922
 
 [sub_resource type="Gradient" id="Gradient_ld7nr"]
 offsets = PackedFloat32Array(0)
-colors = PackedColorArray(1, 0, 0, 1)
+colors = PackedColorArray(0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_jvmx3"]
 gradient = SubResource("Gradient_ld7nr")
-width = 100
-height = 14
+width = 132
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00491524, 0, 0.0103722)
@@ -52,29 +51,46 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00306, 0)
 shape = SubResource("CapsuleShape3D_ejukm")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.984784, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00617647, 0.976994, -0.00603771)
 layers = 31
 material_override = ExtResource("2_gr5oo")
-instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
+instance_shader_parameters/alpha = 0.0
+instance_shader_parameters/lerp_color = Color(1, 0.726563, 0, 1)
 instance_shader_parameters/lerp_wave = 0.0
-instance_shader_parameters/lerp_wave_contrast = 1.0
-instance_shader_parameters/lerp_wave_freq = 1.0
+instance_shader_parameters/lerp_wave_contrast = 4.0
+instance_shader_parameters/lerp_wave_freq = 0.65
+instance_shader_parameters/lerp_wave_offset = 5.85
+instance_shader_parameters/wave_range_lerp = -0.215
 mesh = ExtResource("3_qf47k")
 
 [node name="HealthBar" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
-sorting_offset = 0.1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.549, 0)
 cast_shadow = 0
 gi_mode = 0
+modulate = Color(0.14902, 1, 0, 1)
 billboard = 1
-texture_filter = 1
+transparent = false
+double_sided = false
+texture_filter = 0
 texture = SubResource("GradientTexture2D_jvmx3")
+region_rect = Rect2(0, 0, 120, 50)
 script = ExtResource("7_fm5yg")
 color0 = Color(0.875, 1, 0, 1)
-color1 = Color(1, 0, 0.9375, 1)
-color2 = Color(0.828125, 0.0582275, 0.0582275, 1)
-color3 = Color(0, 0, 0, 1)
+color3 = Color(1, 0, 0, 1)
+bar_width_px = 120
 bar_height_px = 32
+
+[node name="HealthBar2" type="Sprite3D" parent="HealthBar"]
+cast_shadow = 0
+gi_mode = 0
+modulate = Color(0.14902, 1, 0, 1)
+billboard = 1
+transparent = false
+double_sided = false
+texture_filter = 0
+render_priority = -1
+texture = SubResource("GradientTexture2D_jvmx3")
+region_rect = Rect2(0, 0, 120, 50)
 
 [node name="MeleeWeapon" parent="." instance=ExtResource("7_rlauf")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)

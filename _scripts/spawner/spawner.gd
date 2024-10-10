@@ -32,11 +32,21 @@ func spawn_enemy():
     var enemy = enemy_scene.instantiate()
     var spawn_position = get_random_spawn_position()
     
-    add_child(enemy)
+    # Set enemy position before adding it to the scene tree
     enemy.global_position = spawn_position
+    
+    # Now add the enemy to the scene tree
+    add_child(enemy)
+
+    # Initialize enemy if needed
     if enemy.has_method("initialize"):
         enemy.initialize(self)
-    
+
+    # Delay enabling physics if needed
+    if enemy.has_method("set_physics_enabled"):
+        await get_tree().create_timer(physics_enable_delay).timeout
+        enemy.set_physics_enabled(true)
+
     active_enemies += 1
 
 func get_random_spawn_position() -> Vector3:
@@ -51,9 +61,3 @@ func get_player_position() -> Vector3:
     else:
         push_error("Player reference is null in get_player_position")
         return Vector3.ZERO
-
-# func _process(delta):
-#     if player:
-#         print("Player position: ", player.global_position)
-#     else:
-#         print("Player reference is null in _process")

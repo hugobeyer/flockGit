@@ -40,6 +40,10 @@ display_server/driver.macos="macos"
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Gizmo3DScript/plugin.cfg", "res://addons/tnowe_extra_controls/plugin.cfg")
+
 [file_customization]
 
 folder_colors={

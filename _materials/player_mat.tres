@@ -5,15 +5,15 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_um2kp")
-shader_parameter/color_top = Color(0.256332, 0.420864, 0.613281, 1)
-shader_parameter/color_bottom = Color(0.674835, 0.710938, 0.638733, 1)
+shader_parameter/color_top = Color(0.667969, 0.24527, 0.24527, 1)
+shader_parameter/color_bottom = Color(0.710938, 0.710938, 0.710938, 1)
 shader_parameter/specular_color = Color(0.491104, 0.757233, 0.800781, 1)
 shader_parameter/fresnel_color = Color(0.656296, 0.756988, 0.949219, 1)
 shader_parameter/vertex_color_mix = 0.0
 shader_parameter/blend_mode = 0
 shader_parameter/gradient_rotation_mode = 1
 shader_parameter/gradient_offset = 0.0700001
-shader_parameter/gradient_smoothness = 0.236
+shader_parameter/gradient_smoothness = 0.031
 shader_parameter/diffuse_contrast = 0.83
 shader_parameter/diffuse_wrap = 1.425
 shader_parameter/diffuse_offset = 0.0750001

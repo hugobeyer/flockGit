@@ -14,18 +14,29 @@ margin = 0.1
 radius = 0.735
 
 [node name="Buddy" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.018342, 0.365709, 0.00228286)
 collision_layer = 16
-collision_mask = 7
+collision_mask = 2
 input_ray_pickable = false
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+floor_snap_length = 0.0
 script = ExtResource("1_gouxi")
-offset_to_player = Vector3(2, 2, 0)
-wander_radius = 4.0
-detection_radius = 9.0
-push_force = 16.0
-warning_duration = 4.0
-warning_cooldown = 2.0
+hover_height = 2.0
+hover_radius = 5.0
+follow_speed = 12.0
+charge_speed = 32.0
+detection_radius = 8.0
+push_force = 512.0
+wander_speed = 5.0
+offset_to_player = Vector3(0, 3, 0)
+fear_threshold = 3
+warning_cooldown = 1.0
+spiral_attack_duration = 24.0
 
 [node name="BuddyHead" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="BuddyMesh" type="MeshInstance3D" parent="BuddyHead"]
 material_override = ExtResource("3_afx0b")
@@ -40,5 +51,20 @@ instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("SphereMesh_hjovk")
 skeleton = NodePath("")
 
+[node name="BuddyMesh2" type="MeshInstance3D" parent="BuddyHead"]
+transform = Transform3D(0.459, 0, 0, 0, 0.459, 0, 0, 0, 0.459, 0, 0.216437, -0.455811)
+material_override = ExtResource("3_afx0b")
+gi_mode = 2
+instance_shader_parameters/lerp_color = Color(1, 0.389648, 0.0234375, 1)
+instance_shader_parameters/lerp_displace_normal = 0.0
+instance_shader_parameters/lerp_wave = 0.0
+instance_shader_parameters/lerp_wave_contrast = 1.0
+instance_shader_parameters/lerp_wave_freq = 1.0
+instance_shader_parameters/lerp_wave_offset = 0.0
+instance_shader_parameters/wave_range_lerp = 0.0
+mesh = SubResource("SphereMesh_hjovk")
+skeleton = NodePath("")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.982838, 0)
 shape = SubResource("SphereShape3D_vktsj")

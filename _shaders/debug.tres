@@ -5,7 +5,7 @@ constant = Color(1, 0, 0, 1)
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded, wireframe;
 
 
 
@@ -22,6 +22,7 @@ void fragment() {
 }
 "
 flags/unshaded = true
+flags/wireframe = true
 nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_mcr3k")
 nodes/fragment/2/position = Vector2(-820, 240)
 nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0)

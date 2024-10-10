@@ -5,7 +5,7 @@ extends Node3D
 @export var spawn_height: float = 1.0  # Added spawn height
 @export var max_enemies: int = 50
 @export var spawn_interval: float = 1.0
-@export var physics_enable_delay: float = 0.1  # Delay before enabling physics
+@export var physics_enable_delay: float = 0.01  # Delay before enabling physics
 
 var player: Node3D
 var active_enemies: int = 0
@@ -15,10 +15,7 @@ func _ready():
     player = get_node("/root/Main/Player")
     if not player:
         push_error("Player not found at path: /root/Main/Player")
-        return
-    
-    print("Spawner ready. Player position: ", player.global_position)
-    
+        return    
     setup_spawn_timer()
 
 func setup_spawn_timer():
@@ -41,7 +38,6 @@ func spawn_enemy():
         enemy.initialize(self)
     
     active_enemies += 1
-    print("Spawned enemy at: ", spawn_position)
 
 func get_random_spawn_position() -> Vector3:
     var random_angle = randf() * 2 * PI

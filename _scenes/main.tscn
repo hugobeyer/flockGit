@@ -20,15 +20,19 @@ _data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
 point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_er31h"]
-render_priority = -128
+render_priority = 0
 shader = ExtResource("8_ygmnw")
 
 [sub_resource type="SphereMesh" id="SphereMesh_gbmjj"]
+radial_segments = 4
+rings = 1
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_50qok"]
 top_radius = 0.0
 bottom_radius = 0.392
 height = 3.105
+radial_segments = 4
+rings = 0
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_56ohd"]
 friction = 0.0
@@ -66,14 +70,14 @@ far = 250.0
 script = ExtResource("7_ymsw7")
 player_pos = NodePath("../Player")
 camera_offset = Vector3(32, 55, 24)
-max_offset = 2.0
-recovery_speed = 12.0
-damping = 4.0
+max_offset = 3.0
+recovery_speed = 32.0
+damping = 1.0
 
 [node name="Spawner" parent="." instance=ExtResource("8_nhsbs")]
 script = ExtResource("5_51w43")
 enemy_scene = ExtResource("5_qh010")
-spawn_radius = 15.0
+spawn_height = 0.2
 
 [node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
 collision_mask = 2
@@ -96,12 +100,15 @@ debug_node_offset = Vector3(0, 0, 0)
 script = ExtResource("8_wulk2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="debug_touch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313429, 0)
 material_override = SubResource("ShaderMaterial_er31h")
+cast_shadow = 0
 mesh = SubResource("SphereMesh_gbmjj")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="debug_touch"]
-transform = Transform3D(0.960055, 0, 0, 0, -4.19653e-08, -0.960055, 0, 0.960055, -4.19653e-08, 0, 1.42431e-08, 3.09012)
+transform = Transform3D(0.960055, 0, 0, 0, -4.19653e-08, -0.960055, 0, 0.960055, -4.19653e-08, 0, 0.313429, 3.09012)
 material_override = SubResource("ShaderMaterial_er31h")
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_50qok")
 
 [node name="FloorStatic" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
@@ -116,16 +123,13 @@ shape = SubResource("BoxShape3D_seigk")
 [node name="FloorMesh" type="MeshInstance3D" parent="FloorStatic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0597019, 0.140897, 0.0823631)
 material_override = ExtResource("9_gi1t0")
-instance_shader_parameters/FloatParameter = 7.712
-instance_shader_parameters/border_gradient = 2.201
-instance_shader_parameters/border_size = 0.38
-instance_shader_parameters/grid_color_border = Color(0.106201, 0.3125, 0.147461, 1)
-instance_shader_parameters/grid_color_fill = Color(0.268608, 0.445313, 0.24527, 1)
+instance_shader_parameters/border_gradient = 0.371
+instance_shader_parameters/border_size = 0.29
+instance_shader_parameters/grid_color_border = Color(0.115173, 0.289063, 0.166797, 1)
+instance_shader_parameters/grid_color_fill = Color(0.230103, 0.40625, 0.265882, 1)
 instance_shader_parameters/grid_scale = 110.835
 instance_shader_parameters/player_position = Vector3(0, 0, 0)
-instance_shader_parameters/randomness = 0.744
-instance_shader_parameters/smoothj1 = -1.61
-instance_shader_parameters/smoothj2 = 113.825
+instance_shader_parameters/randomness = 0.864
 mesh = SubResource("PlaneMesh_u173t")
 
 [node name="ShaderParameter" type="Node3D" parent="."]

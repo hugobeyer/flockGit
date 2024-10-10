@@ -86,16 +86,16 @@ void fragment() {
     // Only calculate wave if lerp_wave is not 0
     if (lerp_wave != 0.0) {
         // Calculate wave effect
-        float wave_value = wave(vertex_pos, vertex_uv, gradient_direction, 
-                                dot(vertex_pos, gradient_direction) * lerp_wave_freq + lerp_wave_offset * TIME, 
+        float wave_value = wave(vertex_pos, vertex_uv, gradient_direction,
+                                dot(vertex_pos, gradient_direction) * lerp_wave_freq + lerp_wave_offset * TIME,
                                 lerp_wave_type);
-        
+
         // Lerp wave value from [0,1] to [-1,1] based on wave_range_lerp
         wave_value = mix(wave_value, wave_value * 2.0 - 1.0, wave_range_lerp);
-        
+
         // Apply contrast
         wave_value = clamp((wave_value - 0.5) * lerp_wave_contrast + 0.5, 0.0, 1.0);
-        
+
         float wave_intensity = wave_value * lerp_wave;
 
         // Calculate overlay intensity

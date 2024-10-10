@@ -1,8 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=9 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://_scripts/Player.gd" id="1_7wjim"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="2_ixejd"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
+
+[sub_resource type="Curve" id="Curve_ar576"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
 margin = 0.25
@@ -30,7 +34,8 @@ collision_mask = 22
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_7wjim")
-SPEED = 15.0
+SPEED = 24.0
+RECOIL_RAMP_CURVE = SubResource("Curve_ar576")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 physics_interpolation_mode = 1

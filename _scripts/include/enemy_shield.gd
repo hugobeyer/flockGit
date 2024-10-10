@@ -19,8 +19,8 @@ func _ready():
 func shield_fx():
 	if shield_mesh:
 		var local_tween = create_tween()
-		local_tween.tween_method(set_shield_fx_intensity, 0.0, 1.0, effect_duration / 2)
-		local_tween.tween_method(set_shield_fx_intensity, 1.0, 0.0, effect_duration / 1)
+		local_tween.tween_method(set_shield_fx_intensity, 0.0, 0.5, effect_duration / 2)
+		local_tween.tween_method(set_shield_fx_intensity, 0.5, 0.0, effect_duration /  2)
 
 func set_shield_fx_intensity(value: float):
 	shield_mesh.set_instance_shader_parameter("lerp_wave", value)

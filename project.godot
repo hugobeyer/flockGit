@@ -18,14 +18,9 @@ config/icon="res://icon.svg"
 
 [debug]
 
-settings/stdout/print_fps=true
-settings/stdout/print_gpu_profile=true
-settings/stdout/verbose_stdout=true
 gdscript/warnings/unused_variable=0
 gdscript/warnings/unused_parameter=0
 gdscript/warnings/unused_signal=0
-shapes/navigation/geometry_face_color=Color(0.5, 1, 1, 0.760784)
-shapes/navigation/geometry_face_disabled_color=Color(0.87, 0.87, 0.87, 1)
 shapes/navigation/agent_path_point_size=32.0
 
 [display]
@@ -138,12 +133,7 @@ fire={
 [rendering]
 
 occlusion_culling/bvh_build_quality=0
-rendering_device/vulkan/max_descriptors_per_pool=16
 textures/canvas_textures/default_texture_repeat=1
-rendering_device/driver="d3d12"
-rendering_device/driver.windows="d3d12"
-rendering_device/fallback_to_vulkan=false
-rendering_device/fallback_to_d3d12=false
 renderer/rendering_method="mobile"
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality.mobile=1
 lights_and_shadows/directional_shadow/16_bits=false

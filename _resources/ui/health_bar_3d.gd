@@ -14,6 +14,7 @@ var initial_scale: Vector3
 var shielded_texture: GradientTexture2D
 var health_texture: GradientTexture2D
 
+@onready var player = get_tree().current_scene.get_node("Main/Player")
 func _ready():
     # Create unique GradientTexture2D instances for shielded and health states
     shielded_texture = GradientTexture2D.new()
@@ -79,6 +80,5 @@ func update_bar():
 
 func _process(delta):
     # Ensure the health bar always faces the camera or player
-    var player = get_tree().current_scene.get_node("Player")
     if player:
         look_at(player.global_position, Vector3.UP)

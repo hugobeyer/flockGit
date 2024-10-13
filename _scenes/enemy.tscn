@@ -30,8 +30,9 @@ axis_lock_linear_y = true
 wall_min_slide_angle = 1.24093
 floor_stop_on_slope = false
 floor_block_on_wall = false
+safe_margin = 0.05
 script = ExtResource("1_ia10i")
-max_health = 128.0
+max_health = 64.0
 knockback_resistance = 50.0
 turn_speed = 2.0
 detection_range = 64.0
@@ -47,6 +48,7 @@ script = ExtResource("6_i2yu8")
 
 [node name="EnemyShield" parent="." groups=["shield"] instance=ExtResource("4_earu6")]
 effect_duration = 0.2
+max_shield_strength = 50.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00306, 0)

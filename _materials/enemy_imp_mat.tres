@@ -5,8 +5,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_j0jlk")
-shader_parameter/color_top = Color(0.283859, 0.621094, 0.61319, 1)
-shader_parameter/color_bottom = Color(0.784744, 0.790151, 0.847656, 1)
+shader_parameter/color_top = Color(0.347992, 0.492188, 0.380661, 1)
+shader_parameter/color_bottom = Color(0.62234, 0.636719, 0.586975, 1)
 shader_parameter/specular_color = Color(1, 1, 1, 1)
 shader_parameter/fresnel_color = Color(0, 0, 0, 1)
 shader_parameter/vertex_color_mix = 0.0

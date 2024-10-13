@@ -1,15 +1,15 @@
 extends Node3D  # Change from Node3D to CharacterBody3D
 
-@export var animation_player_path: NodePath = "AnimationPlayer"
-@export var melee_node_path: NodePath = "/root/Main/Enemy/MeleeWeapon/SwordArea"
+@export var animation_player_path: NodePath = "../AnimationPlayer"
+@export var melee_node_path: NodePath = "../MeleeWeapon/SwordArea"
 @export var swing_animation: String = "swing_animation"
-@export var player_pos_path: NodePath = "/root/Main/Player"
+@export var player_pos_path: NodePath = "../Player"
 
-@export var animation_speed: float = 3.0
-@export var attack_radius: float = 5.75
-@export var damage_amount: float = 10.0
+@export var animation_speed: float = 4.0
+@export var attack_radius: float = 4.0
+@export var damage_amount: float = 3.0
 
-@export var animation_length: float = 2.0
+@export var animation_length: float = 1.0
 @export var hit_window_start: float = 0.75
 @export var hit_window_end: float = 1.25
 
@@ -64,7 +64,7 @@ func check_hit():
 		var distance = global_position.distance_to(player_pos.global_position)
 		if distance <= attack_radius:
 			player_pos.take_damage(damage_amount)
-			print("Player hit for ", damage_amount, " damage.")
+			# print("Player hit for ", damage_amount, " damage.")
 
 func end_attack():
 	is_attacking = false

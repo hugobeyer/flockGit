@@ -2,6 +2,7 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ggrtb"]
 noise_type = 0
+frequency = 0.0182
 fractal_octaves = 4
 fractal_gain = 1.0
 domain_warp_amplitude = 4.0
@@ -9,7 +10,8 @@ domain_warp_frequency = 0.1
 domain_warp_fractal_type = 2
 
 [resource]
-width = 256
-height = 8
+width = 128
+height = 1
 generate_mipmaps = false
+normalize = false
 noise = SubResource("FastNoiseLite_ggrtb")

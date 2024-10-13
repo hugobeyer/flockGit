@@ -26,6 +26,8 @@ var health: float = 100.0
 var knockback_velocity: Vector3 = Vector3.ZERO
 var player: Node3D = null
 
+signal enemy_killed(enemy)
+
 func _ready():
     health = max_health
     if shield:
@@ -33,7 +35,7 @@ func _ready():
     else:
         # Log a warning if shield is not found
         push_warning("Shield node not found!")
-    player = get_tree().current_scene.get_node("Player")
+    player = get_tree().current_scene.get_node("Main/Player")
     if not player:
         push_error("Player node not found!")
     update_health_bar()
@@ -115,6 +117,7 @@ func apply_knockback(delta):
     knockback_velocity = knockback_velocity.lerp(Vector3.ZERO, delta * 5)  # Gradually reduce knockback
 
 func die():
+    SignalBus.emit_signal("enemy_killed")
     queue_free()
 
 func _on_shield_depleted():

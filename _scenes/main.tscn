@@ -1,40 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://clcwdr5begw0g"]
+[gd_scene load_steps=5 format=3 uid="uid://clcwdr5begw0g"]
 
-[ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://_scenes/player.tscn" id="1_to1an"]
-[ext_resource type="Script" path="res://_scripts/spawner/spawner.gd" id="5_51w43"]
-[ext_resource type="PackedScene" uid="uid://deykio3jwy2vg" path="res://_scenes/enemy.tscn" id="5_qh010"]
-[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="6_c1xic"]
-[ext_resource type="Script" path="res://_scripts/camera.gd" id="7_ymsw7"]
-[ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://_scenes/spawner.tscn" id="8_nhsbs"]
-[ext_resource type="Script" path="res://_scripts/debug_touch.gd" id="8_wulk2"]
-[ext_resource type="Shader" uid="uid://db1ycsx40c82u" path="res://_shaders/debug.tres" id="8_ygmnw"]
 [ext_resource type="Material" uid="uid://gv7apxiaeus" path="res://_shaders/custom/include/main.tres" id="9_gi1t0"]
-[ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_wxq6t"]
-[ext_resource type="PackedScene" uid="uid://ba1iyod4gohu8" path="res://_scenes/UI/main_ui.tscn" id="11_cctsr"]
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_ya65r"]
-sample_partition_type = 1
-geometry_parsed_geometry_type = 2
-filter_walkable_low_height_spans = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_er31h"]
-render_priority = -5
-shader = ExtResource("8_ygmnw")
-
-[sub_resource type="SphereMesh" id="SphereMesh_gbmjj"]
-radius = 1.295
-radial_segments = 4
-rings = 1
-is_hemisphere = true
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_50qok"]
-top_radius = 0.0
-bottom_radius = 0.392
-height = 3.105
-radial_segments = 4
-rings = 0
-cap_top = false
-cap_bottom = false
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_56ohd"]
 friction = 0.0
@@ -50,9 +16,6 @@ subdivide_depth = 64
 
 [node name="Main" type="Node3D"]
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navigation_mesh = SubResource("NavigationMesh_ya65r")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.414959, 0.859652, -0.298007, -0.303932, 0.439693, 0.84516, 0.857575, -0.260133, 0.44373, 10, 15, 14)
 light_bake_mode = 0
@@ -63,48 +26,6 @@ directional_shadow_split_1 = 0.31
 directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 120.0
 sky_mode = 1
-
-[node name="Spawner" parent="." instance=ExtResource("8_nhsbs")]
-script = ExtResource("5_51w43")
-enemy_scene = ExtResource("5_qh010")
-spawn_radius = 9.0
-spawn_height = 0.2
-max_enemies = 12
-physics_enable_delay = 0.1
-
-[node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.119702, 4.02572, 0.112036)
-offset_to_player = Vector3(0, 8, 0)
-
-[node name="Player" parent="." node_paths=PackedStringArray("camera", "debug_touch") instance=ExtResource("1_to1an")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.165, 0)
-collision_mask = 2
-camera = NodePath("../GameCamera")
-debug_touch = NodePath("../debug_touch")
-
-[node name="Gun" parent="Player" node_paths=PackedStringArray("camera_node") instance=ExtResource("6_c1xic")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3325, 0.5)
-recoil_force = 1.0
-max_recoil = 4.0
-recoil_increase_duration = 4.0
-camera_node = NodePath("../../GameCamera")
-
-[node name="debug_touch" type="Node3D" parent="." node_paths=PackedStringArray("camera", "player")]
-script = ExtResource("8_wulk2")
-camera = NodePath("../GameCamera")
-player = NodePath("../Player")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="debug_touch"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313429, 0)
-material_override = SubResource("ShaderMaterial_er31h")
-cast_shadow = 0
-mesh = SubResource("SphereMesh_gbmjj")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="debug_touch"]
-transform = Transform3D(0.960055, 0, 0, 0, -4.19653e-08, -0.960055, 0, 0.960055, -4.19653e-08, 0, 0.313429, 3.09012)
-material_override = SubResource("ShaderMaterial_er31h")
-cast_shadow = 0
-mesh = SubResource("CylinderMesh_50qok")
 
 [node name="FloorStatic" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
 collision_layer = 4
@@ -126,20 +47,3 @@ instance_shader_parameters/grid_scale = 110.835
 instance_shader_parameters/player_position = Vector3(0, 0, 0)
 instance_shader_parameters/randomness = 0.359
 mesh = SubResource("PlaneMesh_u173t")
-
-[node name="GameCamera" type="Camera3D" parent="." node_paths=PackedStringArray("player_pos")]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 24, 64, 32)
-fov = 22.0
-far = 20000.0
-script = ExtResource("7_ymsw7")
-player_pos = NodePath("../Player")
-camera_offset = Vector3(55, 78, 32)
-max_offset = 64.0
-attraction_strength = 0.9
-damping = 0.7
-blend_factor = 0.25
-look_adjust_strength = 0.125
-enemies_average_smoothing = 0.25
-metadata/_edit_pinned_properties_ = [&"camera_offset"]
-
-[node name="MainUi" parent="." instance=ExtResource("11_cctsr")]

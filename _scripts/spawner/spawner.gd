@@ -29,23 +29,26 @@ func spawn_enemy():
     if active_enemies >= max_enemies:
         return
     
-    var enemy = enemy_scene.instantiate()
+    var enemy_instance = enemy_scene.instantiate()
     var spawn_position = get_random_spawn_position()
     
     # Set enemy position before adding it to the scene tree
-    enemy.global_position = spawn_position
+    enemy_instance.global_position = spawn_position
     
     # Now add the enemy to the scene tree
-    add_child(enemy)
+    add_child(enemy_instance)
 
     # Initialize enemy if needed
-    if enemy.has_method("initialize"):
-        enemy.initialize(self)
+    if enemy_instance.has_method("initialize"):
+        enemy_instance.initialize(self)
 
     # Delay enabling physics if needed
-    if enemy.has_method("set_physics_enabled"):
+    if enemy_instance.has_method("set_physics_enabled"):
         await get_tree().create_timer(physics_enable_delay).timeout
-        enemy.set_physics_enabled(true)
+        enemy_instance.set_physics_enabled(true)
+
+    # Connect the enemy's signal to the SignalBus
+    enemy_instance.connect("enemy_killed", Callable(SignalBus, "emit_signal").bind("enemy_killed"))
 
     active_enemies += 1
 

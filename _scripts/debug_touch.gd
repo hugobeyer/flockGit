@@ -14,8 +14,8 @@ var is_touching: bool = false
 # var recoil_direction: Vector3 = Vector3.ZERO
 
 func _ready():
-    camera = get_parent().get_node("GameCamera")
-    player =  get_parent().get_node("Player")
+    camera = get_tree().current_scene.get_node("Main/GameCamera")
+    player = get_tree().current_scene.get_node("Main/Player")
     
     # Delay the initial position calculation
     get_tree().create_timer(0.1).timeout.connect(set_initial_position)

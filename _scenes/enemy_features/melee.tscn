@@ -41,9 +41,6 @@ shadow_mesh = SubResource("ArrayMesh_dk2me")
 
 [node name="MeleeWeapon" type="Node3D"]
 script = ExtResource("1_dw47a")
-animation_speed = 4.0
-attack_radius = 4.0
-animation_length = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Root")
@@ -54,7 +51,7 @@ libraries = {
 playback_auto_capture_transition_type = 5
 
 [node name="Root" type="Node3D" parent="."]
-transform = Transform3D(-0.05, 0, 0.0866026, 0, 0.1, 0, -0.0866026, 0, -0.05, 0.0048431, 0.606352, -0.139933)
+transform = Transform3D(-0.05, 0, -0.0866026, 0, 0.1, 0, 0.0866026, 0, -0.05, 0.230541, 0.6, -0.133103)
 rotation_order = 0
 
 [node name="MeleeMesh" type="Node3D" parent="Root"]

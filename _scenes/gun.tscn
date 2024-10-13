@@ -7,9 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://b8nsan04cmd2i" path="res://_resources/noise/gun_recoil.tres" id="4_x4ygx"]
 
 [sub_resource type="Curve" id="Curve_w1x0d"]
-bake_resolution = 32
-_data = [Vector2(0, 0.131868), 0.0, 0.758242, 0, 1, Vector2(1, 0.89011), 0.758242, 0.0, 1, 0]
-point_count = 2
+bake_resolution = 64
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.459087, 0.769601), 0.960551, 0.960551, 0, 0, Vector2(1, 1), 0.425946, 0.0, 1, 0]
+point_count = 3
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ick36"]
 top_radius = 0.2
@@ -20,7 +20,7 @@ rings = 1
 
 [node name="Gun" type="Node3D"]
 physics_interpolation_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.230386, 0.82208, -0.106918)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_x0345")
 fire_rate = 0.025
 bullet_speed = 64.0
@@ -29,14 +29,15 @@ knockback = 1.0
 bullet_scene = ExtResource("2_cb5nk")
 spread_count_bullet = 3
 spread_count_angle = 30.0
-recoil_force = 1.7
-max_recoil = 14.255
+recoil_force = 1.0
+max_recoil = 20.0
 recoil_amplitude = 1.0
-recoil_increase_duration = 2.0
+recoil_increase_duration = 3.0
 recoil_curve_time = ExtResource("2_vvr6f")
 recoil_mouse_up_curve = SubResource("Curve_w1x0d")
-recoil_noise_speed = 4.0
+recoil_noise_speed = 2.0
 recoil_noise_texture = ExtResource("4_x4ygx")
+recoil_mouse_up_recovery_time = 0.7501
 mouse_reset_threshold = 0.095
 debug_x_offset = 3.0
 debug_cylinder_spacing = 1.0

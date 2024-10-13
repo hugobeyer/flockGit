@@ -28,7 +28,7 @@ collision_mask = 6
 input_ray_pickable = false
 axis_lock_linear_y = true
 script = ExtResource("1_7wjim")
-SPEED = 20.0
+SPEED = 12.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 physics_interpolation_mode = 1
@@ -50,7 +50,6 @@ mesh = SubResource("CapsuleMesh_ayx0v")
 
 [node name="RecoilBar" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7733, 0)
-visible = false
 modulate = Color(0, 0.578125, 1, 1)
 billboard = 1
 texture = SubResource("GradientTexture2D_asmqs")

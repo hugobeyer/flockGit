@@ -11,10 +11,14 @@ config_version=5
 [application]
 
 config/name="Flock"
-run/main_scene="res://_scenes/main.tscn"
+run/main_scene="res://_scenes/game_root.tscn"
 run/enable_alt_space_menu=true
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SignalBus="*res://_scripts/signal_bus.gd"
 
 [debug]
 
@@ -79,6 +83,7 @@ _global_script_class_icons={}
 shield=""
 player=""
 enemies=""
+navigation_mesh_source_group=""
 
 [input]
 

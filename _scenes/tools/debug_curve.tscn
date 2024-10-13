@@ -9,5 +9,6 @@ amplitude = 3.1
 secondary_frequency = 4.555
 phase_shift = 0.2
 blend_factor = 6.625
+randomness = null
 draw_color = Color(1, 0, 0, 1)
 curve_scale = 32.0

@@ -145,9 +145,10 @@ metadata/_edit_pinned_properties_ = [&"camera_offset"]
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.6424, 0)
 script = ExtResource("11_leav1")
-primary_frequency = 16.44
-secondary_frequency = 27.765
-phase_shift = -0.325
+primary_frequency = 2.0
+secondary_frequency = 3.0
+phase_shift = 0.56
 blend_factor = 2.0
-draw_resolution = 512
-curve_scale = 32.0
+randomness = 0.62
+draw_resolution = 32
+curve_scale = 4.0

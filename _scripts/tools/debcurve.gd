@@ -1,7 +1,10 @@
 @tool
 extends Node3D
 
-@export var settings: CurveSettings
+@export var settings: CurveSettings:
+    set(value):
+        settings = value
+        _request_update()
 
 var _update_pending := false
 
@@ -11,18 +14,24 @@ func _ready():
     update_mesh()
 
 func _get(property):
-    if property in settings:
+    if settings and property in settings:
         return settings.get(property)
+    return null
 
 func _set(property, value):
-    if property in settings:
+    if settings and property in settings:
         settings.set(property, value)
         _request_update()
         return true
     return false
 
 func _get_property_list():
-    return settings.get_property_list()
+    var properties = []
+    if settings:
+        properties = settings.get_property_list()
+    # Filter out properties we don't want to expose directly
+    properties = properties.filter(func(prop): return prop["name"] != "resource_local_to_scene" and prop["name"] != "resource_path")
+    return properties
 
 func _request_update():
     if not _update_pending:
@@ -31,6 +40,8 @@ func _request_update():
 
 func update_mesh():
     _update_pending = false
+    if not settings:
+        return
     
     for child in get_children():
         if child is MeshInstance3D:
@@ -83,6 +94,9 @@ func _get_configuration_warnings() -> PackedStringArray:
     return warnings
 
 func trigon_signed(t: float) -> float:
+    if not settings:
+        return 0.0
+    
     var primary_wave = sin(2 * PI * settings.primary_frequency * t + settings.phase_shift)
     var secondary_wave = cos(2 * PI * settings.secondary_frequency * t + settings.phase_shift)
     var tertiary_wave = sin(2 * PI * settings.tertiary_frequency * t + settings.phase_shift)

@@ -134,8 +134,8 @@ func _ready():
     
     if debug_cylinder_scene == null:
         push_error("Debug cylinder scene could not be loaded. Check the provided path.")
-    else:
-        print("Debug cylinder scene successfully loaded in _ready().")
+    # else:
+        # print("Debug cylinder scene successfully loaded in _ready().")
     
     if bullet_scene == null:
         push_error("Bullet scene could not be loaded. Check the provided path.")
@@ -146,7 +146,7 @@ func _ready():
     if gun_node == null:
         push_error("Gun node could not be loaded. Assign a valid Node3D for the gun.")
     else:
-        print("Bullet scene, noise texture, and recovery curve successfully loaded in _ready().")
+        # print("Bullet scene, noise texture, and recovery curve successfully loaded in _ready().")
         initial_gun_rotation = gun_node.rotation  # Store the initial rotation
     
     # Create debug sprites
@@ -426,8 +426,8 @@ func shoot_bullet():
             if bullet.has_method("set_lifetime"):
                 bullet.set_lifetime(3.0)
 
-            print("Bullet Fired from Position: ", muzzle_transform.origin)
-            print("Bullet Direction: ", spread_direction)
+            # print("Bullet Fired from Position: ", muzzle_transform.origin)
+            # print("Bullet Direction: ", spread_direction)
 
     apply_recoil(forward_direction, recoil_curve_value)
     emit_signal("gun_fired", Vector3.ZERO)

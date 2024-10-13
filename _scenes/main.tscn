@@ -10,7 +10,7 @@
 [ext_resource type="Shader" uid="uid://db1ycsx40c82u" path="res://_shaders/debug.tres" id="8_ygmnw"]
 [ext_resource type="Material" uid="uid://gv7apxiaeus" path="res://_shaders/custom/include/main.tres" id="9_gi1t0"]
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_wxq6t"]
-[ext_resource type="Script" path="res://_scripts/tools/debcurve.gd" id="11_leav1"]
+[ext_resource type="PackedScene" uid="uid://ba1iyod4gohu8" path="res://_scenes/UI/main_ui.tscn" id="11_cctsr"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ya65r"]
 sample_partition_type = 1
@@ -69,7 +69,7 @@ script = ExtResource("5_51w43")
 enemy_scene = ExtResource("5_qh010")
 spawn_radius = 9.0
 spawn_height = 0.2
-max_enemies = 0
+max_enemies = 12
 physics_enable_delay = 0.1
 
 [node name="Buddy" parent="." instance=ExtResource("9_wxq6t")]
@@ -142,13 +142,4 @@ look_adjust_strength = 0.125
 enemies_average_smoothing = 0.25
 metadata/_edit_pinned_properties_ = [&"camera_offset"]
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.6424, 0)
-script = ExtResource("11_leav1")
-primary_frequency = 2.0
-secondary_frequency = 3.0
-phase_shift = 0.56
-blend_factor = 2.0
-randomness = 0.62
-draw_resolution = 32
-curve_scale = 4.0
+[node name="MainUi" parent="." instance=ExtResource("11_cctsr")]

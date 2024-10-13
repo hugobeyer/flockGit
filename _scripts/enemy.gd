@@ -151,7 +151,7 @@ func calculate_flocking_force():
         var offset = neighbor.global_position - global_position
 
         # Separation: steer away from nearby enemies
-        separation_force += (global_position - neighbor.global_position).normalized() / distance
+        separation_force += (global_position - neighbor.global_position) / distance
         # Alignment: match velocity with nearby enemies
         alignment_force += neighbor.velocity
         # Cohesion: move towards the average position of nearby enemies

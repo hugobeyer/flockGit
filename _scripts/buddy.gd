@@ -35,7 +35,7 @@ var noise: FastNoiseLite
 @onready var mesh: MeshInstance3D = $BuddyHead/BuddyMesh  # Reference to the buddy's mesh instance
 
 func _ready():
-    player = get_node("/root/Main/Player")
+    player = get_parent().get_node("Player")
     if player:
         global_position = player.global_position + offset_to_player
     original_scale = scale

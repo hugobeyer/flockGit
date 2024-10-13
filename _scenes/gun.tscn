@@ -1,7 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4uuwqe6deuv8"]
+[gd_scene load_steps=8 format=3 uid="uid://b4uuwqe6deuv8"]
 
 [ext_resource type="Script" path="res://_scripts/gun.gd" id="1_x0345"]
+[ext_resource type="PackedScene" uid="uid://dbg8lda400aod" path="res://_scenes/bullet.tscn" id="2_cb5nk"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_dv6xq"]
+[ext_resource type="Curve" uid="uid://c38sbwx420col" path="res://_resources/recoil_spread_curve.tres" id="2_vvr6f"]
+[ext_resource type="Texture2D" uid="uid://b8nsan04cmd2i" path="res://_resources/noise/gun_recoil.tres" id="4_x4ygx"]
+
+[sub_resource type="Curve" id="Curve_w1x0d"]
+bake_resolution = 32
+_data = [Vector2(0, 0.131868), 0.0, 0.758242, 0, 1, Vector2(1, 0.89011), 0.758242, 0.0, 1, 0]
+point_count = 2
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ick36"]
 top_radius = 0.2
@@ -10,15 +18,34 @@ height = 1.0
 radial_segments = 6
 rings = 1
 
-[node name="Gun" type="Node3D" node_paths=PackedStringArray("muzzle_node")]
+[node name="Gun" type="Node3D"]
 physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.230386, 0.82208, -0.106918)
 script = ExtResource("1_x0345")
-bullet_damage = 4.0
+fire_rate = 0.025
+bullet_speed = 64.0
+bullet_damage = 6.0
 knockback = 1.0
-muzzle_node = NodePath("Muzzle")
+bullet_scene = ExtResource("2_cb5nk")
+spread_count_bullet = 3
+spread_count_angle = 30.0
+recoil_force = 1.7
+max_recoil = 14.255
+recoil_amplitude = 1.0
+recoil_increase_duration = 2.0
+recoil_curve_time = ExtResource("2_vvr6f")
+recoil_mouse_up_curve = SubResource("Curve_w1x0d")
+recoil_noise_speed = 4.0
+recoil_noise_texture = ExtResource("4_x4ygx")
+mouse_reset_threshold = 0.095
+debug_x_offset = 3.0
+debug_cylinder_spacing = 1.0
 
 [node name="Muzzle" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.02626)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.16924)
+
+[node name="Marker3D" type="Marker3D" parent="Muzzle"]
+gizmo_extents = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.492335)

@@ -12,9 +12,9 @@ var active_enemies: int = 0
 var spawn_timer: Timer
 
 func _ready():
-    player = get_node("/root/Main/Player")
+    player = get_parent().get_node("Player")
     if not player:
-        push_error("Player not found at path: /root/Main/Player")
+        push_error("Player not found at path: 'parent'/Player")
         return    
     setup_spawn_timer()
 

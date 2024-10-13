@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqqehfd6e7dkb"]
+
+[ext_resource type="Script" path="res://_scripts/tools/debcurve.gd" id="1_rx7kn"]
+
+[node name="DebugCurve" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0819929, 0)
+script = ExtResource("1_rx7kn")
+amplitude = 3.1
+secondary_frequency = 4.555
+phase_shift = 0.2
+blend_factor = 6.625
+draw_color = Color(1, 0, 0, 1)
+curve_scale = 32.0

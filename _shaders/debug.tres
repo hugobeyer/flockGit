@@ -1,18 +1,18 @@
 [gd_resource type="VisualShader" load_steps=2 format=3 uid="uid://db1ycsx40c82u"]
 
 [sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_mcr3k"]
-constant = Color(1, 0, 0, 1)
+constant = Color(1, 0, 0, 0.054902)
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded, wireframe;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, wireframe;
 
 
 
 
 void fragment() {
 // ColorConstant:2
-	vec4 n_out2p0 = vec4(1.000000, 0.000000, 0.000000, 1.000000);
+	vec4 n_out2p0 = vec4(1.000000, 0.000000, 0.000000, 0.054902);
 
 
 // Output:0
@@ -21,8 +21,8 @@ void fragment() {
 
 }
 "
-flags/unshaded = true
 flags/wireframe = true
+nodes/fragment/0/position = Vector2(-140, 220)
 nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_mcr3k")
 nodes/fragment/2/position = Vector2(-820, 240)
 nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0)

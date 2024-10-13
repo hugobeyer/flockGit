@@ -1,20 +1,21 @@
 extends Node3D
 
-var camera: Camera3D
-var player: CharacterBody3D
+@export var camera: Camera3D
+@export var player: CharacterBody3D
 
 var initial_position: Vector3 = Vector3.ZERO
 var is_touching: bool = false
 
 # Recoil variables
-@export var max_recoil: float = 10.0  # Maximum recoil force
-@export var recoil_recovery_speed: float = 5.0  # Force units per second
-var current_recoil: float = 0.0
-var recoil_direction: Vector3 = Vector3.ZERO
+# @export var max_recoil: float = 10.0  # Maximum recoil force
+# @export var recoil_recovery_speed: float = 5.0  # Force units per second
+# @export var rotate_damp = .5
+# var current_recoil: float = 0.0
+# var recoil_direction: Vector3 = Vector3.ZERO
 
 func _ready():
-    camera = get_node("/root/Main/GameCamera")
-    player = get_node("/root/Main/Player")
+    camera = get_parent().get_node("GameCamera")
+    player =  get_parent().get_node("Player")
     
     # Delay the initial position calculation
     get_tree().create_timer(0.1).timeout.connect(set_initial_position)
@@ -30,6 +31,7 @@ func _physics_process(delta):
         global_position = initial_position
         is_touching = true
         visible = true
+
     elif Input.is_action_just_released("touch"):
         is_touching = false
         visible = false
@@ -37,10 +39,14 @@ func _physics_process(delta):
     if is_touching:
         var current_position = get_world_position(get_viewport().get_mouse_position())
         var direction = current_position - initial_position
+
         direction.y = 0  # Zero out the y-axis to keep it on the ground plane
-        if direction.length_squared() > 0.001:
+        if direction.length_squared() > 0.001 * delta:
             look_at(initial_position + direction, Vector3.UP)
+        global_position = lerp(get_world_position(get_viewport().get_mouse_position()), player.global_transform.origin, 0.99)  
+
     else:
+
         # Update rotation based on mouse position when not touching
         update_rotation_from_mouse()
     
@@ -61,7 +67,7 @@ func get_world_position(screen_position: Vector2) -> Vector3:
         
         var space_state = get_world_3d().direct_space_state
         var query = PhysicsRayQueryParameters3D.create(from, to)
-        query.collide_with_areas = true
+        # query.collide_with_areas = true
         var result = space_state.intersect_ray(query)
 
         if not result.is_empty():
@@ -74,15 +80,3 @@ func get_world_position(screen_position: Vector2) -> Vector3:
             return from + ray_direction * t
 
     return Vector3.ZERO  # Return a default value if camera or player is null
-
-func apply_recoil(delta):
-    # Recover from recoil
-    current_recoil = move_toward(current_recoil, 0, recoil_recovery_speed * delta)
-    # Update recoil direction
-    recoil_direction = -global_transform.basis.z * current_recoil
-
-func add_recoil(amount: float):
-    current_recoil += min(current_recoil + amount, max_recoil)
-
-func get_recoil_force() -> Vector3:
-    return recoil_direction

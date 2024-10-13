@@ -433,7 +433,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(229.868, -256.798)
 modes/diffuse = 3
 modes/specular = 2
 varyings/player_pos = "0,5"

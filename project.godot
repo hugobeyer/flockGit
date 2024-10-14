@@ -78,13 +78,6 @@ _global_script_classes=[{
 }]
 _global_script_class_icons={}
 
-[global_group]
-
-shield=""
-player=""
-enemies=""
-navigation_mesh_source_group=""
-
 [input]
 
 move_forward={

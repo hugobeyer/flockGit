@@ -5,14 +5,14 @@ uniform vec3 fresnel_color : source_color = vec3(0.0,1.0, 0.0);
 
 
 
-instance uniform float alpha : hint_range(0.0, 1.0, 0.0);
+instance uniform float alpha : hint_range(0.0, 1.0, 0.001);
 instance uniform vec4 lerp_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
-instance uniform float lerp_wave : hint_range(0.0, 1.0) = 0.0;
-instance uniform float lerp_wave_freq : hint_range(0.0, 100.0) = 1.0;
-instance uniform float lerp_wave_offset : hint_range(-32, 32.0) = 0.0;
+instance uniform float lerp_wave : hint_range(0.0, 1.0, 0.001) = 0.0;
+instance uniform float lerp_wave_freq : hint_range(0.0, 100.0, 0.01) = 1.0;
+instance uniform float lerp_wave_offset : hint_range(-32, 32.0, 0.01) = 0.0;
 instance uniform int lerp_wave_type : hint_range(0, 16) = 0;
 instance uniform float lerp_displace_normal : hint_range(-1.0, 1.0) = 0.0;
-instance uniform float lerp_wave_contrast : hint_range(0.0, 4.0) = 1.0;
+instance uniform float lerp_wave_contrast : hint_range(0.0, 4.0, 0.01) = 1.0;
 instance uniform float wave_range_lerp : hint_range(-5.0, 5.0) = 0.0;
 
 uniform float vertex_color_mix : hint_range(0.0, 1.0) = 0.0;

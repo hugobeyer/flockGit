@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://deykio3jwy2vg"]
+[gd_scene load_steps=12 format=3 uid="uid://deykio3jwy2vg"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_ia10i"]
+[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/enemy_die_fx.tscn" id="2_3gwb4"]
 [ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_gr5oo"]
 [ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="3_qf47k"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_earu6"]
@@ -27,20 +28,11 @@ collision_layer = 2
 collision_mask = 31
 input_ray_pickable = false
 axis_lock_linear_y = true
-wall_min_slide_angle = 1.24093
 floor_stop_on_slope = false
 floor_block_on_wall = false
 safe_margin = 0.05
 script = ExtResource("1_ia10i")
-max_health = 64.0
-knockback_resistance = 50.0
-turn_speed = 2.0
-detection_range = 64.0
-flock_separation_weight = 2000.0
-flock_alignment_weight = 32.0
-flock_cohesion_weight = 0.5
-flock_neighbor_distance = 8.0
-max_flock_neighbors = 12
+death_effect_scene = ExtResource("2_3gwb4")
 
 [node name="EnemyEffects" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -58,13 +50,13 @@ shape = SubResource("CapsuleShape3D_ejukm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00617647, 0.976994, -0.00603771)
 layers = 31
 material_override = ExtResource("2_gr5oo")
-instance_shader_parameters/alpha = 0.0
-instance_shader_parameters/lerp_color = Color(1, 0.726563, 0, 1)
+instance_shader_parameters/alpha = null
+instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
 instance_shader_parameters/lerp_wave = 0.0
-instance_shader_parameters/lerp_wave_contrast = 4.0
-instance_shader_parameters/lerp_wave_freq = 0.65
-instance_shader_parameters/lerp_wave_offset = 5.85
-instance_shader_parameters/wave_range_lerp = -0.215
+instance_shader_parameters/lerp_wave_contrast = 1.0
+instance_shader_parameters/lerp_wave_freq = 1.0
+instance_shader_parameters/lerp_wave_offset = 0.0
+instance_shader_parameters/wave_range_lerp = 0.0
 mesh = ExtResource("3_qf47k")
 
 [node name="HealthBar" type="Sprite3D" parent="."]
@@ -80,7 +72,6 @@ texture = SubResource("GradientTexture2D_jvmx3")
 region_rect = Rect2(0, 0, 120, 50)
 script = ExtResource("7_fm5yg")
 color0 = Color(0.875, 1, 0, 1)
-color3 = Color(1, 0, 0, 1)
 bar_width_px = 120
 bar_height_px = 32
 

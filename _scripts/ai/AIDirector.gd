@@ -38,27 +38,23 @@ func get_enemy_type() -> String:
     return "basic"  # Fallback
 
 func get_enemy_parameters(enemy_type: String) -> Dictionary:
-    var base_params = {
-        "basic": {
-            "health": 100.0,
-            "speed": 5.0,
-            "damage": 10.0
-        },
-        "fast": {
-            "health": 75.0,
-            "speed": 7.5,
-            "damage": 7.5
-        },
-        "tank": {
-            "health": 150.0,
-            "speed": 3.5,
-            "damage": 15.0
-        }
+    var params = {
+        "health": 100.0,
+        "speed": 5.0,
+        "damage": 10.0,
+        "use_shield": false,
+        "use_melee": false
     }
     
-    var params = base_params[enemy_type]
-    for key in params:
-        params[key] *= current_difficulty
+    # Modify parameters based on enemy_type and current game state
+    if enemy_type == "tank":
+        params["health"] *= 2
+        params["speed"] *= 0.5
+    elif enemy_type == "fast":
+        params["speed"] *= 1.5
+        params["damage"] *= 0.8
+    
+    # Add more logic as needed
     
     return params
 

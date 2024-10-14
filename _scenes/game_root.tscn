@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c2xd4i2lcvsgy"]
+[gd_scene load_steps=13 format=3 uid="uid://c2xd4i2lcvsgy"]
 
 [ext_resource type="Script" path="res://_scripts/game_root.gd" id="1_1826r"]
 [ext_resource type="PackedScene" uid="uid://clcwdr5begw0g" path="res://_scenes/main.tscn" id="2_3drmh"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="5_hue05"]
 [ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://_scenes/spawner.tscn" id="6_tgciq"]
 [ext_resource type="PackedScene" uid="uid://cwaii0c2fbcpm" path="res://_scenes/debug_touch.tscn" id="8_fqblv"]
+[ext_resource type="Script" path="res://_scripts/ai/formation_manager.gd" id="9_7yfm7"]
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_428cj"]
 
 [node name="GameRoot" type="Node3D"]
@@ -57,13 +58,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.37249, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 min_spawn_radius = 24.0
 max_spawn_radius = 50.0
-below_ground_offset = 1.0
-max_enemies = 100
+max_enemies = 5
 min_spawn_interval = 2.0
 max_spawn_interval = 7.0
-max_cluster_points = 5
-min_enemies_per_cluster = 5
-max_enemies_per_cluster = 11
+min_enemies_per_cluster = 3
+max_enemies_per_cluster = 7
+
+[node name="FormationManager" type="Node3D" parent="Main/Spawner"]
+script = ExtResource("9_7yfm7")
 
 [node name="debug_touch" parent="Main" instance=ExtResource("8_fqblv")]
 

@@ -1,29 +1,31 @@
-[gd_scene load_steps=7 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=9 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://_scripts/Player.gd" id="1_7wjim"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
+[ext_resource type="Script" uid="uid://64rgsyy4rd12" path="res://_scripts/orch/recoil_bar.torch" id="3_icei1"]
+[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="4_u5jq2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
 margin = 0.25
-radius = 0.657
-height = 2.041
+radius = 0.577
+height = 2.046
+
+[sub_resource type="Gradient" id="Gradient_2b6n3"]
+offsets = PackedFloat32Array(0, 0.262561, 0.518639, 0.753647, 1)
+colors = PackedColorArray(0.476563, 0.476563, 0.476563, 1, 0.873732, 0.67957, 0.491382, 1, 1, 0.74411, 0.496094, 1, 0.866153, 0.675696, 0.491099, 1, 0.476563, 0.476563, 0.476563, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oaafo"]
+gradient = SubResource("Gradient_2b6n3")
+width = 128
+height = 13
+repeat = 2
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ayx0v"]
 radius = 0.6
 radial_segments = 9
 rings = 4
 
-[sub_resource type="Gradient" id="Gradient_2b6n3"]
-offsets = PackedFloat32Array(0, 0.262561, 0.518639, 0.753647, 1)
-colors = PackedColorArray(0.476563, 0.476563, 0.476563, 1, 0.873732, 0.67957, 0.491382, 1, 1, 0.74411, 0.496094, 1, 0.866153, 0.675696, 0.491099, 1, 0.476563, 0.476563, 0.476563, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_asmqs"]
-gradient = SubResource("Gradient_2b6n3")
-width = 129
-height = 13
-repeat = 2
-
-[node name="Player" type="CharacterBody3D" groups=["player", "player_global"]]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_mask = 6
 input_ray_pickable = false
 axis_lock_linear_y = true
@@ -32,11 +34,38 @@ SPEED = 12.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 physics_interpolation_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13131, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.181, 0)
 shape = SubResource("CapsuleShape3D_3lyym")
 
+[node name="RecoilBar" type="Sprite3D" parent="." node_paths=PackedStringArray("gun_node")]
+transform = Transform3D(1, -5.96629e-10, 0, 3.45608e-10, 1, -4.65661e-10, 0, 0, 1, -0.000349001, 2.81822, 0.000272769)
+modulate = Color(0, 0.578125, 1, 1)
+billboard = 1
+texture = SubResource("GradientTexture2D_oaafo")
+region_enabled = true
+region_rect = Rect2(-3, -3, 135, 19)
+script = ExtResource("3_icei1")
+recoil_parms/recoil_max_var = 1.0
+recoil_parms/recoil_min_var = 0.0
+recoil_parms/vec_zero_force = Vector3(0, 0, 0)
+gun_node = NodePath("../Gun")
+
+[node name="Gun" parent="." instance=ExtResource("4_u5jq2")]
+process_priority = -1
+transform = Transform3D(1, -6.00267e-10, 0, -5.92991e-10, 1, -9.31323e-10, 0, 0, 1, 1.80444e-09, 1.25499, 0.439886)
+bullet_speed = 55.0
+bullet_damage = 4.0
+knockback = 2.0
+spread_count_angle = 35.0
+recoil_force = 2.0
+max_recoil = 12.0
+recoil_linear_damp = 1.15
+recoil_angle_damp = 0.025
+recoil_mouse_up_recovery_time = 1.2501
+mouse_reset_threshold = 0.167
+
 [node name="Player" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.999908, -0.0120488, 0.0062203, 0.0120859, 0.999909, -0.00596117, -0.00614791, 0.0060358, 0.999963, -0.000651002, 1.13808, -0.00327277)
+transform = Transform3D(0.999908, -0.0120488, 0.0062203, 0.0120859, 0.999909, -0.00596117, -0.00614791, 0.0060358, 0.999963, -0.001, 1.183, -0.003)
 material_override = ExtResource("2_qw1fv")
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
 instance_shader_parameters/lerp_displace_normal = 0.0
@@ -47,9 +76,7 @@ instance_shader_parameters/lerp_wave_offset = 0.0
 instance_shader_parameters/lerp_wave_type = 0
 instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("CapsuleMesh_ayx0v")
+skeleton = NodePath("")
 
-[node name="RecoilBar" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7733, 0)
-modulate = Color(0, 0.578125, 1, 1)
-billboard = 1
-texture = SubResource("GradientTexture2D_asmqs")
+[node name="CameraAim" type="Marker3D" parent="."]
+transform = Transform3D(0.999908, -0.0120488, 0.0062203, 0.0120859, 0.999909, -0.00596117, -0.00614791, 0.0060358, 0.999963, -0.0536833, 5.55509, 0.0233915)

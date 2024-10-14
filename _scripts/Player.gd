@@ -2,28 +2,10 @@
 extends CharacterBody3D
 
 @export var SPEED: float = 6.0
-# @export var INITIAL_RECOIL_VELOCITY: float = 1.0
-# @export var RECOIL_PUSHBACK_VELOCITY: float = 2.0
-# @export var ANGULAR_RECOIL_DAMPING: float = 5.0
-# @export var LINEAR_RECOIL_DAMPING: float = 3.0
-# @export var RECOIL_INTENSITY_VARIATION: float = 0.2
-# @export var MAX_RECOIL_INTENSITY: float = 2.0
-# @export var MAX_RECOIL_RAMP_TIME: float = 2.0
-# @export var RECOIL_RAMP_CURVE: Curve
-
-# @export var recoil_reset: float = 0.5
-# @export var recovery_time: float = 0.05
-# @export var bump: float = 0.02
-# @export var recoil: float = 0.05
-
-@export var debug_node_offset: Vector3 = Vector3(0, 1, 2)  # Adjust this offset as needed
-
 @export var camera: Camera3D = null
-@export var debug_touch: Node3D = null
-@onready var gun = $Gun
-# @onready var recoil_bar: Sprite3D = $RecoilBar  # Adjust the path if necessary
+@export var debug_touch = Node3D
+@onready var gun =  get_node("/root/Main/Player/Gun")  # Adjust the path if necessary
 @onready var playerSelf: CharacterBody3D
-@onready var floormesh: MeshInstance3D = get_parent().get_node("FloorStatic/FloorMesh")
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
@@ -34,11 +16,8 @@ var is_firing: bool = false
 var fire_start_time: float = 0.0
 
 func _ready():
-    playerSelf = get_parent().get_node("Player")
+    playerSelf = self
     global_position = playerSelf.global_position
-
-func _process(delta):
-    floormesh.set_instance_shader_parameter("player_position", global_position)
 
 func _physics_process(delta):
     if not is_on_floor():
@@ -46,18 +25,7 @@ func _physics_process(delta):
 
     handle_movement(delta)
     handle_touch_input()
-    update_debug_node_position()  # Add this line
-    
-    # if is_firing:
-        # shoot_recoil()
-    
-    # rotation.y += recoil_rotation
-    # velocity += recoil_velocity
-    
-    # recoil_rotation = move_toward(recoil_rotation, 0, delta * ANGULAR_RECOIL_DAMPING)
-    # recoil_velocity = recoil_velocity.move_toward(Vector3.ZERO, delta * LINEAR_RECOIL_DAMPING)
-    
-    # update_recoil_bar()  # Add this line
+    # update_debug_node_position()  # Add this line
     
     move_and_slide()
 
@@ -76,68 +44,6 @@ func handle_touch_input():
         var target_rotation = debug_touch.rotation.y
         rotation.y = target_rotation
 
-# func shoot_recoil():
-#     var current_time = Time.get_ticks_msec() / 1000.0
-    
-#     if current_time - last_shot > recoil_reset:
-#         cur_shots = 1
-#         recoil_rotation = 0
-#         recoil_velocity = Vector3.ZERO
-#         fire_start_time = current_time
-#     else:
-#         cur_shots += 1
-    
-#     last_shot = current_time
-    
-#     if cur_shots >= 11:
-#         cur_shots = 2
-    
-#     var ramp_time = min(current_time - fire_start_time, MAX_RECOIL_RAMP_TIME)
-#     var ramp_factor = RECOIL_RAMP_CURVE.sample(ramp_time / MAX_RECOIL_RAMP_TIME)
-    
-#     var intensity_multiplier = ramp_factor * clamp((-1.0 + randf_range(-RECOIL_INTENSITY_VARIATION, RECOIL_INTENSITY_VARIATION)),0,1)
-    
-#     var initial_recoil = INITIAL_RECOIL_VELOCITY * intensity_multiplier * (1 if randf() > 0.5 else -1)
-#     apply_recoil_rotation(initial_recoil)
-    
-#     var pushback_direction = -global_transform.basis.z
-#     var pushback_velocity = pushback_direction * RECOIL_PUSHBACK_VELOCITY * intensity_multiplier
-#     apply_recoil_velocity(pushback_velocity)
-    
-#     for pattern in recoil_pattern:
-#         if cur_shots <= pattern[0]:
-#             apply_recoil_pattern(pattern, intensity_multiplier)
-#             break
-
-# func apply_recoil_pattern(pattern, intensity_multiplier: float):
-#     var num = 0.0
-#     while abs(num - float(pattern[1])) > 0.0001:
-#         num = lerp(num, float(pattern[1]), pattern[3])
-#         var rec = num * intensity_multiplier
-#         apply_recoil_rotation(rec * pattern[4])
-#         await get_tree().process_frame
-    
-#     while abs(num - float(pattern[2])) > 0.0001:
-#         num = lerp(num, float(pattern[2]), pattern[3])
-#         var rec = num * intensity_multiplier
-#         apply_recoil_rotation(rec * pattern[4])
-#         await get_tree().process_frame
-
-# func apply_recoil_rotation(rotation_amount: float):
-#     recoil_rotation += rotation_amount
-    
-#     var max_rotation = deg_to_rad(MAX_RECOIL_INTENSITY * 10)
-#     recoil_rotation = clamp(recoil_rotation, -max_rotation, max_rotation)
-
-# func apply_recoil_velocity(pushback_velocity: Vector3):
-#     var current_recoil_intensity = recoil_velocity.length()
-#     var new_recoil_intensity = current_recoil_intensity + pushback_velocity.length()
-#     if new_recoil_intensity > MAX_RECOIL_INTENSITY:
-#         var scale_factor = 1.0 - (new_recoil_intensity - MAX_RECOIL_INTENSITY) / new_recoil_intensity
-#         pushback_velocity *= scale_factor
-    
-    # recoil_velocity += pushback_velocity
-
 func _input(event):
     if event.is_action_pressed("fire"):
         is_firing = true
@@ -148,18 +54,6 @@ func _input(event):
 
 func lerp(a: float, b: float, t: float) -> float:
     return a * (1 - t) + (b * t)
-
-# func update_recoil_bar():
-#     if recoil_bar:
-#         # Calculate recoil intensity as a percentage
-#         # var recoil_intensity = recoil_velocity.length() / MAX_RECOIL_INTENSITY
-#         recoil_intensity = clamp(recoil_intensity, 0.0, 1.0)
-        
-#         # Update bar width (assuming the original width is 1.0)
-#         recoil_bar.scale.x = recoil_intensity
-        
-#         # Update bar color (blue to red)
-#         recoil_bar.modulate = Color(recoil_intensity, 0, 1 - recoil_intensity)
 
 func update_debug_node_position():
     if debug_touch:

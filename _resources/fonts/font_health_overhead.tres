@@ -7,5 +7,5 @@ allow_system_fallback = false
 
 [resource]
 base_font = SubResource("SystemFont_o3egc")
-spacing_glyph = -3
+spacing_glyph = -1
 spacing_space = 12

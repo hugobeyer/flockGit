@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://_scenes/navigation_agent_3d.gd" id="1_28w85"]
 [ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_225vd"]
-[ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="3_lt5t2"]
+[ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://_meshes/Enemy/enemy_imp.tres" id="3_lt5t2"]
 [ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="5_2exbm"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="7_hjpxr"]
 

@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="ShaderController" load_steps=3 format=3 uid="uid://bt8eogunfvls8"]
-
-[ext_resource type="Material" uid="uid://d3ch6woe05ohi" path="res://_materials/buddy_mat.tres" id="1_r8hm5"]
-[ext_resource type="Script" path="res://_scripts/shaders/ShaderController.gd" id="2_8bjgs"]
-
-[resource]
-script = ExtResource("2_8bjgs")
-material = ExtResource("1_r8hm5")

@@ -1,4 +1,4 @@
-# _scripts/formation_manager.gd
+# _scripts/ai/formation_manager.gd
 extends Node3D
 
 enum FormationType {NONE, DIAMOND, LINE, SCATTERED}
@@ -7,23 +7,33 @@ var enemy_formations: Dictionary = {}
 
 func _ready():
     # Connect to the enemy_spawned and enemy_killed signals
-    SignalBus.connect("enemy_spawned", Callable(self, "add_enemy"))
-    SignalBus.connect("enemy_killed", Callable(self, "remove_enemy"))
+    if SignalBus.has_signal("enemy_spawned"):
+        SignalBus.connect("enemy_spawned", Callable(self, "add_enemy"))
+    else:
+        push_error("Signal 'enemy_spawned' does not exist.")
+    
+    if SignalBus.has_signal("enemy_killed"):
+        SignalBus.connect("enemy_killed", Callable(self, "remove_enemy"))
+    else:
+        push_error("Signal 'enemy_killed' does not exist.")
 
 func _process(delta):
     update_formations()
 
 func add_enemy(enemy: CharacterBody3D):
-    var formation_type = determine_formation_type(enemy)
-    enemy_formations[enemy] = formation_type
+    if enemy:
+        var formation_type = determine_formation_type(enemy)
+        enemy_formations[enemy] = formation_type
 
 func remove_enemy(enemy: CharacterBody3D):
-    enemy_formations.erase(enemy)
+    if enemy_formations.has(enemy):
+        enemy_formations.erase(enemy)
 
 func update_formations():
     for enemy in enemy_formations.keys():
-        var offset = get_formation_offset(enemy)
-        enemy.formation_target = enemy.global_position + offset
+        if enemy:
+            var offset = get_formation_offset(enemy)
+            enemy.formation_target = enemy.global_position + offset
 
 func get_formation_offset(enemy: CharacterBody3D) -> Vector3:
     var formation_type = enemy_formations.get(enemy, FormationType.NONE)

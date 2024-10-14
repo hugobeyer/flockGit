@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_ia10i"]
 [ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/enemy_die_fx.tscn" id="2_3gwb4"]
 [ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_gr5oo"]
-[ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="3_qf47k"]
+[ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://_meshes/Enemy/enemy_imp.tres" id="3_qf47k"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_earu6"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="6_i2yu8"]
 [ext_resource type="Script" path="res://_resources/ui/health_bar_3d.gd" id="7_fm5yg"]
@@ -50,7 +50,6 @@ shape = SubResource("CapsuleShape3D_ejukm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00617647, 0.976994, -0.00603771)
 layers = 31
 material_override = ExtResource("2_gr5oo")
-instance_shader_parameters/alpha = null
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
 instance_shader_parameters/lerp_wave = 0.0
 instance_shader_parameters/lerp_wave_contrast = 1.0

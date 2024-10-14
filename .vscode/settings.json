@@ -35,5 +35,8 @@
                 }
             }
         ]
-    }
+    },
+    "godotTools.formatter.maxEmptyLines": "1",
+    "godotTools.inlayHints.gdscript": true,
+    "files.autoSave": "onFocusChange"
 }

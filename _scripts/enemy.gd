@@ -1,3 +1,4 @@
+# enemy.gd
 extends CharacterBody3D
 
 # Export Groups
@@ -65,11 +66,12 @@ var spawner: Node
 
 # Transform Variables
 var initial_mesh_transform: Transform3D
+var formation_target: Vector3 = Vector3.ZERO
 
 # Signals
 signal enemy_killed(enemy)
 
-var formation_target: Vector3
+
 
 func initialize(params: Dictionary):
     var enemy_params = params.get("enemy_params", {})
@@ -111,18 +113,19 @@ func _ready():
     formation_manager = get_parent().get_node("FormationManager")
     if formation_manager:
         formation_manager.add_enemy(self)
-
+func hit(direction: Vector3, hit_damage: float, impulse: float):
+    # Hit logic...
+    if health <= 0:
+        die()
     # Store the initial transform of the mesh
     initial_mesh_transform = mesh_instance.transform
-
-func hit(direction: Vector3, damage: float, impulse: float):
-    var remaining_damage = damage
+    var remaining_damage = hit_damage
 
     if use_shield and shield and shield.get_shield_strength() > 0:
-        remaining_damage = shield.take_damage(damage)
+        remaining_damage = shield.take_damage(hit_damage)
         
         if shield.has_method("apply_shield_effect"):
-            shield.apply_shield_effect(direction * damage)
+            shield.apply_shield_effect(direction * hit_damage)
         
         if shield.get_shield_strength() <= 0:
             _on_shield_depleted()
@@ -228,13 +231,13 @@ func get_formation_offset() -> Vector3:
     return Vector3.ZERO
 
 func apply_knockback(delta):
-    velocity += knockback_velocity
-    knockback_velocity = knockback_velocity.lerp(Vector3.ZERO, delta * 5)  # Gradually reduce knockback
-
+    if knockback_velocity.length() > 0.1:
+        velocity += knockback_velocity * delta
+        knockback_velocity = knockback_velocity.lerp(Vector3.ZERO, knockback_resistance * delta)
 func die():
-    SignalBus.emit_signal("enemy_killed")
-    emit_signal("enemy_killed", self)
-    
+    emit_signal("enemy_killed", self)  # Emit the signal with the correct argument
+    queue_free()
+
     # Instantiate death effect
     if death_effect_scene:
         var death_effect = death_effect_scene.instantiate()

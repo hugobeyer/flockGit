@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://clcwdr5begw0g"]
 
-[ext_resource type="Material" uid="uid://gv7apxiaeus" path="res://_shaders/custom/include/main.tres" id="9_gi1t0"]
+[ext_resource type="Material" uid="uid://bd262mf6ee1vt" path="res://_materials/gr.tres" id="1_vrjdd"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_56ohd"]
 friction = 0.0
@@ -27,23 +27,16 @@ directional_shadow_fade_start = 1.0
 directional_shadow_max_distance = 120.0
 sky_mode = 1
 
-[node name="FloorStatic" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
+[node name="FloorStatic" type="StaticBody3D" parent="."]
 collision_layer = 4
 collision_mask = 27
 physics_material_override = SubResource("PhysicsMaterial_56ohd")
 
-[node name="CollisionPolygon3D" type="CollisionShape3D" parent="FloorStatic" groups=["navigation_mesh_source_group"]]
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="FloorStatic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.01196, 0)
 shape = SubResource("BoxShape3D_seigk")
 
 [node name="FloorMesh" type="MeshInstance3D" parent="FloorStatic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0597019, 0.140897, 0.0823631)
-material_override = ExtResource("9_gi1t0")
-instance_shader_parameters/border_gradient = 0.371
-instance_shader_parameters/border_size = 0.29
-instance_shader_parameters/grid_color_border = Color(0.115173, 0.289063, 0.166797, 1)
-instance_shader_parameters/grid_color_fill = Color(0.230103, 0.40625, 0.265882, 1)
-instance_shader_parameters/grid_scale = 110.835
-instance_shader_parameters/player_position = Vector3(0, 0, 0)
-instance_shader_parameters/randomness = 0.359
+material_override = ExtResource("1_vrjdd")
 mesh = SubResource("PlaneMesh_u173t")

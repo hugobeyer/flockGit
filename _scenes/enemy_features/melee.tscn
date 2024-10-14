@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=4 uid="uid://dwpsppfskic5x"]
 
 [ext_resource type="Script" path="res://_scripts/include/enemy_melee.gd" id="1_dw47a"]
-[ext_resource type="AnimationLibrary" uid="uid://bavw52fdajpd6" path="res://animations/enemy_animation_library.tres" id="2_xhtyw"]
+[ext_resource type="AnimationLibrary" uid="uid://bavw52fdajpd6" path="res://_animations/enemy_animation_library.tres" id="2_xhtyw"]
 [ext_resource type="Material" uid="uid://c0y0m1vx5fhrr" path="res://_materials/prop_inst_mat.tres" id="3_bmokg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pye1y"]

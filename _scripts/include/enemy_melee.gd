@@ -1,4 +1,5 @@
-extends Node3D  # Change from Node3D to CharacterBody3D
+# enemy_melee.gd
+extends CharacterBody3D  # Change from Node3D to CharacterBody3D
 
 @export var animation_player_path: NodePath = "AnimationPlayer"
 @export var melee_node_path: NodePath = "SwordArea"
@@ -15,7 +16,7 @@ extends Node3D  # Change from Node3D to CharacterBody3D
 
 var player_pos: Node3D
 var animation_player: AnimationPlayer
-var melee_node: Node3D
+@onready var melee_node = $Melee
 var can_attack: bool = true
 var is_attacking: bool = false
 var attack_timer: float = 0.0
@@ -25,12 +26,18 @@ func _ready():
 	animation_player = get_node_or_null(animation_player_path)
 	melee_node = get_node_or_null(melee_node_path)
 	
-	if melee_node:
+	if melee_node == null:
+		push_error("Melee node is null in _ready().")
+	else:
 		melee_node.visible = false
 	#else:
 		#push_error("Melee node not found at path: " + melee_node_path)
 
 func _physics_process(delta: float):
+	if melee_node == null:
+		push_error("Melee node is null in _physics_process().")
+		return
+
 	if can_attack and player_pos:
 		var distance = global_position.distance_to(player_pos.global_position)
 		if distance <= attack_radius:
@@ -40,6 +47,10 @@ func _physics_process(delta: float):
 		update_attack(delta)
 
 func start_attack():
+	if melee_node == null:
+		push_error("Melee node is null when starting attack.")
+		return
+
 	if not is_attacking:
 		is_attacking = true
 		can_attack = false

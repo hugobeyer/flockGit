@@ -6,4 +6,3 @@ extends Node3D
 func _ready():
     # Any game initialization code can go here
     pass
-

@@ -1,6 +1,7 @@
 extends Node3D
 
 signal gun_fired(recoil_force: Vector3)
+signal recoil_reset()
 
 #✦ 🔫 BULLET PARAMETERS 🔫                              ✦
 #╘═════════════════════════════════════════════════════╛
@@ -65,7 +66,7 @@ signal gun_fired(recoil_force: Vector3)
 ## Node representing the muzzle (bullet spawn point)
 @onready var muzzle_node = get_node("Muzzle")
 ## Node for the gun that will be rotated for recoil
-@onready var gun_node = %Gun
+@onready var gun_node = self
 # End Node References
 
 # Add these new variables at the top of your script
@@ -77,7 +78,7 @@ var recoil_start_time: float = 0.0
 
 # Variables
 var current_recoil: float = 0.0
-@onready var player = %Player
+@onready var player = get_parent().get_node("Player")
 var time_since_last_shot: float = 0.0
 var last_shot_time: float = 0.0
 var current_recoil_offset: float = 0.0
@@ -87,7 +88,7 @@ var initial_gun_rotation: Vector3  # Store the initial rotation of the gun
 
 # Debug cylinder export variables
 @export_group("Debug Visualization")
-@export var debug_cylinder_scene: PackedScene = preload("res://meshes/debug/cyl_debug.tscn")
+@export var debug_cylinder_scene: PackedScene = preload("res://_meshes/debug/cyl_debug.tscn")
 @export var debug_y_offset: float = 0.0
 @export var debug_x_offset: float = 0.5
 @export var debug_z_offset: float = 0.0
@@ -123,7 +124,7 @@ var recoil_accumulation: float = 0.0  # Add this variable to track recoil buildu
 var is_recovering: bool = false
 var recovery_start_time: float = 0.0
 
-@onready var camera_node = get_tree().current_scene.get_node("Main/GameCamera")  # Assign this in the Inspector
+@onready var camera_node = get_node("/root/Main/GameCamera")  # Assign this in the Inspector
 
 func _ready():
     if camera_node:
@@ -469,6 +470,7 @@ func apply_recoil_force(delta: float):
         # gun_node.rotate_y(current_recoil_rotation_y * delta)
 
 func reset_recoil():
+    emit_signal("recoil_reset")
     if recoil_increase_duration > 0:
         current_recoil = max(current_recoil - (get_curve_value() / recoil_increase_duration), 0.0)
     else:
@@ -481,3 +483,4 @@ func get_curve_value() -> float:
 # Add this function to reset noise sampling when needed (e.g., when stopping shooting)
 func reset_noise_sampling():
     noise_sample_x = 0.0
+

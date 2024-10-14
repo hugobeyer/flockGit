@@ -1,35 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqqehfd6e7dkb"]
+[gd_scene load_steps=2 format=3 uid="uid://cqqehfd6e7dkb"]
 
 [ext_resource type="Script" path="res://_scripts/tools/curve_settings.gd" id="1_i7jsa"]
-
-[sub_resource type="Resource" id="Resource_cu0hv"]
-script = ExtResource("1_i7jsa")
-amplitude = 1.0
-primary_frequency = 1.0
-secondary_frequency = 2.0
-tertiary_frequency = 0.5
-phase_shift = 0.0
-blend_factor = 0.5
-distortion = 0.0
-draw_color = Color(1, 1, 1, 1)
-draw_resolution = 100
-curve_scale = 1.0
-distortion_type = 0
 
 [node name="DebugCurve" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0819929, 0)
 script = ExtResource("1_i7jsa")
-settings = SubResource("Resource_cu0hv")
-resource_name = ""
-script = ExtResource("1_i7jsa")
-amplitude = 1.0
-primary_frequency = 1.0
-secondary_frequency = 2.0
-tertiary_frequency = 0.5
-phase_shift = 0.0
-blend_factor = 0.5
-distortion = 0.0
-draw_color = Color(1, 1, 1, 1)
-draw_resolution = 100
-curve_scale = 1.0
-distortion_type = 0

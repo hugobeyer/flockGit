@@ -59,20 +59,20 @@ void vertex() {
 void fragment() {
     vec2 plane_uv = world_pos.xz * grid_scale;
     float grid_distance = grid_type == 1 ? hex_grid(plane_uv) : square_grid(plane_uv);
-    
+
     float border = smoothstep(0.0, border_gradient, grid_distance);
     vec3 grid_color = mix(color1, color2, border);
-    
+
     vec2 to_player = (world_pos.xz - player_position.xz) * radius_scale;
     float distance_from_player = length(to_player);
     float radial_mask = 1.0 - smoothstep(min_radius, max_radius, distance_from_player);
-    
+
     vec2 pattern_uv = plane_uv * pattern_scale;
     vec2 cell = floor(pattern_uv);
     float cell_random = random(cell);
-    
+
     float pattern0 = checker(pattern_uv);
-    
+
     float pattern1, pattern2;
     if (cell_random < 0.33) {
         pattern1 = ramp_x(pattern_uv);
@@ -84,13 +84,13 @@ void fragment() {
         pattern1 = checker(pattern_uv);
         pattern2 = ramp_x(pattern_uv);
     }
-    
+
     float overlaid_pattern = overlay(pattern1, pattern2);
     float final_pattern = mix(pattern0, overlaid_pattern, radial_mask);
-    
+
     vec3 pattern = mix(vec3(1.0), pattern_color, final_pattern);
-    
+
     vec3 final_color = min(grid_color, pattern);
-    
+
     ALBEDO = final_color;
 }

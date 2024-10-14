@@ -1,27 +1,27 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dgwepgsd2e6j"]
 
-[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_blend_actors.gdshader" id="1_pwgv7"]
+[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="1_h0o1n"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_pwgv7")
-shader_parameter/color_top = Color(0.57, 0.535, 0.268, 0)
-shader_parameter/color_bottom = Color(0.8125, 0.809079, 0.593506, 1)
-shader_parameter/specular_color = Color(1, 1, 1, 1)
-shader_parameter/fresnel_color = Color(0, 0, 0, 1)
+shader = ExtResource("1_h0o1n")
+shader_parameter/color_top = Color(0.521851, 0.561732, 0.59375, 1)
+shader_parameter/color_bottom = Color(0.769821, 0.785156, 0.785156, 1)
+shader_parameter/specular_color = Color(0.806894, 0.832031, 0.510269, 1)
+shader_parameter/fresnel_color = Color(0, 1, 0, 1)
 shader_parameter/vertex_color_mix = 0.0
 shader_parameter/blend_mode = 0
 shader_parameter/gradient_rotation_mode = 1
-shader_parameter/gradient_offset = -0.26
-shader_parameter/gradient_smoothness = 0.029
-shader_parameter/diffuse_contrast = 0.55
-shader_parameter/diffuse_wrap = 0.0
-shader_parameter/diffuse_offset = 0.175
-shader_parameter/specular_intensity = 0.825
-shader_parameter/specular_size = 0.125
-shader_parameter/specular_smoothness = 0.25
-shader_parameter/specular_offset = 0.52
-shader_parameter/fresnel_power = 4.0
+shader_parameter/gradient_offset = -0.31
+shader_parameter/gradient_smoothness = 0.015
+shader_parameter/diffuse_contrast = 8.0
+shader_parameter/diffuse_wrap = 1.225
+shader_parameter/diffuse_offset = -0.109
+shader_parameter/specular_intensity = 1.0
+shader_parameter/specular_size = 0.58
+shader_parameter/specular_smoothness = 0.0
+shader_parameter/specular_offset = 0.26
+shader_parameter/fresnel_power = 10.0
 shader_parameter/fresnel_intensity = 0.0
-shader_parameter/fresnel_contrast = 2.0
-shader_parameter/fresnel_offset = 0.25
+shader_parameter/fresnel_contrast = 4.0
+shader_parameter/fresnel_offset = 0.22

@@ -1,15 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://d04f1fywismba"]
+[gd_scene load_steps=10 format=3 uid="uid://d04f1fywismba"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_gy1cg"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="2_hgf2n"]
-[ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="4_vrwoa"]
-[ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="5_ro2oy"]
+[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/enemy_die_fx.tscn" id="2_pfah5"]
+[ext_resource type="Material" uid="uid://b2i7rflopyeud" path="res://_materials/imp_mats/naked_imp_mat.tres" id="4_828xf"]
 [ext_resource type="Script" path="res://_resources/ui/health_bar_3d.gd" id="6_ym8ub"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejukm"]
 margin = 0.1
 radius = 0.563
 height = 1.922
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wisk0"]
+resource_local_to_scene = true
+radius = 0.372
+height = 1.622
+radial_segments = 9
+rings = 3
 
 [sub_resource type="Gradient" id="Gradient_ld7nr"]
 offsets = PackedFloat32Array(0)
@@ -31,19 +38,22 @@ floor_block_on_wall = false
 safe_margin = 0.05
 script = ExtResource("1_gy1cg")
 max_health = 64.0
+movement_speed = 3.0
 knockback_resistance = 50.0
-turn_speed = 2.0
-detection_range = 64.0
-flock_separation_weight = 2000.0
-flock_alignment_weight = 32.0
-flock_cohesion_weight = 0.5
-flock_neighbor_distance = 8.0
-max_flock_neighbors = 12
+turn_speed = 1.0
+detection_range = 7.0
+flock_separation_weight = 4.0
+flock_alignment_weight = 5.0
+flock_cohesion_weight = 4.0
+max_flock_neighbors = 3
+max_flock_weight_multiplier = 1.0
+death_effect_scene = ExtResource("2_pfah5")
+death_effect_duration = 1.0
+berserk_chance = 0.0
 
 [node name="EnemyEffects" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("2_hgf2n")
-knockback_strength = 8.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00306, 0)
@@ -52,15 +62,15 @@ shape = SubResource("CapsuleShape3D_ejukm")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00617647, 0.976994, -0.00603771)
 layers = 31
-material_override = ExtResource("4_vrwoa")
-instance_shader_parameters/alpha = 0.0
+material_override = ExtResource("4_828xf")
+instance_shader_parameters/alpha = 1.0
 instance_shader_parameters/lerp_color = Color(1, 0, 0.398438, 1)
 instance_shader_parameters/lerp_wave = 0.0
-instance_shader_parameters/lerp_wave_contrast = 4.0
+instance_shader_parameters/lerp_wave_contrast = 2.0
 instance_shader_parameters/lerp_wave_freq = 0.65
 instance_shader_parameters/lerp_wave_offset = 5.85
 instance_shader_parameters/wave_range_lerp = -0.215
-mesh = ExtResource("5_ro2oy")
+mesh = SubResource("CapsuleMesh_wisk0")
 
 [node name="HealthBar" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.549, 0)

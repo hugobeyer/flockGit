@@ -7,9 +7,11 @@
 font = ExtResource("1_567ce")
 font_size = 50
 font_color = Color(0.785156, 0.716005, 0.444717, 1)
-outline_size = 10
-outline_color = Color(0, 0, 0, 1)
+outline_size = 14
+outline_color = Color(0.3, 0.25, 0, 1)
 shadow_size = 0
+shadow_color = Color(0, 0, 0, 0.501961)
+shadow_offset = Vector2(7, 7)
 
 [node name="GameLayer" type="CanvasLayer"]
 
@@ -38,8 +40,9 @@ pivot_offset = Vector2(128, 20)
 mouse_filter = 1
 theme_override_constants/outline_size = 20
 theme_override_font_sizes/font_size = 38
-text = "based: 367"
+text = "BASED: 367"
 label_settings = SubResource("LabelSettings_qjc2v")
 horizontal_alignment = 2
+autowrap_mode = 3
 script = ExtResource("2_tm4wx")
 metadata/_edit_use_anchors_ = true

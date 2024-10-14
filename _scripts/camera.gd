@@ -3,12 +3,12 @@ extends Camera3D
 var initial_transform: Transform3D
 
 @export var player_pos: Node3D
-@export var camera_offset: Vector3 = Vector3(32, 60, 24)
-@export var max_offset: float = 4.0
-@export_range(0, 1, 0.001) var attraction_strength: float = 0.5
-@export_range(0, 1, 0.001) var damping: float = 0.1
+@export var camera_offset: Vector3 = Vector3(55, 64, 44)
+@export var max_offset: float = 20.0
+@export_range(0, 1, 0.001) var attraction_strength: float = 0.6
+@export_range(0, 1, 0.001) var damping: float = 0.5
 @export_range(0, 1, 0.001) var blend_factor: float = 0.5
-@export_range(0, 1, 0.001) var look_adjust_strength: float = 0.2
+@export_range(0, 1, 0.001) var look_adjust_strength: float = 0.25
 @export_range(0, 1, 0.001) var enemies_average_smoothing: float = 0.5
 
 var camera_velocity: Vector3 = Vector3.ZERO

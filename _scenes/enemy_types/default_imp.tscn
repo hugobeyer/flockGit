@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://d1d575aqxdr14"]
+[gd_scene load_steps=12 format=3 uid="uid://d1d575aqxdr14"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_jusx3"]
+[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/enemy_die_fx.tscn" id="2_37k2w"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="2_sw2cq"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="3_1kdl0"]
-[ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="4_505b5"]
-[ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://meshes/Enemy/enemy_imp.tres" id="5_rb61c"]
+[ext_resource type="Material" uid="uid://chsniolv24rhs" path="res://_materials/imp_mats/shielded_imp_mat.tres" id="5_62w86"]
 [ext_resource type="Script" path="res://_resources/ui/health_bar_3d.gd" id="6_qqfu2"]
 [ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="7_qfwfo"]
 
@@ -12,6 +12,13 @@
 margin = 0.1
 radius = 0.563
 height = 1.922
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xwmmt"]
+resource_local_to_scene = true
+radius = 0.521
+height = 1.622
+radial_segments = 9
+rings = 3
 
 [sub_resource type="Gradient" id="Gradient_ld7nr"]
 offsets = PackedFloat32Array(0)
@@ -30,17 +37,19 @@ axis_lock_linear_y = true
 wall_min_slide_angle = 1.24093
 floor_stop_on_slope = false
 floor_block_on_wall = false
-safe_margin = 0.05
+safe_margin = 0.005
 script = ExtResource("1_jusx3")
-max_health = 64.0
+max_health = 50.0
+movement_speed = 7.0
 knockback_resistance = 50.0
-turn_speed = 2.0
-detection_range = 64.0
-flock_separation_weight = 2000.0
-flock_alignment_weight = 32.0
-flock_cohesion_weight = 0.5
-flock_neighbor_distance = 8.0
-max_flock_neighbors = 12
+turn_speed = 3.0
+detection_range = 32.0
+flock_separation_weight = 4.0
+flock_alignment_weight = 3.0
+flock_neighbor_distance = 5.0
+max_flock_neighbors = 7
+death_effect_scene = ExtResource("2_37k2w")
+death_effect_duration = 1.0
 
 [node name="EnemyEffects" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -57,7 +66,7 @@ shape = SubResource("CapsuleShape3D_ejukm")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00617647, 0.976994, -0.00603771)
 layers = 31
-material_override = ExtResource("4_505b5")
+material_override = ExtResource("5_62w86")
 instance_shader_parameters/alpha = 0.0
 instance_shader_parameters/lerp_color = Color(1, 0.726563, 0, 1)
 instance_shader_parameters/lerp_wave = 0.0
@@ -65,7 +74,7 @@ instance_shader_parameters/lerp_wave_contrast = 4.0
 instance_shader_parameters/lerp_wave_freq = 0.65
 instance_shader_parameters/lerp_wave_offset = 5.85
 instance_shader_parameters/wave_range_lerp = -0.215
-mesh = ExtResource("5_rb61c")
+mesh = SubResource("CapsuleMesh_xwmmt")
 
 [node name="HealthBar" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.549, 0)
@@ -98,4 +107,5 @@ region_rect = Rect2(0, 0, 120, 50)
 
 [node name="MeleeWeapon" parent="." instance=ExtResource("7_qfwfo")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+animation_player_path = NodePath("")
 melee_node_path = NodePath(".")

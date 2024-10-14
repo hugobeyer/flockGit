@@ -1,8 +1,11 @@
 [gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://cws4onh6frwva"]
 
 [sub_resource type="SystemFont" id="SystemFont_o3egc"]
+font_names = PackedStringArray("Lilita One", "Poppins", "Titan One", "Bowlby One SC")
+generate_mipmaps = true
+allow_system_fallback = false
 
 [resource]
 base_font = SubResource("SystemFont_o3egc")
-variation_face_index = 3
-spacing_space = 4
+spacing_glyph = -3
+spacing_space = 12

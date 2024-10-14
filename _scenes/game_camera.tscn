@@ -2,17 +2,10 @@
 
 [ext_resource type="Script" path="res://_scripts/camera.gd" id="1_we4ag"]
 
-[node name="GameCamera" type="Camera3D" node_paths=PackedStringArray("player_pos")]
+[node name="GameCamera" type="Camera3D"]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 24, 64, 32)
 fov = 22.0
 far = 20000.0
 script = ExtResource("1_we4ag")
-player_pos = NodePath("")
-camera_offset = Vector3(55, 78, 32)
-max_offset = 64.0
-attraction_strength = 0.9
-damping = 0.7
-blend_factor = 0.25
-look_adjust_strength = 0.125
-enemies_average_smoothing = 0.25
+camera_offset = Vector3(55, 64, 44)
 metadata/_edit_pinned_properties_ = [&"camera_offset"]

@@ -6,7 +6,7 @@ extends CharacterBody3D
 @export var movement_speed: float = 5.0
 @export var knockback_resistance: float = 2.0
 @export var turn_speed: float = 4.0  # Radians per second
-@export var detection_range: float = 20.0  # How far the enemy can detect the player
+@export var detection_range: float = 36.0  # How far the enemy can detect the player
 
 # Flocking Parameters
 @export_group("Flocking Parameters")
@@ -15,9 +15,11 @@ extends CharacterBody3D
 @export var flock_cohesion_weight: float = 2.0
 @export var flock_neighbor_distance: float = 3.0
 @export var max_flock_neighbors: int = 5  # Maximum number of neighbors to consider
+@export var flock_weight_change_rate: float = 0.1
+@export var max_flock_weight_multiplier: float = 2.0
 
 # Other variables and nodes
-@onready var shield: EnemyShield = $EnemyShield
+@onready var shield: EnemyShield = $EnemyShield if has_node("EnemyShield") else null
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var effects: EnemyEffects = $EnemyEffects
 @onready var health_bar: Sprite3D = $HealthBar
@@ -25,8 +27,26 @@ extends CharacterBody3D
 var health: float = 100.0
 var knockback_velocity: Vector3 = Vector3.ZERO
 var player: Node3D = null
+var time_alive: float = 0
+var is_berserk: bool = false
 
 signal enemy_killed(enemy)
+
+# Death Effect Parameters
+@export_group("Death Effect Parameters")
+@export var death_effect_scene: PackedScene
+@export var death_effect_duration: float = 2.0  # Duration in seconds
+
+@export var berserk_chance: float = 0.01
+@export var berserk_speed_multiplier: float = 2.0
+@export var berserk_duration: float = 5.0
+
+@export var damage: float = 10.0  # Add this line
+
+@export var use_shield: bool = false
+@export var use_melee: bool = false
+
+@onready var melee_weapon = $MeleeWeapon if has_node("MeleeWeapon") else null
 
 func _ready():
     health = max_health
@@ -36,21 +56,28 @@ func _ready():
         # Log a warning if shield is not found
         push_warning("Shield node not found!")
     player = get_tree().current_scene.get_node("Main/Player")
+    var default_hit_color = mesh.get_instance_shader_parameter("lerp_color")  # Visual indicator
+
     if not player:
         push_error("Player node not found!")
     update_health_bar()
     add_to_group("enemies")  # Add this enemy to the 'enemies' group
 
+    if shield:
+        shield.visible = use_shield
+    if melee_weapon:
+        melee_weapon.set_process(use_melee)
+
 func hit(direction: Vector3, damage: float, impulse: float):
     var remaining_damage = damage
 
-    if is_instance_valid(shield) and shield.get_shield_strength() > 0:
+    if use_shield and shield and shield.get_shield_strength() > 0:
         remaining_damage = shield.take_damage(damage)
         
-        if is_instance_valid(shield) and shield.has_method("apply_shield_effect"):
+        if shield.has_method("apply_shield_effect"):
             shield.apply_shield_effect(direction * damage)
         
-        if is_instance_valid(shield) and shield.get_shield_strength() <= 0:
+        if shield.get_shield_strength() <= 0:
             _on_shield_depleted()
     else:
         shield = null  # Ensure shield is set to null if depleted
@@ -65,6 +92,10 @@ func hit(direction: Vector3, damage: float, impulse: float):
             if effects:
                 effects.apply_damage_effect(direction)
 
+    var health_percentage = health / max_health
+    flock_cohesion_weight = lerp(flock_cohesion_weight * 2, flock_cohesion_weight * 0.5, health_percentage)
+    flock_separation_weight = lerp(flock_separation_weight * 0.5, flock_separation_weight * 2, health_percentage)
+
 func update_health_bar():
     if health_bar:
         var health_percent = health / max_health
@@ -76,11 +107,17 @@ func update_health_bar():
         push_warning("Health bar is null or not assigned.")
 
 func _process(delta):
+    time_alive += delta
+    var weight_multiplier = min(1 + time_alive * flock_weight_change_rate, max_flock_weight_multiplier)
+    flock_alignment_weight = flock_alignment_weight * weight_multiplier
+    flock_cohesion_weight = flock_cohesion_weight * weight_multiplier
     if player and global_position.distance_to(player.global_position) <= detection_range:
         orient_to_movement(delta)
     # Make the health bar face the camera/player
     if health_bar and player:
         health_bar.look_at(player.global_position, Vector3.UP)
+    if not is_berserk and randf() < berserk_chance * delta:
+        enter_berserk_mode()
 
 func orient_to_movement(delta):
     var move_direction = velocity.normalized()
@@ -95,6 +132,10 @@ func _physics_process(delta):
 
 func move_towards_player(delta):
     if player:
+        var distance_to_player = global_position.distance_to(player.global_position)
+        var aggression_factor = 1.0 - (distance_to_player / detection_range)
+        var current_speed = lerp(movement_speed * 0.5, movement_speed * 1.5, aggression_factor)
+        
         var player_pos = player.global_position
         var direction_to_player = (player_pos - global_position)
         direction_to_player.y = 0  # Ignore vertical difference
@@ -104,7 +145,7 @@ func move_towards_player(delta):
         flocking_force.y = 0
 
         var desired_direction = (direction_to_player + flocking_force).normalized()
-        var desired_velocity = desired_direction * movement_speed
+        var desired_velocity = desired_direction * current_speed
 
         # Smoothly interpolate velocity towards desired_velocity
         velocity = velocity.lerp(desired_velocity, delta * 5.0)
@@ -118,6 +159,22 @@ func apply_knockback(delta):
 
 func die():
     SignalBus.emit_signal("enemy_killed")
+    emit_signal("enemy_killed", self)
+    
+    # Instantiate death effect
+    if death_effect_scene:
+        var death_effect = death_effect_scene.instantiate()
+        get_parent().add_child(death_effect)
+        death_effect.global_position = global_position
+        
+        # Ensure the particle system starts emitting
+        if death_effect is GPUParticles3D:
+            death_effect.emitting = true
+        
+        # Set up a timer to remove the effect after the specified duration
+        var timer = get_tree().create_timer(death_effect_duration)
+        timer.connect("timeout", Callable(death_effect, "queue_free"))
+    
     queue_free()
 
 func _on_shield_depleted():
@@ -164,10 +221,33 @@ func calculate_flocking_force():
     if neighbor_count > 0:
         # Average the forces
         separation_force = (separation_force / neighbor_count) * flock_separation_weight
-        alignment_force = ((alignment_force / neighbor_count).normalized() - velocity.normalized()) * flock_alignment_weight
-        cohesion_force = ((cohesion_force / neighbor_count) - global_position).normalized() * flock_cohesion_weight
+        alignment_force = ((alignment_force / neighbor_count) - velocity) * flock_alignment_weight
+        cohesion_force = ((cohesion_force / neighbor_count) - global_position) * flock_cohesion_weight
 
     # Combine and normalize the flocking forces
-    var flocking_force = (separation_force + alignment_force + cohesion_force).normalized() * 0.5  # Adjust the strength as needed
+    var flocking_force = (separation_force + alignment_force + cohesion_force).normalized() * 4.0  # Adjust the strength as needed
 
     return flocking_force
+
+func set_physics_enabled(enabled: bool):
+    set_physics_process(enabled)
+    # Do NOT disable the collider here
+    # $CollisionShape3D.disabled = !enabled  # Remove this line if it exists
+
+func enter_berserk_mode():
+    is_berserk = true
+    movement_speed *= berserk_speed_multiplier
+    flock_separation_weight *= 0.5  # Reduce separation to make them cluster more
+    mesh.set_instance_shader_parameter("lerp_wave", 0.5)  # Visual indicator
+    mesh.set_instance_shader_parameter("lerp_color", Color(1.5, 0.1, 0.1, 1.0))  # Visual indicator
+
+    await get_tree().create_timer(berserk_duration).timeout
+    exit_berserk_mode()
+
+func exit_berserk_mode():
+    var default_hit_color = mesh.get_instance_shader_parameter("lerp_color")  # Visual indicator
+    is_berserk = false
+    movement_speed /= berserk_speed_multiplier
+    flock_separation_weight *= 2  # Restore original separation
+    mesh.set_instance_shader_parameter("lerp_wave", 0.0)  # Restore original color
+    mesh.set_instance_shader_parameter("lerp_color", default_hit_color)  # Restore original color

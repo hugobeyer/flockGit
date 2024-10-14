@@ -1,13 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://c2xd4i2lcvsgy"]
+[gd_scene load_steps=12 format=3 uid="uid://c2xd4i2lcvsgy"]
 
 [ext_resource type="Script" path="res://_scripts/game_root.gd" id="1_1826r"]
 [ext_resource type="PackedScene" uid="uid://clcwdr5begw0g" path="res://_scenes/main.tscn" id="2_3drmh"]
+[ext_resource type="Script" path="res://_scripts/main.gd" id="3_l2xr8"]
 [ext_resource type="PackedScene" uid="uid://dvgngt6gepjjp" path="res://_scenes/game_camera.tscn" id="3_l3dno"]
 [ext_resource type="PackedScene" uid="uid://ba1iyod4gohu8" path="res://_scenes/UI/main_hud.tscn" id="3_vcc8n"]
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://_scenes/player.tscn" id="4_2xjta"]
+[ext_resource type="Script" path="res://_scripts/ai/AIDirector.gd" id="4_5jyth"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="5_hue05"]
 [ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://_scenes/spawner.tscn" id="6_tgciq"]
-[ext_resource type="PackedScene" uid="uid://d1d575aqxdr14" path="res://_scenes/enemy_types/default_imp.tscn" id="7_h77po"]
 [ext_resource type="PackedScene" uid="uid://cwaii0c2fbcpm" path="res://_scenes/debug_touch.tscn" id="8_fqblv"]
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_428cj"]
 
@@ -15,19 +16,17 @@
 script = ExtResource("1_1826r")
 
 [node name="Main" parent="." instance=ExtResource("2_3drmh")]
+script = ExtResource("3_l2xr8")
+
+[node name="AIDirector" type="Node3D" parent="Main"]
+script = ExtResource("4_5jyth")
 
 [node name="GameCamera" parent="Main" node_paths=PackedStringArray("player_pos") instance=ExtResource("3_l3dno")]
 unique_name_in_owner = true
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 33.085, 48.535, 32.62)
 current = true
 fov = 18.0
-player_pos = NodePath("../Player")
-camera_offset = Vector3(40, 66, 32)
-attraction_strength = 0.585
-damping = 0.63
-blend_factor = 0.315
-look_adjust_strength = 0.457
-enemies_average_smoothing = 0.315
+player_pos = NodePath("../Player/CameraAim")
 
 [node name="Player" parent="Main" node_paths=PackedStringArray("camera", "debug_touch") instance=ExtResource("4_2xjta")]
 unique_name_in_owner = true
@@ -36,20 +35,46 @@ debug_touch = NodePath("../debug_touch")
 
 [node name="Gun" parent="Main/Player" instance=ExtResource("5_hue05")]
 unique_name_in_owner = true
+bullet_speed = 55.0
+bullet_damage = 4.0
+knockback = 2.0
+spread_count_bullet = 5
+spread_count_angle = 35.0
 recoil_force = 3.0
-max_recoil = 15.0
-mouse_reset_threshold = 0.105
+max_recoil = 16.84
+recoil_amplitude = 1.472
+recoil_frequency = 1.7
+recoil_increase_duration = 5.0
+recoil_linear_damp = 1.15
+recoil_angle_damp = 0.025
+recoil_mouse_up_recovery_time = 1.2501
+mouse_reset_threshold = 0.412
+
+[node name="CameraAim" type="Marker3D" parent="Main/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.37249, 0)
 
 [node name="Spawner" parent="Main" instance=ExtResource("6_tgciq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-enemy_scene = ExtResource("7_h77po")
-spawn_height = 0.145
-max_enemies = 24
+min_spawn_radius = 24.0
+max_spawn_radius = 50.0
+below_ground_offset = 1.0
+max_enemies = 100
+min_spawn_interval = 2.0
+max_spawn_interval = 7.0
+max_cluster_points = 5
+min_enemies_per_cluster = 5
+max_enemies_per_cluster = 11
 
 [node name="debug_touch" parent="Main" instance=ExtResource("8_fqblv")]
 
 [node name="Buddy" parent="Main" instance=ExtResource("9_428cj")]
 unique_name_in_owner = true
+follow_speed = 8.0
+push_force = 35.0
+wander_speed = 12.0
+offset_to_player = Vector3(1, 3, 1)
+fear_threshold = 5
+warning_duration = 5.0
 
 [node name="MainHUD" parent="." instance=ExtResource("3_vcc8n")]
 follow_viewport_enabled = true

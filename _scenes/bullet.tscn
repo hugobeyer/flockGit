@@ -1,53 +1,57 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbg8lda400aod"]
 
 [ext_resource type="Script" path="res://_scripts/bullet.gd" id="1_6qr1r"]
-[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_blend_actors.gdshader" id="2_p11i0"]
+[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="2_548kj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_44twl"]
 render_priority = 0
-shader = ExtResource("2_p11i0")
-shader_parameter/color_top = Color(1, 0.733333, 0, 1)
-shader_parameter/color_bottom = Color(0.12, 0.12, 0.12, 0)
+shader = ExtResource("2_548kj")
+shader_parameter/color_top = Color(0.703125, 0.536865, 0.0796509, 1)
+shader_parameter/color_bottom = Color(0.492188, 0.492188, 0.492188, 1)
 shader_parameter/specular_color = Color(1, 1, 1, 1)
 shader_parameter/fresnel_color = Color(1, 1, 1, 1)
 shader_parameter/vertex_color_mix = 0.0
 shader_parameter/blend_mode = 1
 shader_parameter/gradient_rotation_mode = 1
-shader_parameter/gradient_offset = -0.07
-shader_parameter/gradient_smoothness = 0.165
-shader_parameter/diffuse_contrast = 2.03
+shader_parameter/gradient_offset = -0.14
+shader_parameter/gradient_smoothness = 0.0
+shader_parameter/diffuse_contrast = 0.88
 shader_parameter/diffuse_wrap = 2.0
-shader_parameter/diffuse_offset = -0.316
+shader_parameter/diffuse_offset = 0.0
 shader_parameter/specular_intensity = 1.0
-shader_parameter/specular_size = 0.204
-shader_parameter/specular_smoothness = 0.08
-shader_parameter/specular_offset = 0.115
+shader_parameter/specular_size = 0.264
+shader_parameter/specular_smoothness = 0.0
+shader_parameter/specular_offset = 0.261
 shader_parameter/fresnel_power = 1.735
 shader_parameter/fresnel_intensity = 0.0
 shader_parameter/fresnel_contrast = 2.615
 shader_parameter/fresnel_offset = 0.251
 
 [sub_resource type="SphereMesh" id="SphereMesh_0a1fa"]
-radius = 0.275
-height = 0.61
+radius = 0.314
+height = 0.559
 radial_segments = 7
 rings = 6
 is_hemisphere = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8016x"]
-radius = 0.266
-height = 0.813
+radius = 0.297
+height = 0.7
 
 [node name="Bullet" type="Area3D"]
 top_level = true
 collision_layer = 8
 collision_mask = 6
 input_ray_pickable = false
+priority = 1
+gravity_point = true
+linear_damp_space_override = 3
+linear_damp = 11.98
 script = ExtResource("1_6qr1r")
 damage = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(-1, -8.74228e-08, 0, -3.82137e-15, 4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 4.64828e-08, -2.32414e-08, 0.531701)
 material_override = SubResource("ShaderMaterial_44twl")
 instance_shader_parameters/alpha = 1.0
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)

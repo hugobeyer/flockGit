@@ -1,9 +1,9 @@
 extends Node3D  # Change from Node3D to CharacterBody3D
 
-@export var animation_player_path: NodePath = "../AnimationPlayer"
-@export var melee_node_path: NodePath = "../MeleeWeapon/SwordArea"
+@export var animation_player_path: NodePath = "AnimationPlayer"
+@export var melee_node_path: NodePath = "SwordArea"
 @export var swing_animation: String = "swing_animation"
-@export var player_pos_path: NodePath = "../Player"
+@export var player_pos_path: NodePath
 
 @export var animation_speed: float = 4.0
 @export var attack_radius: float = 4.0
@@ -21,7 +21,7 @@ var is_attacking: bool = false
 var attack_timer: float = 0.0
 
 func _ready():
-	player_pos = get_node_or_null(player_pos_path)
+	player_pos = get_tree().current_scene.get_node("Main/Player")
 	animation_player = get_node_or_null(animation_player_path)
 	melee_node = get_node_or_null(melee_node_path)
 	

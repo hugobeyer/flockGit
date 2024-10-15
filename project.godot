@@ -8,6 +8,17 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/fold_docks=false
+
 [application]
 
 config/name="Flock"
@@ -30,19 +41,17 @@ shapes/navigation/agent_path_point_size=32.0
 
 [display]
 
-window/size/viewport_width=554
-window/size/viewport_height=854
+window/size/viewport_width=700
+window/size/viewport_height=1200
 window/size/initial_position_type=3
 window/size/always_on_top=true
 window/size/extend_to_title=true
 window/stretch/aspect="keep_width"
 window/dpi/allow_hidpi=false
-display_server/driver.windows="windows"
-display_server/driver.android="android"
-display_server/driver.ios="iOS"
-display_server/driver.macos="macos"
+display_server/driver="opengl3"
 window/handheld/orientation=1
 window/vsync/vsync_mode=0
+mouse_cursor/custom_image="res://addons/orchestrator/editor/icons/CircleValue.svg"
 
 [editor]
 
@@ -51,7 +60,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Gizmo3DScript/plugin.cfg", "res://addons/tnowe_extra_controls/plugin.cfg")
+enabled=PackedStringArray("res://addons/GDScript.h8.Palette/plugin.cfg", "res://addons/Hider Node/plugin.cfg", "res://addons/Previewer_2D_3D/plugin.cfg", "res://addons/proton_scatter/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg", "res://addons/thumbstick_plugin/plugin.cfg")
 
 [file_customization]
 
@@ -65,13 +74,10 @@ folder_colors={
 "res://_scripts/": "blue",
 "res://_scripts/z_bkp/": "gray",
 "res://_shaders/": "purple",
+"res://_textures/": "pink",
 "res://addons/": "gray",
 "res://assets/": "gray"
 }
-
-[filesystem]
-
-import/blender/enabled=false
 
 [global]
 
@@ -94,6 +100,33 @@ shield=""
 enemies=""
 player=""
 cameragame=""
+
+[importer_defaults]
+
+texture={
+"compress/channel_pack": 1,
+"compress/mode": 2,
+"compress/normal_map": 2,
+"mipmaps/generate": true,
+"process/premult_alpha": true,
+"process/size_limit": 1024,
+"roughness/mode": 1
+}
+font_data_dynamic={
+"disable_embedded_bitmaps": false,
+"force_autohinter": true
+}
+animation_library={
+"animation/fps": 60.0
+}
+scene={
+"animation/fps": 60.0,
+"meshes/generate_lods": false,
+"meshes/light_baking": 0,
+"nodes/import_as_skeleton_bones": true,
+"nodes/root_name": "root",
+"nodes/root_type": "Node3D"
+}
 
 [input]
 
@@ -140,29 +173,74 @@ shoot={
 
 [layer_names]
 
+3d_render/layer_1="actors"
+3d_render/layer_2="static"
+3d_render/layer_3="particles"
+3d_render/layer_4="ui"
+3d_render/layer_5="hud"
+3d_render/layer_6="pickables"
 3d_physics/layer_1="player"
-3d_navigation/layer_1="player"
+3d_navigation/layer_1="nav_player"
 3d_physics/layer_2="enemies"
-3d_navigation/layer_2="enemies"
+3d_navigation/layer_2="nav_enemies"
 3d_physics/layer_3="environment"
-3d_navigation/layer_3="environment"
-3d_physics/layer_4="projectiles"
-3d_physics/layer_5="buddy"
+3d_navigation/layer_3="nav_environment"
+3d_physics/layer_4="buddy"
+3d_navigation/layer_4="nav_npc"
+3d_physics/layer_5="player_projectiles"
+3d_physics/layer_6="player_shield"
+3d_physics/layer_7="player_melee"
+3d_physics/layer_8="player_explosive"
+3d_physics/layer_9="player_lvl_teleport"
+3d_physics/layer_10="enemy_melee"
+3d_physics/layer_11="enemy_explosive"
+3d_physics/layer_12="enemy_shield"
+3d_physics/layer_13="enemy_magic"
+3d_physics/layer_14="enemy_trap"
+3d_physics/layer_15="enemy_hive"
+3d_physics/layer_16="portal"
+3d_physics/layer_17="teleporter"
+3d_physics/layer_18="blocker"
+3d_physics/layer_19="blocker_brokeable"
+3d_physics/layer_20="pickables"
+3d_physics/layer_25="txt_msg"
+3d_physics/layer_30="resource0"
+3d_physics/layer_31="resource1"
+3d_physics/layer_32="resource2"
+avoidance/layer_1="avoid_foliage"
+avoidance/layer_2="avoid_trap"
+avoidance/layer_3="avoid_scary"
+avoidance/layer_4="avoid_hole"
+
+[navigation]
+
+3d/default_cell_height=0.5
 
 [orchestrator]
 
+settings/runtime/max_call_stack=256
+settings/runtime/max_loop_iterations=10000
+ui/graph/confirm_on_delete=false
+ui/graph/show_autowire_selection_dialog=false
+ui/graph/show_arrange_button=true
+ui/nodes/highlight_selected_connections=true
+ui/nodes/border_radius=2
+ui/nodes/border_width=1
 settings/action_favorites=PackedStringArray("Math/remap")
+
+[physics]
+
+3d/physics_engine="Rapier3D"
 
 [rendering]
 
 textures/canvas_textures/default_texture_repeat=1
-rendering_device/driver.windows="d3d12"
+rendering_device/driver="opengl3"
 rendering_device/fallback_to_vulkan=false
 rendering_device/fallback_to_d3d12=false
 renderer/rendering_method="mobile"
 renderer/rendering_method.web="mobile"
 shading/overrides/force_lambert_over_burley=true
-driver/depth_prepass/enable=false
 textures/default_filters/anisotropic_filtering_level=1
 environment/ssao/quality=1
 environment/screen_space_reflection/roughness_quality=0

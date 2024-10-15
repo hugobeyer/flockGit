@@ -124,7 +124,7 @@ var recoil_accumulation: float = 0.0  # Add this variable to track recoil buildu
 var is_recovering: bool = false
 var recovery_start_time: float = 0.0
 
-@onready var camera_node = get_node("/root/Main/GameCamera")  # Assign this in the Inspector
+@export var camera_node: Camera3D  # Assign this in the Inspector
 
 func _ready():
     if camera_node:

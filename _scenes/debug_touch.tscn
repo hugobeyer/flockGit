@@ -27,14 +27,12 @@ script = ExtResource("1_un1yd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.313429, 0)
-visible = false
 material_override = SubResource("ShaderMaterial_er31h")
 cast_shadow = 0
 mesh = SubResource("SphereMesh_gbmjj")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.960055, 0, 0, 0, -4.19653e-08, -0.960055, 0, 0.960055, -4.19653e-08, 0, 0.313429, 3.09012)
-visible = false
 material_override = SubResource("ShaderMaterial_er31h")
 cast_shadow = 0
 mesh = SubResource("CylinderMesh_50qok")

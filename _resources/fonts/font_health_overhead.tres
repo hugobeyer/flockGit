@@ -1,11 +1,10 @@
 [gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://cws4onh6frwva"]
 
-[sub_resource type="SystemFont" id="SystemFont_o3egc"]
-font_names = PackedStringArray("Lilita One", "Poppins", "Titan One", "Bowlby One SC")
-generate_mipmaps = true
+[sub_resource type="SystemFont" id="SystemFont_4qjkv"]
+font_names = PackedStringArray("Squada One", "Lilita One", "Bowlby One SC", "Bungee", "Righteous", "MingLiU-ExtB", "MV Boli", "Ink Free", "Ebrima", "Poppins", "Luckiest Guy", "Fantasy", "MV Boli", "Suez One", "Bowlby One SC", "Titan One")
 allow_system_fallback = false
+subpixel_positioning = 3
 
 [resource]
-base_font = SubResource("SystemFont_o3egc")
-spacing_glyph = -1
-spacing_space = 12
+base_font = SubResource("SystemFont_4qjkv")
+spacing_glyph = -11

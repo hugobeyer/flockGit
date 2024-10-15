@@ -19,7 +19,6 @@ radial_segments = 6
 rings = 1
 
 [node name="Gun" type="Node3D"]
-physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_x0345")
 fire_rate = 0.025
@@ -41,12 +40,6 @@ recoil_mouse_up_recovery_time = 0.7501
 mouse_reset_threshold = 0.095
 debug_x_offset = 3.0
 debug_cylinder_spacing = 1.0
-
-[node name="Muzzle" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.16924)
-
-[node name="Marker3D" type="Marker3D" parent="Muzzle"]
-gizmo_extents = 1.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.492335)

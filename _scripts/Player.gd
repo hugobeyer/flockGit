@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var SPEED: float = 6.0
 @export var camera: Camera3D = null
 @export var debug_touch = Node3D
-@onready var gun =  get_node("/root/Main/Player/Gun")  # Adjust the path if necessary
+@onready var gun =  get_node("/root/GameRoot/Main/Player/Gun")  # Adjust the path if necessary
 @onready var playerSelf: CharacterBody3D
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 

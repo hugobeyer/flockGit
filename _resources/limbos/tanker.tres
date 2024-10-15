@@ -1,0 +1,67 @@
+[gd_resource type="BehaviorTree" load_steps=4 format=3 uid="uid://byc1qiqgmd15k"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_4h3ad"]
+var/instantiate/name = &"instantiate"
+var/instantiate/type = 1
+var/instantiate/value = false
+var/instantiate/hint = 0
+var/instantiate/hint_string = ""
+var/main_health/name = &"main_health"
+var/main_health/type = 3
+var/main_health/value = 50.0
+var/main_health/hint = 0
+var/main_health/hint_string = "main_health"
+var/main_damage/name = &"main_damage"
+var/main_damage/type = 3
+var/main_damage/value = 1.0
+var/main_damage/hint = 0
+var/main_damage/hint_string = "main_damage"
+var/movement_speed/name = &"movement_speed"
+var/movement_speed/type = 3
+var/movement_speed/value = 5.0
+var/movement_speed/hint = 0
+var/movement_speed/hint_string = "move_speed"
+var/turn_speed/name = &"turn_speed"
+var/turn_speed/type = 3
+var/turn_speed/value = 0.0
+var/turn_speed/hint = 0
+var/turn_speed/hint_string = "turn_speed"
+var/get_detection_range/name = &"get_detection_range"
+var/get_detection_range/type = 3
+var/get_detection_range/value = 25.0
+var/get_detection_range/hint = 1
+var/get_detection_range/hint_string = "get_detection_range"
+var/has_weapon/name = &"has_weapon"
+var/has_weapon/type = 1
+var/has_weapon/value = false
+var/has_weapon/hint = 0
+var/has_weapon/hint_string = "has_weapon"
+var/has_shield/name = &"has_shield"
+var/has_shield/type = 1
+var/has_shield/value = false
+var/has_shield/hint = 0
+var/has_shield/hint_string = "has_shield"
+var/target_node/name = &"target_node"
+var/target_node/type = 22
+var/target_node/value = NodePath("")
+var/target_node/hint = 0
+var/target_node/hint_string = "target_node"
+var/if_target_node/name = &"if_target_node"
+var/if_target_node/type = 1
+var/if_target_node/value = false
+var/if_target_node/hint = 0
+var/if_target_node/hint_string = "if_target_node"
+var/target_pos/name = &"target_pos"
+var/target_pos/type = 9
+var/target_pos/value = Vector3(0, 0, 0)
+var/target_pos/hint = 0
+var/target_pos/hint_string = "target_pos"
+
+[sub_resource type="BTSequence" id="BTSequence_xoutt"]
+
+[sub_resource type="BTDelay" id="BTDelay_gaigb"]
+children = [SubResource("BTSequence_xoutt")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_4h3ad")
+root_task = SubResource("BTDelay_gaigb")

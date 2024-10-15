@@ -3,10 +3,15 @@
     "res://_materials/": {
       "resource_local_to_scene": true,
       "resource_name": true
+    },
+    "res://_scenes/enemy_types/": {
+      "resource_local_to_scene": true,
+      "resource_name": true
     }
   },
   "recent_paths": [
-    "res://_materials/"
+    "res://_materials/",
+    "res://_scenes/enemy_types/"
   ],
   "table_functions": {
     "filter": [

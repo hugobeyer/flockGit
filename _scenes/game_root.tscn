@@ -1,16 +1,14 @@
-[gd_scene load_steps=20 format=3 uid="uid://c2xd4i2lcvsgy"]
+[gd_scene load_steps=18 format=3 uid="uid://c2xd4i2lcvsgy"]
 
 [ext_resource type="Script" path="res://_scripts/game_root.gd" id="1_1826r"]
 [ext_resource type="PackedScene" uid="uid://clcwdr5begw0g" path="res://_scenes/main.tscn" id="2_3drmh"]
 [ext_resource type="Script" path="res://_scripts/main.gd" id="3_l2xr8"]
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://_scenes/player.tscn" id="4_2xjta"]
 [ext_resource type="Script" path="res://_scripts/ai/AIDirector.gd" id="4_5jyth"]
-[ext_resource type="Script" path="res://_scripts/camera.gd" id="5_wstud"]
 [ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://_scenes/spawner.tscn" id="6_tgciq"]
 [ext_resource type="PackedScene" uid="uid://cwaii0c2fbcpm" path="res://_scenes/debug_touch.tscn" id="8_fqblv"]
 [ext_resource type="Script" path="res://_scripts/ai/formation_manager.gd" id="9_7yfm7"]
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_428cj"]
-[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="11_q8qd3"]
 [ext_resource type="FontVariation" uid="uid://cws4onh6frwva" path="res://_resources/fonts/font_health_overhead.tres" id="12_ihlwy"]
 [ext_resource type="Script" path="res://_scripts/UI/game_label_kills.gd" id="13_aid0c"]
 
@@ -66,17 +64,6 @@ script = ExtResource("3_l2xr8")
 [node name="AIDirector" type="Node3D" parent="Main"]
 script = ExtResource("4_5jyth")
 
-[node name="GameCamera" type="Camera3D" parent="Main" node_paths=PackedStringArray("player_pos") groups=["cameragame"]]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 33.085, 48.535, 32.62)
-current = true
-fov = 32.0
-far = 20000.0
-script = ExtResource("5_wstud")
-player_pos = NodePath("../Player/Player")
-camera_offset = Vector3(22, 44, 32)
-max_offset = 22.13
-attraction_strength = 1.0
-
 [node name="Spawner" parent="Main" instance=ExtResource("6_tgciq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 min_spawn_radius = 10.4
@@ -93,7 +80,7 @@ cluster_radius = 10.075
 script = ExtResource("9_7yfm7")
 
 [node name="debug_touch" parent="Main" node_paths=PackedStringArray("camera", "player") instance=ExtResource("8_fqblv")]
-camera = NodePath("../GameCamera")
+camera = NodePath("")
 player = NodePath("../Player")
 
 [node name="Buddy" parent="Main" instance=ExtResource("9_428cj")]
@@ -111,18 +98,8 @@ warning_cooldown = 3.0
 spiral_attack_duration = 4.0
 
 [node name="Player" parent="Main" node_paths=PackedStringArray("camera", "debug_touch") instance=ExtResource("4_2xjta")]
-camera = NodePath("../GameCamera")
+camera = NodePath("")
 debug_touch = NodePath("../debug_touch")
-
-[node name="Gun" parent="Main/Player" node_paths=PackedStringArray("camera_node") instance=ExtResource("11_q8qd3")]
-top_level = true
-camera_node = NodePath("../../GameCamera")
-
-[node name="Muzzle" type="Node3D" parent="Main/Player/Gun"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.16924)
-
-[node name="Marker3D" type="Marker3D" parent="Main/Player/Gun/Muzzle"]
-gizmo_extents = 1.0
 
 [node name="MainHUD" type="Node3D" parent="."]
 

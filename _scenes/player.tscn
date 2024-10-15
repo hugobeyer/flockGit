@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=9 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://_scripts/Player.gd" id="1_7wjim"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
+[ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="3_v7pw0"]
+[ext_resource type="Script" path="res://_scripts/camera.gd" id="4_pg2h6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
 margin = 0.25
@@ -57,6 +59,24 @@ instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("CapsuleMesh_ayx0v")
 skeleton = NodePath("")
 
-[node name="CameraAim" type="Marker3D" parent="."]
-transform = Transform3D(0.999908, -0.0120488, 0.0062203, 0.0120859, 0.999909, -0.00596117, -0.00614791, 0.0060358, 0.999963, -0.0536833, 5.55509, 0.0233915)
-visible = false
+[node name="Gun" parent="." node_paths=PackedStringArray("camera_node") instance=ExtResource("3_v7pw0")]
+top_level = true
+camera_node = NodePath("")
+
+[node name="Muzzle" type="Node3D" parent="Gun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.16924)
+
+[node name="Marker3D" type="Marker3D" parent="Gun/Muzzle"]
+gizmo_extents = 1.0
+
+[node name="GameCamera" type="Camera3D" parent="." node_paths=PackedStringArray("player_pos") groups=["cameragame"]]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 33.085, 48.535, 32.62)
+top_level = true
+current = true
+fov = 32.0
+far = 20000.0
+script = ExtResource("4_pg2h6")
+player_pos = NodePath("")
+camera_offset = Vector3(22, 44, 32)
+max_offset = 22.13
+attraction_strength = 1.0

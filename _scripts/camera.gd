@@ -18,7 +18,7 @@ func _ready():
     initial_transform = global_transform
     smoothed_enemies_average = player_pos.global_position
     if not player_pos:
-        player_pos = get_parent().get_node("Player")
+        player_pos = get_parent()
         if not player_pos:
             push_error("Player node not found. Please assign it in the editor or ensure the path is correct.")
 

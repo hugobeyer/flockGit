@@ -1,12 +1,12 @@
 [gd_scene load_steps=12 format=3 uid="uid://d1d575aqxdr14"]
 
-[ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_jusx3"]
-[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/enemy_die_fx.tscn" id="2_37k2w"]
-[ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="2_sw2cq"]
-[ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="3_1kdl0"]
-[ext_resource type="Material" uid="uid://chsniolv24rhs" path="res://_materials/imp_mats/shielded_imp_mat.tres" id="5_62w86"]
-[ext_resource type="Script" path="res://_resources/ui/health_bar_3d.gd" id="6_qqfu2"]
-[ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="7_qfwfo"]
+[ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_mpxs5"]
+[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/enemy_die_fx.tscn" id="2_q0ntc"]
+[ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="3_rmv3q"]
+[ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_nge7d"]
+[ext_resource type="Material" uid="uid://chsniolv24rhs" path="res://_materials/imp_mats/shielded_imp_mat.tres" id="5_urvln"]
+[ext_resource type="Script" path="res://_resources/ui/health_bar_3d.gd" id="6_35d1j"]
+[ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="7_gffri"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ejukm"]
 margin = 0.1
@@ -38,24 +38,39 @@ wall_min_slide_angle = 1.24093
 floor_stop_on_slope = false
 floor_block_on_wall = false
 safe_margin = 0.005
-script = ExtResource("1_jusx3")
+script = ExtResource("1_mpxs5")
+resource_path = null
+use_shield = null
+use_melee = null
 max_health = 50.0
 movement_speed = 7.0
 knockback_resistance = 50.0
 turn_speed = 3.0
 detection_range = 32.0
+damage = null
 flock_separation_weight = 4.0
 flock_alignment_weight = 3.0
+flock_cohesion_weight = null
 flock_neighbor_distance = 5.0
 max_flock_neighbors = 7
-death_effect_scene = ExtResource("2_37k2w")
+flock_weight_change_rate = null
+max_flock_weight_multiplier = null
+death_effect_scene = ExtResource("2_q0ntc")
 death_effect_duration = 1.0
+berserk_chance = null
+berserk_speed_multiplier = null
+berserk_duration = null
+wander_radius = null
+wander_interval = null
+wobble_strength = null
+wobble_decay = null
+wobble_damping = null
 
 [node name="EnemyEffects" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-script = ExtResource("2_sw2cq")
+script = ExtResource("3_rmv3q")
 
-[node name="EnemyShield" parent="." groups=["shield"] instance=ExtResource("3_1kdl0")]
+[node name="EnemyShield" parent="." groups=["shield"] instance=ExtResource("4_nge7d")]
 effect_duration = 0.2
 max_shield_strength = 50.0
 
@@ -66,7 +81,7 @@ shape = SubResource("CapsuleShape3D_ejukm")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00617647, 0.976994, -0.00603771)
 layers = 31
-material_override = ExtResource("5_62w86")
+material_override = ExtResource("5_urvln")
 instance_shader_parameters/alpha = 0.0
 instance_shader_parameters/lerp_color = Color(1, 0.726563, 0, 1)
 instance_shader_parameters/lerp_wave = 0.0
@@ -87,9 +102,8 @@ double_sided = false
 texture_filter = 0
 texture = SubResource("GradientTexture2D_jvmx3")
 region_rect = Rect2(0, 0, 120, 50)
-script = ExtResource("6_qqfu2")
+script = ExtResource("6_35d1j")
 color0 = Color(0.875, 1, 0, 1)
-color3 = Color(1, 0, 0, 1)
 bar_width_px = 120
 bar_height_px = 32
 
@@ -105,7 +119,7 @@ render_priority = -1
 texture = SubResource("GradientTexture2D_jvmx3")
 region_rect = Rect2(0, 0, 120, 50)
 
-[node name="MeleeWeapon" parent="." instance=ExtResource("7_qfwfo")]
+[node name="MeleeWeapon" parent="." instance=ExtResource("7_gffri")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 animation_player_path = NodePath("")
 melee_node_path = NodePath(".")

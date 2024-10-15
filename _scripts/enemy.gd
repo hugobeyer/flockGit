@@ -1,77 +1,13 @@
 # enemy.gd
 extends CharacterBody3D
 
-# Export Groups
-@export_group("General Enemy Parameters")
-@export var max_health: float = 100.0
-@export var movement_speed: float = 5.0
-@export var knockback_resistance: float = 2.0
-@export var turn_speed: float = 4.0
-@export var detection_range: float = 36.0
-@export var damage: float = 10.0
-@export var use_shield: bool = false
-@export var use_melee: bool = false
-
-@export_group("Flocking Parameters")
-@export var flock_separation_weight: float = 3.0
-@export var flock_alignment_weight: float = 2.0
-@export var flock_cohesion_weight: float = 2.0
-@export var flock_neighbor_distance: float = 3.0
-@export var max_flock_neighbors: int = 5
-@export var flock_weight_change_rate: float = 0.1
-@export var max_flock_weight_multiplier: float = 2.0
-
-@export_group("Death Effect Parameters")
-@export var death_effect_scene: PackedScene
-@export var death_effect_duration: float = 2.0
-
-@export_group("Berserk Parameters")
-@export var berserk_chance: float = 0.01
-@export var berserk_speed_multiplier: float = 2.0
-@export var berserk_duration: float = 5.0
-
-@export_group("Wander Parameters")
-@export var wander_radius: float = 10.0
-@export var wander_interval: float = 3.0
-
-@export_group("Wobble Effect Parameters")
-@export var wobble_strength: float = 1.0
-@export var wobble_decay: float = 5.0
-@export_range(0, 1) var wobble_damping: float = 0.98
-
-# Onready Variables
-@onready var shield: EnemyShield = $EnemyShield if has_node("EnemyShield") else null
-@onready var mesh: MeshInstance3D = $MeshInstance3D
-@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var effects: EnemyEffects = $EnemyEffects
-@onready var health_bar: Sprite3D = $HealthBar
-@onready var melee_weapon = $MeleeWeapon if has_node("MeleeWeapon") else null
-
-# State Variables
-var health: float = 100.0
-var is_berserk: bool = false
-var time_alive: float = 0
-var wander_time: float = 0
-var wander_direction: Vector3 = Vector3.ZERO
-
-# Physics Variables
-var knockback_velocity: Vector3 = Vector3.ZERO
-var wobble_velocity: Vector3 = Vector3.ZERO
-
-# Reference Variables
-var player: Node3D = null
-var formation_manager: Node3D
-var ai_director: Node
-var spawner: Node
-
-# Transform Variables
-var initial_mesh_transform: Transform3D
-var formation_target: Vector3 = Vector3.ZERO
+@export var enemy_type: Resource
 
 # Signals
 signal enemy_killed(enemy)
 
-
+### here, find me a way to set the enemy params from the enemy_types_res_data.gd file
+### so that i can just include what is needed from that file
 
 func initialize(params: Dictionary):
     var enemy_params = params.get("enemy_params", {})
@@ -93,6 +29,8 @@ func initialize(params: Dictionary):
     # Initialize other properties as needed
 
 func _ready():
+    if enemy_type:
+        apply_enemy_type()
     if use_shield:
         if shield:
             shield.connect("shield_depleted", Callable(self, "_on_shield_depleted"))
@@ -113,6 +51,36 @@ func _ready():
     formation_manager = get_parent().get_node("FormationManager")
     if formation_manager:
         formation_manager.add_enemy(self)
+
+func apply_enemy_type():
+    for property in enemy_type.get_property_list():
+        if property.usage == PROPERTY_USAGE_SCRIPT_VARIABLE:
+            set(property.name, enemy_type.get(property.name))
+
+    # Initialize health
+    health = max_health
+    
+    # Additional setup based on enemy type properties
+    if use_shield:
+        setup_shield()
+    if use_melee:
+        setup_melee_weapon()
+    
+    update_health_bar()
+
+func setup_shield():
+    if shield:
+        shield.connect("shield_depleted", Callable(self, "_on_shield_depleted"))
+        shield.visible = true
+    else:
+        push_warning("Shield node not found for an enemy that should have a shield!")
+
+func setup_melee_weapon():
+    if melee_weapon:
+        melee_weapon.set_process(true)
+    else:
+        push_warning("Melee weapon node not found for an enemy that should have a melee weapon!")
+
 func hit(direction: Vector3, hit_damage: float, impulse: float):
     # Hit logic...
     if health <= 0:

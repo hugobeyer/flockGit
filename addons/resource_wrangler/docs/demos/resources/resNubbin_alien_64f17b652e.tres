@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="resNubbin" load_steps=2 format=3 uid="uid://xr7vwco66xk7"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/extending_classes/nubbin.gd" id="1_w8f37"]
+
+[resource]
+script = ExtResource("1_w8f37")
+name = "Gorzak"

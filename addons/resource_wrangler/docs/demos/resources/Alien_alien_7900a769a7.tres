@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Alien" load_steps=2 format=3 uid="uid://b70ruaw7kgk8y"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/extending_classes/alien.gd" id="1_dkhd2"]
+
+[resource]
+script = ExtResource("1_dkhd2")
+name = "Gorzak"

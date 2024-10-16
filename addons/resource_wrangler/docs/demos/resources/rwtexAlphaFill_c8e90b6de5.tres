@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="rwtexAlphaFill" load_steps=4 format=3 uid="uid://u5f0d4ovojtm"]
+
+[ext_resource type="Texture2D" uid="uid://ybfo5ovkntmc" path="res://addons/resource_wrangler/docs/demos/resources/NoiseTexture2D_ac9bacc7bb.tres" id="1_sctb3"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/alpha_fill.gd" id="2_ocmow"]
+[ext_resource type="Texture2D" uid="uid://c45ggb80uswpx" path="res://addons/resource_wrangler/docs/demos/resources/GradientTexture2D_c7413fc237.tres" id="3_mj58a"]
+
+[resource]
+script = ExtResource("2_ocmow")
+texture = ExtResource("3_mj58a")
+fac = ExtResource("1_sctb3")
+invert = true

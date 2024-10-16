@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="advSpace" load_steps=2 format=3 uid="uid://ysj81lvln2le"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/rooms_demo/advSpace.gd" id="1_d48pc"]
+
+[resource]
+script = ExtResource("1_d48pc")
+name = "Castle"
+desc = "Ohhhh."

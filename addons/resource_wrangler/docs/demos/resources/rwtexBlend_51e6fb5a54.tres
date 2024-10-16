@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="rwtexBlend" load_steps=4 format=3 uid="uid://c82ng2vs1doum"]
+
+[ext_resource type="Resource" uid="uid://c2iaokhri0vjv" path="res://addons/resource_wrangler/docs/demos/resources/rwtexAlphaFill_15e3f1a9b5.tres" id="1_dg2o6"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/blend.gd" id="1_hu4wy"]
+[ext_resource type="Resource" uid="uid://cqsnsbbl2lkwt" path="res://addons/resource_wrangler/docs/demos/resources/rwtexBCS_f2f816a337.tres" id="3_n7p7e"]
+
+[resource]
+script = ExtResource("1_hu4wy")
+source = ExtResource("3_n7p7e")
+background = ExtResource("1_dg2o6")

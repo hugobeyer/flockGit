@@ -1,0 +1,172 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=18 format=3 uid="uid://cry3bgrid4ioj"]
+
+[ext_resource type="Resource" uid="uid://ds0021brbdvhe" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexAlphaFill_7111993c1e.tres" id="1_fcdno"]
+[ext_resource type="Resource" uid="uid://d16rkiy16wym6" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexBCS_c6cfa08f41.tres" id="2_t7e85"]
+[ext_resource type="Resource" uid="uid://dkvhsr1av6u8b" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexBlend_0a5a7c0c4d.tres" id="4_cvv6p"]
+[ext_resource type="Resource" uid="uid://dwmula51yy3gg" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexColor_9e4db4dd69.tres" id="5_vkvh0"]
+[ext_resource type="Resource" uid="uid://cy0fk2kwixc1p" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexFiddle_02dcf7321e.tres" id="6_g6pb1"]
+[ext_resource type="Resource" uid="uid://bsscuitdg3h65" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexJoinRGBA_d551c2634b.tres" id="7_x605r"]
+[ext_resource type="Resource" uid="uid://cwvsgr1vrqla" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexMix_5eb1d6ec42.tres" id="8_pwa2i"]
+[ext_resource type="Resource" uid="uid://doonhrtdbbjkm" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexNormalMap_2d9b6e87e4.tres" id="9_3r00g"]
+[ext_resource type="Resource" uid="uid://db7lhdljui4cm" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexShaderMaterialCapture_d4cac71bd3.tres" id="10_1u0e7"]
+[ext_resource type="Resource" uid="uid://it2rdf0es5ch" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexSplitAlpha_4d83da016b.tres" id="11_wd20m"]
+[ext_resource type="Resource" uid="uid://bqf00652dg7jh" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexSplitBlue_f3362c3236.tres" id="12_kq27q"]
+[ext_resource type="Resource" uid="uid://bljqgy8el3fhp" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexSplitGreen_383b06bf4c.tres" id="13_p18er"]
+[ext_resource type="Resource" uid="uid://c05v70nm8sadg" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexSplitRed_a15efff260.tres" id="14_6a0ur"]
+[ext_resource type="Resource" uid="uid://d28080mt3x3yb" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexTextRender_2801533bb9.tres" id="15_2b1it"]
+[ext_resource type="Texture2D" uid="uid://bdbwaggwxxv5g" path="res://addons/resource_wrangler/docs/demos/resources/rwtexBake_ab8c63ca76.res" id="16_afjmk"]
+[ext_resource type="LabelSettings" uid="uid://dd41thlx70lpq" path="res://addons/resource_wrangler/src/nodes/docs/resources/rwtexTextSettings_90290bcd3f.tres" id="16_we6se"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="17_4aggb"]
+
+[resource]
+script = ExtResource("17_4aggb")
+board_zoom = 0.445628
+scroll_offset = Vector2(-170.128, 57.1025)
+nodes_data = {
+"02dcf7321e": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"02dcf7321e",
+"position_offset": Vector2(-654.757, 310.62),
+"resource": ExtResource("6_g6pb1"),
+"resource_class_name": "rwtexFiddle"
+},
+"0a5a7c0c4d": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"0a5a7c0c4d",
+"position_offset": Vector2(-61.7962, -21.7305),
+"resource": ExtResource("4_cvv6p"),
+"resource_class_name": "rwtexBlend"
+},
+"2801533bb9": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"2801533bb9",
+"position_offset": Vector2(354.008, 307.946),
+"resource": ExtResource("15_2b1it"),
+"resource_class_name": "rwtexTextRender"
+},
+"2d9b6e87e4": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"2d9b6e87e4",
+"position_offset": Vector2(-101.327, 309.156),
+"resource": ExtResource("9_3r00g"),
+"resource_class_name": "rwtexNormalMap"
+},
+"383b06bf4c": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"383b06bf4c",
+"position_offset": Vector2(693.679, -18.8023),
+"resource": ExtResource("13_p18er"),
+"resource_class_name": "rwtexSplitGreen"
+},
+"4d83da016b": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"4d83da016b",
+"position_offset": Vector2(318.87, -21.7305),
+"resource": ExtResource("11_wd20m"),
+"resource_class_name": "rwtexSplitAlpha"
+},
+"5eb1d6ec42": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"5eb1d6ec42",
+"position_offset": Vector2(-284.339, 306.228),
+"resource": ExtResource("8_pwa2i"),
+"resource_class_name": "rwtexMix"
+},
+"7111993c1e": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"7111993c1e",
+"position_offset": Vector2(-657.685, -21.7305),
+"resource": ExtResource("1_fcdno"),
+"resource_class_name": "rwtexAlphaFill"
+},
+"90290bcd3f": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"90290bcd3f",
+"position_offset": Vector2(548.734, 304.764),
+"resource": ExtResource("16_we6se"),
+"resource_class_name": "rwtexTextSettings"
+},
+"9e4db4dd69": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"9e4db4dd69",
+"position_offset": Vector2(127.073, -21.7305),
+"resource": ExtResource("5_vkvh0"),
+"resource_class_name": "rwtexColor"
+},
+"a15efff260": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"a15efff260",
+"position_offset": Vector2(882.548, -20.2664),
+"resource": ExtResource("14_6a0ur"),
+"resource_class_name": "rwtexSplitRed"
+},
+"ab8c63ca76": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"ab8c63ca76",
+"position_offset": Vector2(-261.954, -20.3439),
+"resource": ExtResource("16_afjmk"),
+"resource_class_name": "rwtexBake"
+},
+"c6cfa08f41": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"c6cfa08f41",
+"position_offset": Vector2(-451.247, -18.8023),
+"resource": ExtResource("2_t7e85"),
+"resource_class_name": "rwtexBCS"
+},
+"d4cac71bd3": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"d4cac71bd3",
+"position_offset": Vector2(89.0061, 304.764),
+"resource": ExtResource("10_1u0e7"),
+"resource_class_name": "rwtexShaderMaterialCapture"
+},
+"d551c2634b": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"d551c2634b",
+"position_offset": Vector2(-467.352, 306.228),
+"resource": ExtResource("7_x605r"),
+"resource_class_name": "rwtexJoinRGBA"
+},
+"f3362c3236": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"f3362c3236",
+"position_offset": Vector2(507.739, -21.7305),
+"resource": ExtResource("12_kq27q"),
+"resource_class_name": "rwtexSplitBlue"
+}
+}
+connections = []
+board_created_outside_rw = false

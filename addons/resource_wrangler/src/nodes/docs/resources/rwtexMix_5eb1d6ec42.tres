@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="rwtexMix" load_steps=2 format=3 uid="uid://cwvsgr1vrqla"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/mix.gd" id="1_mc20l"]
+
+[resource]
+script = ExtResource("1_mc20l")

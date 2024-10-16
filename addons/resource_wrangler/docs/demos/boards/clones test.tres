@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=4 format=3 uid="uid://n0vbtgv8gy0v"]
+
+[ext_resource type="Resource" uid="uid://1npx25xsgtgk" path="res://addons/resource_wrangler/docs/demos/resources/rwtexTextRender_40e19d168a.tres" id="3_wecwq"]
+[ext_resource type="LabelSettings" uid="uid://cupu0q3kcm4lw" path="res://addons/resource_wrangler/docs/demos/resources/rwtexTextSettings_46990aa5bc.tres" id="4_v7aw5"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="5_c171a"]
+
+[resource]
+script = ExtResource("5_c171a")
+board_zoom = 0.56589
+scroll_offset = Vector2(-1044.1, -311.747)
+nodes_data = {
+"46990aa5bc": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"46990aa5bc",
+"position_offset": Vector2(-267.082, -103.824),
+"resource": ExtResource("4_v7aw5"),
+"resource_class_name": "rwtexTextSettings"
+},
+"6c13d0ed80": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"6c13d0ed80",
+"position_offset": Vector2(50.2951, 24.9924),
+"resource": ExtResource("3_wecwq"),
+"resource_class_name": "rwtexTextRender"
+},
+"8c7b46f5a7": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"8c7b46f5a7",
+"position_offset": Vector2(8.69956, -264.622),
+"resource": ExtResource("3_wecwq"),
+"resource_class_name": "rwtexTextRender"
+},
+"8ecdc4296c": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"8ecdc4296c",
+"position_offset": Vector2(285.069, -170.496),
+"resource": ExtResource("3_wecwq"),
+"resource_class_name": "rwtexTextRender"
+}
+}
+connections = [{
+"from": &"46990aa5bc",
+"from_port": 0,
+"to": &"6c13d0ed80",
+"to_port": 1
+}]

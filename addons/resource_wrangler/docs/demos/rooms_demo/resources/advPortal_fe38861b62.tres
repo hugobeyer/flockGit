@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="advPortal" load_steps=5 format=3 uid="uid://oav8p1coddso"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/rooms_demo/advPortal.gd" id="1_fnchd"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/rooms_demo/advSpace.gd" id="2_an6br"]
+[ext_resource type="Resource" uid="uid://ctsi3wayg7m23" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_0fcda2ab61.tres" id="2_segj5"]
+[ext_resource type="Resource" uid="uid://di8e1or0e4evt" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_af07dc6ad0.tres" id="3_pxhaw"]
+
+[resource]
+script = ExtResource("1_fnchd")
+name = "Portcullis"
+desc = "Imposing..."
+locked = true
+spaces = Array[ExtResource("2_an6br")]([ExtResource("2_segj5"), ExtResource("3_pxhaw")])

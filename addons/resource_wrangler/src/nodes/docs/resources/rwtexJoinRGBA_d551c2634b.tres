@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="rwtexJoinRGBA" load_steps=2 format=3 uid="uid://bsscuitdg3h65"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/rgbajoin.gd" id="1_r852x"]
+
+[resource]
+script = ExtResource("1_r852x")

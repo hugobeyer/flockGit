@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="rwtexFiddle" load_steps=3 format=3 uid="uid://dy8mtyjtwu8ub"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/fiddle.gd" id="1_xdf2t"]
+[ext_resource type="Resource" uid="uid://1npx25xsgtgk" path="res://addons/resource_wrangler/docs/demos/resources/rwtexTextRender_40e19d168a.tres" id="2_wrtuj"]
+
+[resource]
+script = ExtResource("1_xdf2t")
+texture = ExtResource("2_wrtuj")
+invert = false
+rotate_90 = 0
+flip_x = false
+flip_y = false
+normal_to_xy = false
+fix_alpha_edges = false
+premultiply_alpha = false
+shrink_x2 = false

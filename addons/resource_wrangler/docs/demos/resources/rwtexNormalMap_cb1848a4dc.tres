@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="rwtexNormalMap" load_steps=3 format=3 uid="uid://cnfdmtk3w3iqd"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/normal_map.gd" id="1_sd7uw"]
+[ext_resource type="Texture2D" uid="uid://k0m0e3jwp8nm" path="res://addons/resource_wrangler/docs/demos/resources/GradientTexture2D_744dee6135.tres" id="2_y8v8s"]
+
+[resource]
+script = ExtResource("1_sd7uw")
+texture = ExtResource("2_y8v8s")
+bump_scale = 10.0

@@ -1,0 +1,4 @@
+Icons for Resource Wrangler Image Nodes
+==
+Licence is CC-BY-SA
+Some inspiration was taken from the Inkscape icons and the Godot icons.

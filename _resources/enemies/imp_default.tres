@@ -1,32 +1,3 @@
-[gd_resource type="Resource" script_class="EnemyType" load_steps=3 format=3 uid="uid://xcou7bosypjt"]
-
-[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/default_enemy_die_fx.tscn" id="1_csst1"]
-[ext_resource type="Script" path="res://_scripts/resources/enemy_type.gd" id="1_kft7n"]
+[gd_resource type="Resource" format=3 uid="uid://xcou7bosypjt"]
 
 [resource]
-script = ExtResource("1_kft7n")
-use_shield = false
-use_melee = false
-max_health = 100.0
-movement_speed = 6.0
-knockback_resistance = 80.0
-turn_speed = 3.0
-detection_range = 32.0
-damage = 5.0
-flock_separation_weight = 5.0
-flock_alignment_weight = 1.0
-flock_cohesion_weight = 2.0
-flock_neighbor_distance = 5.0
-max_flock_neighbors = 8
-flock_weight_change_rate = 0.1
-max_flock_weight_multiplier = 2.0
-death_effect_scene = ExtResource("1_csst1")
-death_effect_duration = 1.0
-berserk_chance = 0.0
-berserk_speed_multiplier = 2.0
-berserk_duration = 3.0
-wander_radius = 5.0
-wander_interval = 5.0
-wobble_strength = 1.0
-wobble_decay = 0.2
-wobble_damping = 0.9

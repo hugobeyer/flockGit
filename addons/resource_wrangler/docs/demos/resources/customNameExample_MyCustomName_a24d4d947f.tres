@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="customNameExample" load_steps=2 format=3 uid="uid://b1scy3i280rnf"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_metadata_example.gd" id="1_jyx5p"]
+
+[resource]
+script = ExtResource("1_jyx5p")
+name = "default"

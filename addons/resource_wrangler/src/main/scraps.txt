@@ -1,0 +1,78 @@
+board.gd scraps:
+===
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### A dud resource to fool the inspector
+#class dudRes extends Resource:
+	#@export var nada:bool
+
+#
+#func get_nodes_from(start):
+	#var stack=[]
+	#var curr
+	#var stack2=[]
+	#stack.append(start)
+	#stack2.append(start)
+	##print("start:", start.res)
+	#var bail:=false
+	#while true:
+		#curr = stack.pop_front()
+		#var who_i_connect_to : Array = get_connection_list().filter(
+			#func(d):return d.from_node == curr.name)
+		#for conn in who_i_connect_to:
+			#var _anode = map_id_to_rwnode.get(conn.to_node)
+			#if _anode in stack2:
+				##print(_anode.res, " : ", _anode, " vs ", stack2)
+				## Not perfect yet, but it catches them!
+				#main_view.feedback("Possible infinite loop detected.", &"WARNING")
+				#bail = true
+				#break
+			#stack.append(_anode)
+			#_anode.res.emit_changed()
+			##_anode.update_upstream_nodes.emit()
+		#if bail: break
+		#stack2.append_array(stack)
+		#if stack.size()==0: break
+#
+
+
+	#assert(false)
+	#
+	#var who_i_connect_to : Array = get_connection_list().filter(
+		#func(d):return d.from_node == start.name)
+	#print(who_i_connect_to)
+	## tell each of them to also refresh.
+	#for conn in who_i_connect_to:
+		#var other_rwnode = map_id_to_rwnode.get(conn.to_node)
+		#if other_rwnode:
+			##other_rwnode.res.emit_changed()
+			#other_rwnode.cascade_update()
+#
+#
+	## previews to actually update.
+	#self.refresh_from_resource()
+	## Now, who do i connect to?
+	#var who_i_connect_to : Array = board.get_connection_list().filter(
+		#func(d):return d.from_node == self.name)
+	#print(who_i_connect_to)
+	## tell each of them to also refresh.
+	#for conn in who_i_connect_to:
+		#var other_rwnode = board.map_id_to_rwnode.get(conn.to_node)
+		#if other_rwnode:
+			##other_rwnode.res.emit_changed()
+			#other_rwnode.cascade_update()
+
+

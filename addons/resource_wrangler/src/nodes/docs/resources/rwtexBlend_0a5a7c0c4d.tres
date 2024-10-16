@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="rwtexBlend" load_steps=2 format=3 uid="uid://dkvhsr1av6u8b"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/blend.gd" id="1_mk672"]
+
+[resource]
+script = ExtResource("1_mk672")

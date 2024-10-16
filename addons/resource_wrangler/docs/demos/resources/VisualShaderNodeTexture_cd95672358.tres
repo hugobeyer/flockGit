@@ -1,0 +1,6 @@
+[gd_resource type="VisualShaderNodeTexture" load_steps=2 format=3 uid="uid://67487r8f1inm"]
+
+[ext_resource type="Texture2D" uid="uid://dj1hmhd0yxj4f" path="res://addons/resource_wrangler/docs/demos/resources/new_noise_texture_2d.tres" id="1_wxhh0"]
+
+[resource]
+texture = ExtResource("1_wxhh0")

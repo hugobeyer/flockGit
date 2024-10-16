@@ -1,6 +1,6 @@
 [gd_resource type="VisualShader" load_steps=8 format=3 uid="uid://c4mlfhsa5keiy"]
 
-[ext_resource type="Texture2D" uid="uid://dil1pqmf4s0n3" path="res://assets/stone_tiles_basecolor.png" id="1_cb8xo"]
+[ext_resource type="Texture2D" uid="uid://dil1pqmf4s0n3" path="res://_textures/stone_tiles_basecolor.png" id="1_cb8xo"]
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_lviul"]
 expanded_output_ports = [0]

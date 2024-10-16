@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="rwtexMix" load_steps=4 format=3 uid="uid://cxpyie4gi6ci6"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/mix.gd" id="1_dcob5"]
+[ext_resource type="Resource" uid="uid://bfv1f8hkvc16t" path="res://addons/resource_wrangler/docs/demos/resources/rwtexFiddle_80524e4349.tres" id="2_8ilk6"]
+[ext_resource type="Texture2D" uid="uid://b2ghtw7prmxns" path="res://addons/resource_wrangler/docs/demos/resources/NoiseTexture2D_a4160fa3ff.tres" id="3_in6rh"]
+
+[resource]
+script = ExtResource("1_dcob5")
+texture1 = ExtResource("2_8ilk6")
+texture2 = ExtResource("3_in6rh")

@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://qg1v0hltqkq5"]
+
+[ext_resource type="Material" uid="uid://d08lgsr5xxp4o" path="res://addons/resource_wrangler/docs/demos/resources/orange.tres" id="1_a12sh"]
+
+[node name="mushroom" type="Node3D"]
+
+[node name="shroom" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00663111, 0)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="shroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0917744, 0)
+radius = 0.0283605
+height = 0.3
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="shroom"]
+transform = Transform3D(1, 0, 0, 0, 0.0034383, -0.999994, 0, 0.999994, 0.0034383, 0, 0.00195115, -0.307501)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="shroom/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1.0018, 0, 0, 2.32831e-10, 0.477063, 0, 0.307066, -0.15859)
+material_override = ExtResource("1_a12sh")
+radius = 0.2
+radial_segments = 14
+material = ExtResource("1_a12sh")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="shroom/CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.308782, 0)
+material_override = ExtResource("1_a12sh")
+operation = 2
+radius = 0.231896
+radial_segments = 14
+material = ExtResource("1_a12sh")
+
+[node name="shroom2" type="CSGCombiner3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00663111, 0)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="shroom2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0175123, 0)
+radius = 0.0542969
+height = 0.17335
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="shroom2"]
+transform = Transform3D(1, 0, 0, 0, 0.0034383, -0.999994, 0, 0.999994, 0.0034383, 0, 0.00195115, -0.307501)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="shroom2/CSGCombiner3D"]
+transform = Transform3D(0.534743, 0, 0, 0, 0.533785, 5.82077e-10, 0, 0, 0.520954, 0, 0.307277, -0.0671443)
+material_override = ExtResource("1_a12sh")
+radius = 0.2
+radial_segments = 14
+material = ExtResource("1_a12sh")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="shroom2/CSGCombiner3D"]
+transform = Transform3D(0.534743, 0, 0, 0, 0.534743, 0, 0, 0, 0.534743, 0, 0.308195, 0.0176605)
+material_override = ExtResource("1_a12sh")
+operation = 2
+radius = 0.231896
+radial_segments = 14
+material = ExtResource("1_a12sh")

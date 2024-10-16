@@ -1,0 +1,255 @@
+
+rwnode.gd scraps:
+===
+
+	#else:
+		#var _suff := NS.Gen.get_lowercase_suffix(resource_classname)
+		#if _suff:
+			#_n = resource_classname.replace(_suff,"")
+			#var _col = rwnode_classname_label.get_theme_color("default_color")
+			#_col = Color(_col.r, _col.g, _col.b, 0.6)
+			#rwnode_classname_label.push_color(_col)
+			#rwnode_classname_label.append_text(_suff)
+			#rwnode_classname_label.pop()
+			#rwnode_classname_label.append_text(_n)
+		#else:
+			#rwnode_classname_label.append_text(resource_classname)
+
+
+#
+### The main routine to structure a node and draw it
+#func from_serialized(nodes_data: Dictionary, scale: float) -> void:
+	#_rwstate = nodes_data.get("_rwstate", mode.CREATE)
+	#if _rwstate == mode.CREATE:
+		#_comment_text = nodes_data.get("_comment_text", "")
+		#position_offset = nodes_data.get("position_offset", Vector2.ZERO) * scale
+		#size = nodes_data.get("size",Vector2.ONE) * scale
+		#_updown = nodes_data.get("_updown",false)
+		#updown_state = int(_updown) + 1
+		#_details_visible = nodes_data.get("_details_visible", false)
+#
+	#res = nodes_data.get("resource", res)# get the new resource or the last one
+	#if not res: #oh shit..the resource file is bad!
+		#_rwstate = mode.MISSING
+		#assert(false, "The resource is missing. Stopping.")
+#
+	#if res.has_signal(&"feedback"):
+		#res.feedback.connect(_main_view.feedback, CONNECT_REFERENCE_COUNTED)
+#
+	#if res.has_signal(&"force_disconnect"):
+		#res.force_disconnect.connect(_force_disconnect, CONNECT_REFERENCE_COUNTED)
+#
+	##if _rwstate == mode.CREATE or mode.RENEW:
+		##if res.has_method(&"after_load"):
+			##res.after_load()
+#
+	#if res.changed.is_connected(_resource_changed):
+		#res.changed.disconnect(_resource_changed)
+#
+	## If this resource file is in automade_path, flag it.
+	#_automade = res.resource_path.begins_with(
+			#NS.rwSettings.automade_path)
+#
+	#if _rwstate == mode.RENEW and res.get_script():
+		#var err : int = res.get_script().reload(true)
+		#if not err in [OK, ERR_ALREADY_IN_USE]:
+			#assert(false, "reload() error %s" % err)
+#
+	#var slotidx:int=1
+	#resource_classname = NS.Hacks.get_classname_from_a_resource(res)
+	#if resource_classname != NS.Hacks.NO_CLASS_NAME:
+##region Loooong body
+		## if we are forced to RENEW: It means we want to
+		## remove all the slots and then re-create them!
+		#if _rwstate == mode.RENEW:
+#
+			## check it has a script - ie is a custom script
+			## we only care about those
+			#if res.get_script():
+				## reset the slots array
+				#var kids = get_children()
+				#for kid in kids:
+					#if kid.name != "topslot":
+						#remove_child(kid)
+						#kid.queue_free()
+				#_rwstate = mode.CREATE
+			#else:
+				## not a custom script, so just go into UPDATE mode
+				#_rwstate = mode.UPDATE
+#
+		#if _rwstate == mode.CREATE:
+			#slots.clear()
+			#slots.append({top_slot=true})
+#
+		#var properties = res.get_property_list()
+		##if res is ORMMaterial3D:
+			##print(properties)
+#
+		#for i in range(properties.size()):
+			#if _allow_through(properties[i]):
+				## this next call returns "Array" if any kind of array
+				##print("Get the type:", properties[i])
+				#var property_classname =\
+				#_get_class_name_from_resource_property(properties[i])
+				##print("WTF property_classname:",property_classname)
+				#if property_classname != NS.Hacks.NO_CLASS_NAME:
+					#var DATA_SLOT_SCENE
+					#var prop_var_value
+					#match _rwstate:
+						#mode.CREATE:
+							#DATA_SLOT_SCENE = NS.DataSlotScene.instantiate()
+							## do now to get ready to run early
+							#add_child(DATA_SLOT_SCENE)
+							## look up the property in the actual resource
+							## i.e if there's a var called "BOO" in res, then
+							## we are getting res.BOO
+							#prop_var_value = res.get(properties[i]["name"])
+							##print("  CREATE ", properties[i].name, " = prop_var_value:", prop_var_value)
+						#mode.UPDATE:
+							#DATA_SLOT_SCENE = slots[slotidx].data_slot_scene
+							#prop_var_value = slots[slotidx].slot_value
+#
+							## make sure to put the updated value into the
+							## actual resource's variable.
+							## !!!!! ALTERING RESOURCE !!!!!!!!!
+							#var current_prop_val = res.get(properties[i].name)
+							## NB : It prevents changes that would be the same
+							## This means (for e.g) removing a port's value
+							## i.e. var = null, HAPPENS ONLY ONCE. The next time you
+							## press X this does not happen.
+							##print("    rwNode - if current_prop_val != prop_var_value")
+							#if current_prop_val != prop_var_value:
+								##print("***** RWNODE UPDATE set")
+								##print("***** ", properties[i].name, " was ", current_prop_val)
+								##print("***** ", properties[i].name, " = ", prop_var_value)
+								#res.set(properties[i].name, prop_var_value)
+								##print("***** ... END UPDATE set")
+#
+#
+					#var slot_dict = {}
+#
+					#slot_dict["is_array"] = property_classname == "Array"
+					#slot_dict["slot_name"] = properties[i].name
+					#var slot_typename:String
+					#slot_typename = _get_slot_type_name(
+							#property_classname, properties[i])
+#
+					#slot_dict["slot_type"] = slot_typename
+					#slot_dict["slot_value"] = prop_var_value
+					#slot_dict["data_slot_scene"] = DATA_SLOT_SCENE
+					#slot_dict["slot_index"] = slotidx
+#
+					#if _rwstate == mode.CREATE:
+						#slots.append(slot_dict)
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+					## Set slot label
+					#var dsc = slot_dict.data_slot_scene
+					#var stypename:String = slot_dict.slot_type
+					#if slot_dict["is_array"]:
+						#stypename = "Array[%s]" % slot_dict.slot_type
+					##dsc.slot_label.text ="%s: (%s) %s" % [
+						##slot_dict.slot_name,
+						##stypename,
+						##_shorten_resource_id(slot_dict.slot_value)
+						##]
+					#dsc.slot_label.text ="%s:" % slot_dict.slot_name
+					#dsc.slot_value_label.text ="%s %s" % [
+						#stypename,
+						#_shorten_resource_id(slot_dict.slot_value)
+						#]
+					##dsc.slot_value.text = ""
+#
+					## Set slot INPUT port
+					#var slot_type:int
+					#var slot_icon = null
+					#var port_color: Color
+					#if slot_dict["is_array"]:
+						## Array of type <slot_type>
+						#slot_icon = NS.array_porticon
+						#slot_type = _get_slot_type(slot_typename)
+						#port_color = _get_port_col(slot_typename)
+					#else:
+						## Anything else
+						#slot_type = _get_slot_type(slot_typename)
+						#port_color = _get_port_col(slot_typename)
+#
+					#set_slot(slotidx,
+						#true, slot_type, port_color,
+						#false,0, Color(0,1,0),
+						#slot_icon, # left icon
+						#null,
+						#true
+					#)
+#
+					#if _rwstate == mode.CREATE:
+						#DATA_SLOT_SCENE.clear_button.pressed.connect(
+							#_slot_clear_button_pressed.bind(slotidx)
+						#)
+					#slotidx += 1
+		### end for i in properties
+#
+		## Class Icon
+		#var icon:Texture2D = NS.Hacks.get_icon_for(
+			#resource_classname,
+			#_editor_plugin,
+		#)
+		#if icon:
+			#rwnode_icon.texture = icon
+#
+		##Comment
+		#comment_text_control.text = _comment_text
+#
+		## Draw any extra extension gui stuff on the end
+		#if res.has_method("show_node_gui"):
+			### we are a special resource
+			#res.show_node_gui(self, nodes_data, false)
+#
+		#var graph_slot_type:int
+		#var out_port_color: Color
+		#graph_slot_type = _get_slot_type(resource_classname)
+		#out_port_color = _get_port_col(resource_classname)
+#
+		## Bottom edge col!
+		#_my_panel_normal.border_color = out_port_color
+#
+		#if NS.Hacks.get_parent_class(resource_classname) == "Resource":
+			## If this node's res parent is a plain Resource, then no further
+			## zero IN ports are required
+			#set_slot(0,
+				#true, -1, 0, # No zero in port
+				#true, 513, out_port_color,
+				#null, null, false
+			#)
+		#else:
+			#if NS.rwSettings.get_setting(&"extended_functionality"):
+				#set_slot(0,
+					#true, 513, Color.RED, # The Extend/Mutate IN slot 0
+					#true, 513, out_port_color, # OUT graph_slot_type, out_port_color
+					#get_theme_icon(&"VisualShaderPort", &"EditorIcons"),
+					#null, false
+				#)
+			#else:
+				#set_slot(0,
+					#true, -1 , 0, # in port virtually there :)
+					#true, 513, out_port_color,
+					#null, null, false
+				#)
+#
+##endregion
+#
+	#if res.has_method(&"process"):
+		#var _wait = await res.process()
+		##print("immediately after await res.process()")
+	#res.changed.connect(_resource_changed,CONNECT_REFERENCE_COUNTED)
+#
+	#_render_node_gui()
+

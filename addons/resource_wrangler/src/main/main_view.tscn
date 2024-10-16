@@ -1,0 +1,195 @@
+[gd_scene load_steps=12 format=3 uid="uid://ckqd4jmjqcfu2"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/main_view.gd" id="1_22ide"]
+[ext_resource type="Texture2D" uid="uid://xu1d0uqgmesu" path="res://addons/resource_wrangler/assets/resource_wrangler_icon_16x16.small.svg" id="2_phpvj"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/main_menu.gd" id="2_uimtw"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board.gd" id="4_jxdqh"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/popups/outmenu_popup_menu.gd" id="4_yuwh6"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/popups/thing_popup_menu.gd" id="5_jw70x"]
+
+[sub_resource type="Image" id="Image_bpdoi"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 92, 92, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 92, 92, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 92, 92, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 92, 92, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 90, 90, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 90, 90, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 91, 91, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 91, 91, 42, 255, 93, 93, 233, 255, 92, 92, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 91, 91, 42, 255, 93, 93, 233, 255, 92, 92, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 91, 91, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 91, 91, 42, 255, 91, 91, 42, 255, 255, 255, 0, 255, 91, 91, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 91, 91, 42, 255, 91, 91, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 91, 91, 45, 255, 92, 92, 235, 255, 92, 92, 234, 255, 89, 89, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 91, 91, 45, 255, 92, 92, 235, 255, 92, 92, 234, 255, 89, 89, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 92, 92, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 91, 91, 59, 255, 92, 92, 61, 255, 92, 92, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 91, 91, 59, 255, 92, 92, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_eis3r"]
+image = SubResource("Image_bpdoi")
+
+[sub_resource type="Image" id="Image_himlu"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_1xw7g"]
+image = SubResource("Image_himlu")
+
+[sub_resource type="LabelSettings" id="LabelSettings_tgho0"]
+line_spacing = -2.0
+font_size = 11
+
+[node name="MainView" type="MarginContainer"]
+custom_minimum_size = Vector2(100, 200)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_22ide")
+
+[node name="menu_and_board" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Toolbar" type="HBoxContainer" parent="menu_and_board"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="main_menu" type="MenuButton" parent="menu_and_board/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "Boards Menu"
+toggle_mode = false
+action_mode = 1
+text = "Boards"
+icon = ExtResource("2_phpvj")
+flat = false
+item_count = 9
+popup/item_0/text = "New"
+popup/item_0/icon = SubResource("ImageTexture_eis3r")
+popup/item_0/id = 0
+popup/item_1/text = "Open"
+popup/item_1/icon = SubResource("ImageTexture_eis3r")
+popup/item_1/id = 1
+popup/item_2/text = "Save"
+popup/item_2/icon = SubResource("ImageTexture_eis3r")
+popup/item_2/id = 2
+popup/item_3/id = -1
+popup/item_3/separator = true
+popup/item_4/text = "res://addons/resource_wrangler/docs/demos/boards/Types Dont Match Test.tres"
+popup/item_4/icon = SubResource("ImageTexture_eis3r")
+popup/item_4/id = 5
+popup/item_5/text = "res://addons/resource_wrangler/docs/demos/boards/Texture Nodes Demo 1.tres"
+popup/item_5/icon = SubResource("ImageTexture_eis3r")
+popup/item_5/id = 6
+popup/item_6/text = "res://addons/resource_wrangler/docs/demos/boards/Texture Nodes Demo 2.tres"
+popup/item_6/icon = SubResource("ImageTexture_eis3r")
+popup/item_6/id = 7
+popup/item_7/text = "res://addons/resource_wrangler/src/nodes/docs/all_the_nodes_for_documenting.tres"
+popup/item_7/icon = SubResource("ImageTexture_eis3r")
+popup/item_7/id = 8
+popup/item_8/text = "res://addons/resource_wrangler/docs/demos/boards/SpacesAndPortals.tres"
+popup/item_8/icon = SubResource("ImageTexture_eis3r")
+popup/item_8/id = 9
+script = ExtResource("2_uimtw")
+
+[node name="locate" type="Button" parent="menu_and_board/Toolbar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Locate the board file in the filesystem."
+icon = SubResource("ImageTexture_eis3r")
+
+[node name="settings" type="Button" parent="menu_and_board/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Open the settings. You may have to do this manually the first time from the Project Menu."
+icon = SubResource("ImageTexture_eis3r")
+
+[node name="board_name" type="LineEdit" parent="menu_and_board/Toolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Rename a board."
+placeholder_text = "Name"
+context_menu_enabled = false
+right_icon = SubResource("ImageTexture_eis3r")
+
+[node name="feedback" type="HBoxContainer" parent="menu_and_board/Toolbar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="icon" type="TextureRect" parent="menu_and_board/Toolbar/feedback"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = SubResource("ImageTexture_1xw7g")
+stretch_mode = 4
+
+[node name="msg" type="Label" parent="menu_and_board/Toolbar/feedback"]
+layout_mode = 2
+text = "Board has just been deleted in the FileSystem!"
+
+[node name="manage_resources" type="Button" parent="menu_and_board/Toolbar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "M"
+
+[node name="tips" type="Label" parent="menu_and_board/Toolbar"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "SHIFT+Drag Output Port to Drop Resource into Inspector.
+CTRL+RMB to cut noodles."
+label_settings = SubResource("LabelSettings_tgho0")
+
+[node name="Board" type="GraphEdit" parent="menu_and_board"]
+unique_name_in_owner = true
+process_mode = 4
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/port_hotzone_outer_extent = 16
+snapping_enabled = false
+snapping_distance = 22
+zoom_min = 0.1
+zoom_max = 3.0
+zoom_step = 1.0
+minimap_enabled = false
+minimap_size = Vector2(112, 50)
+show_zoom_label = true
+show_zoom_buttons = false
+show_arrange_button = false
+script = ExtResource("4_jxdqh")
+
+[node name="OutmenuPopup" type="PopupMenu" parent="menu_and_board/Board"]
+script = ExtResource("4_yuwh6")
+
+[node name="node_menu" type="PopupMenu" parent="menu_and_board/Board"]
+unique_name_in_owner = true
+script = ExtResource("5_jw70x")
+
+[connection signal="visibility_changed" from="." to="." method="_on_main_view_visibility_changed"]
+[connection signal="pressed" from="menu_and_board/Toolbar/locate" to="." method="_on_locate_pressed"]
+[connection signal="pressed" from="menu_and_board/Toolbar/settings" to="." method="_on_settings_pressed"]
+[connection signal="text_submitted" from="menu_and_board/Toolbar/board_name" to="." method="_on_board_name_text_submitted"]
+[connection signal="pressed" from="menu_and_board/Toolbar/manage_resources" to="." method="_on_manage_resources_pressed"]
+[connection signal="connection_drag_started" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_connection_drag_started"]
+[connection signal="connection_from_empty" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_connection_from_input_port_to_empty"]
+[connection signal="connection_request" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_graph_connection_request"]
+[connection signal="connection_to_empty" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_graph_connection_to_empty"]
+[connection signal="delete_nodes_request" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_delete_nodes_request"]
+[connection signal="disconnection_request" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_graph_disconnection_request"]
+[connection signal="focus_entered" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_focus_exited"]
+[connection signal="gui_input" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_graph_gui_input"]
+[connection signal="node_deselected" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_node_deselected"]
+[connection signal="node_selected" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_node_selected"]
+[connection signal="popup_request" from="menu_and_board/Board" to="menu_and_board/Board" method="_on_graph_popup_request"]
+[connection signal="about_to_popup" from="menu_and_board/Board/OutmenuPopup" to="menu_and_board/Board/OutmenuPopup" method="_on_about_to_popup"]
+[connection signal="id_pressed" from="menu_and_board/Board/OutmenuPopup" to="menu_and_board/Board/OutmenuPopup" method="_on_id_pressed"]
+[connection signal="about_to_popup" from="menu_and_board/Board/node_menu" to="menu_and_board/Board/node_menu" method="_on_about_to_popup"]
+[connection signal="id_pressed" from="menu_and_board/Board/node_menu" to="menu_and_board/Board/node_menu" method="_on_id_pressed"]

@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://j1njj6wvm7j6"]
+
+[ext_resource type="Shader" uid="uid://dmoyceruwn32i" path="res://addons/resource_wrangler/docs/demos/resources/testshader.tres" id="1_ndbd8"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_ndbd8")

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CustomArrayResource" load_steps=5 format=3 uid="uid://fk7l7w8yicph"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_basic_resource_array.gd" id="1_id6k0"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_basic_resource.gd" id="2_rdujp"]
+[ext_resource type="Resource" uid="uid://by5lc41c03nbq" path="res://addons/resource_wrangler/docs/demos/resources/CustomResource_e334c71efc.tres" id="3_petmb"]
+[ext_resource type="ArrayMesh" uid="uid://c8a6a3ivuw1sr" path="res://addons/resource_wrangler/docs/demos/resources/suzanne.res" id="6_bwqcw"]
+
+[resource]
+script = ExtResource("1_id6k0")
+teststring = "test"
+thing = ExtResource("6_bwqcw")
+stuff = Array[ExtResource("2_rdujp")]([])
+stuff2 = Array[Resource]([ExtResource("3_petmb")])

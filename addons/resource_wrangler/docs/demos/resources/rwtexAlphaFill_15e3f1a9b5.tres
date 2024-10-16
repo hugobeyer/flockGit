@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="rwtexAlphaFill" load_steps=2 format=3 uid="uid://c2iaokhri0vjv"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/alpha_fill.gd" id="1_w4m33"]
+
+[resource]
+script = ExtResource("1_w4m33")
+invert = false

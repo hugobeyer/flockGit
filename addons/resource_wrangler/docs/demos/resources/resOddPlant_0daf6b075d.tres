@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="resOddPlant" load_steps=2 format=3 uid="uid://dcoffndvm0d38"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/extending_classes/odd_plant.gd" id="1_45cm2"]
+
+[resource]
+script = ExtResource("1_45cm2")
+name = "default"

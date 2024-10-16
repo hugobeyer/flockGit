@@ -1,0 +1,7 @@
+[gd_resource type="NoiseTexture2D" load_steps=2 format=3 uid="uid://vfhtly3sfmj4"]
+
+[ext_resource type="FastNoiseLite" uid="uid://dby2jofowlyxp" path="res://addons/resource_wrangler/docs/demos/resources/FastNoiseLite_b097c091a3.tres" id="1_m5hk5"]
+
+[resource]
+generate_mipmaps = false
+noise = ExtResource("1_m5hk5")

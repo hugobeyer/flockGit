@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="rwBoardDataBasePrivate" load_steps=7 format=3 uid="uid://bb1jtinenu25w"]
+
+[ext_resource type="Resource" uid="uid://ctsi3wayg7m23" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_0fcda2ab61.tres" id="1_74wdo"]
+[ext_resource type="Resource" uid="uid://cwfg00bnmrku0" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advPortal_4e1532fdc9.tres" id="2_ha8eg"]
+[ext_resource type="Resource" uid="uid://di8e1or0e4evt" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_af07dc6ad0.tres" id="3_m4uh7"]
+[ext_resource type="Resource" uid="uid://ysj81lvln2le" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_fcfcb224c5.tres" id="4_wgpwv"]
+[ext_resource type="Resource" uid="uid://oav8p1coddso" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advPortal_fe38861b62.tres" id="5_3d1w3"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="6_2fsxf"]
+
+[resource]
+script = ExtResource("6_2fsxf")
+board_zoom = 1.0483
+scroll_offset = Vector2(-11.7053, -318.011)
+nodes_data = {
+"0fcda2ab61": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"0fcda2ab61",
+"position_offset": Vector2(155.278, 125.23),
+"resource": ExtResource("1_74wdo"),
+"resource_class_name": "advSpace"
+},
+"4e1532fdc9": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"4e1532fdc9",
+"position_offset": Vector2(526.584, -249.507),
+"resource": ExtResource("2_ha8eg"),
+"resource_class_name": "advPortal"
+},
+"af07dc6ad0": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"af07dc6ad0",
+"position_offset": Vector2(169.065, -57.715),
+"resource": ExtResource("3_m4uh7"),
+"resource_class_name": "advSpace"
+},
+"fcfcb224c5": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"fcfcb224c5",
+"position_offset": Vector2(158.918, -283.454),
+"resource": ExtResource("4_wgpwv"),
+"resource_class_name": "advSpace"
+},
+"fe38861b62": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"fe38861b62",
+"position_offset": Vector2(466.917, 22.7536),
+"resource": ExtResource("5_3d1w3"),
+"resource_class_name": "advPortal"
+}
+}
+connections = [{
+"from": &"0fcda2ab61",
+"from_port": 0,
+"to": &"fe38861b62",
+"to_port": 1
+}, {
+"from": &"af07dc6ad0",
+"from_port": 0,
+"to": &"fe38861b62",
+"to_port": 1
+}, {
+"from": &"af07dc6ad0",
+"from_port": 0,
+"to": &"4e1532fdc9",
+"to_port": 1
+}, {
+"from": &"fcfcb224c5",
+"from_port": 0,
+"to": &"4e1532fdc9",
+"to_port": 1
+}]

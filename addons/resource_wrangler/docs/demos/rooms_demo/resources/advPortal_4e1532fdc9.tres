@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="advPortal" load_steps=5 format=3 uid="uid://cwfg00bnmrku0"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/rooms_demo/advPortal.gd" id="1_l54ws"]
+[ext_resource type="Resource" uid="uid://di8e1or0e4evt" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_af07dc6ad0.tres" id="2_3fo3w"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/rooms_demo/advSpace.gd" id="2_ur32n"]
+[ext_resource type="Resource" uid="uid://ysj81lvln2le" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_fcfcb224c5.tres" id="3_0u8mh"]
+
+[resource]
+script = ExtResource("1_l54ws")
+name = "Castle Door"
+desc = "Big wood thing."
+locked = true
+spaces = Array[ExtResource("2_ur32n")]([ExtResource("2_3fo3w"), ExtResource("3_0u8mh")])

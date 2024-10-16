@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="rwtexShaderMaterialCapture" load_steps=2 format=3 uid="uid://db7lhdljui4cm"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/materialcapture.gd" id="1_fwqo8"]
+
+[resource]
+script = ExtResource("1_fwqo8")
+width = 32
+height = 32

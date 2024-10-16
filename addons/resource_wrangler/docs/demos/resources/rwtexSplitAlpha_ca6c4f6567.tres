@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="rwtexSplitAlpha" load_steps=3 format=3 uid="uid://cktb6kf7vmtat"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/asplit.gd" id="1_acsb1"]
+[ext_resource type="Resource" uid="uid://u5f0d4ovojtm" path="res://addons/resource_wrangler/docs/demos/resources/rwtexAlphaFill_c8e90b6de5.tres" id="2_n7keb"]
+
+[resource]
+script = ExtResource("1_acsb1")
+texture = ExtResource("2_n7keb")

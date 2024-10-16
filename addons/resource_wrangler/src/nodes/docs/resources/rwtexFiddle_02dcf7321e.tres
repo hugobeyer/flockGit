@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="rwtexFiddle" load_steps=2 format=3 uid="uid://cy0fk2kwixc1p"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/fiddle.gd" id="1_v64yw"]
+
+[resource]
+script = ExtResource("1_v64yw")
+invert = false
+rotate_90 = 0
+flip_x = false
+flip_y = false
+normal_to_xy = false
+fix_alpha_edges = false
+premultiply_alpha = false
+shrink_x2 = false

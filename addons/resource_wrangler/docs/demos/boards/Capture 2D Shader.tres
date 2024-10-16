@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=7 format=3 uid="uid://ndkb7j08aiwe"]
+
+[ext_resource type="Shader" uid="uid://dmoyceruwn32i" path="res://addons/resource_wrangler/docs/demos/resources/testshader.tres" id="2_4mvcq"]
+[ext_resource type="Texture2D" uid="uid://dj1hmhd0yxj4f" path="res://addons/resource_wrangler/docs/demos/resources/new_noise_texture_2d.tres" id="3_ko0wf"]
+[ext_resource type="VisualShaderNodeTexture" uid="uid://67487r8f1inm" path="res://addons/resource_wrangler/docs/demos/resources/VisualShaderNodeTexture_cd95672358.tres" id="3_snbpx"]
+[ext_resource type="Resource" uid="uid://br51bgqphs7kv" path="res://addons/resource_wrangler/docs/demos/resources/rwtexShaderMaterialCapture_cc11d621d9.tres" id="4_j1h5m"]
+[ext_resource type="Material" uid="uid://c4uk7acuirqah" path="res://addons/resource_wrangler/docs/demos/resources/ShaderMaterial_cd91857256.tres" id="5_bf3ke"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="6_2ttk7"]
+
+[resource]
+script = ExtResource("6_2ttk7")
+board_zoom = 0.489806
+scroll_offset = Vector2(-789.707, -276.122)
+nodes_data = {
+"65cd675789": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"65cd675789",
+"position_offset": Vector2(-1576.17, -404.932),
+"resource": ExtResource("3_ko0wf"),
+"resource_class_name": "NoiseTexture2D"
+},
+"a8c6ffba54": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"a8c6ffba54",
+"position_offset": Vector2(-896.787, -436.873),
+"resource": ExtResource("2_4mvcq"),
+"resource_class_name": "VisualShader"
+},
+"cc11d621d9": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"cc11d621d9",
+"position_offset": Vector2(-227.052, -321.461),
+"resource": ExtResource("4_j1h5m"),
+"resource_class_name": "rwtexShaderMaterialCapture"
+},
+"cd91857256": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"cd91857256",
+"position_offset": Vector2(-567.798, -388.274),
+"resource": ExtResource("5_bf3ke"),
+"resource_class_name": "ShaderMaterial"
+},
+"cd95672358": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"cd95672358",
+"position_offset": Vector2(-1294.95, -287.753),
+"resource": ExtResource("3_snbpx"),
+"resource_class_name": "VisualShaderNodeTexture"
+}
+}
+connections = [{
+"from": &"65cd675789",
+"from_port": 0,
+"to": &"cd95672358",
+"to_port": 1
+}, {
+"from": &"cd95672358",
+"from_port": 0,
+"to": &"a8c6ffba54",
+"to_port": 1
+}, {
+"from": &"a8c6ffba54",
+"from_port": 0,
+"to": &"cd91857256",
+"to_port": 1
+}, {
+"from": &"cd91857256",
+"from_port": 0,
+"to": &"cc11d621d9",
+"to_port": 1
+}]

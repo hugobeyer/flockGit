@@ -1,0 +1,14 @@
+[gd_resource type="LabelSettings" script_class="rwtexTextSettings" load_steps=3 format=3 uid="uid://cupu0q3kcm4lw"]
+
+[ext_resource type="FontFile" uid="uid://b8ca0dh1nabe" path="res://addons/resource_wrangler/docs/demos/resources/GoudyBookletter1911TT.ttf" id="1_xob8m"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/text_settings.gd" id="2_ejx1t"]
+
+[resource]
+line_spacing = 3.015
+font = ExtResource("1_xob8m")
+font_size = 41
+font_color = Color(0.454902, 1, 0.270588, 1)
+script = ExtResource("2_ejx1t")
+text = "Another One bites ze dust!!"
+no_fill = false
+adjust_up_down = 0.0

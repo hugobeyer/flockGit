@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="CustomResource" load_steps=2 format=3 uid="uid://by5lc41c03nbq"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_basic_resource.gd" id="1_yvwxo"]
+
+[resource]
+script = ExtResource("1_yvwxo")

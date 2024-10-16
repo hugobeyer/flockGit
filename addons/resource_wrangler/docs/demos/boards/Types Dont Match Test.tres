@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=5 format=3 uid="uid://q0bouwa8nytk"]
+
+[ext_resource type="Resource" uid="uid://b2h4v7oo773gr" path="res://addons/resource_wrangler/docs/demos/resources/advPortal_1c1649ab0f.tres" id="1_8ifsg"]
+[ext_resource type="Resource" uid="uid://dsr3q03sxn75d" path="res://addons/resource_wrangler/docs/demos/resources/advSpace_f59a5740d3.tres" id="2_be63b"]
+[ext_resource type="Resource" uid="uid://2i2kl634joqn" path="res://addons/resource_wrangler/docs/demos/resources/Plant_plant_ec56f9da10.tres" id="3_2e2br"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="4_fmnvq"]
+
+[resource]
+script = ExtResource("4_fmnvq")
+board_zoom = 0.93035
+scroll_offset = Vector2(-230.841, 176.667)
+nodes_data = {
+"1c1649ab0f": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"1c1649ab0f",
+"position_offset": Vector2(44.9759, 173.72),
+"resource": ExtResource("1_8ifsg"),
+"resource_class_name": "advPortal"
+},
+"e4400ca55f": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"e4400ca55f",
+"position_offset": Vector2(-186.512, 137.561),
+"resource": ExtResource("3_2e2br"),
+"resource_class_name": "Plant"
+},
+"f59a5740d3": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"f59a5740d3",
+"position_offset": Vector2(-202.714, 277.673),
+"resource": ExtResource("2_be63b"),
+"resource_class_name": "advSpace"
+}
+}
+connections = [{
+"from": &"f59a5740d3",
+"from_port": 0,
+"to": &"1c1649ab0f",
+"to_port": 1
+}]
+board_created_outside_rw = false

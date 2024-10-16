@@ -1,0 +1,227 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=16 format=3 uid="uid://dq2m1xwg6m3bl"]
+
+[ext_resource type="Resource" uid="uid://2yhmycpbqiek" path="res://addons/resource_wrangler/docs/demos/resources/rwtexMix_26ceaca5ce.tres" id="2_85xy3"]
+[ext_resource type="Texture2D" uid="uid://orpf8ek230hu" path="res://addons/resource_wrangler/docs/demos/resources/NoiseTexture2D_3285ce6130.tres" id="4_s4l4o"]
+[ext_resource type="FontFile" uid="uid://b8ca0dh1nabe" path="res://addons/resource_wrangler/docs/demos/resources/GoudyBookletter1911TT.ttf" id="5_qlunr"]
+[ext_resource type="Resource" uid="uid://1npx25xsgtgk" path="res://addons/resource_wrangler/docs/demos/resources/rwtexTextRender_40e19d168a.tres" id="7_681xw"]
+[ext_resource type="Resource" uid="uid://d0uotymvrg38a" path="res://addons/resource_wrangler/docs/demos/resources/rwtexNormalMap_d9bc79e71e.tres" id="8_l0wly"]
+[ext_resource type="Texture2D" uid="uid://bp3ak3hltqxg4" path="res://addons/resource_wrangler/docs/demos/resources/NoiseTexture2D_19e1106d77.tres" id="9_u6i78"]
+[ext_resource type="FastNoiseLite" uid="uid://d2mbj5p5yq3vb" path="res://addons/resource_wrangler/docs/demos/resources/FastNoiseLite_9ed04400f3.tres" id="10_o2i4x"]
+[ext_resource type="Resource" uid="uid://dy8mtyjtwu8ub" path="res://addons/resource_wrangler/docs/demos/resources/rwtexFiddle_0c4e4f09b2.tres" id="11_q138s"]
+[ext_resource type="Gradient" uid="uid://k31ros84iqcj" path="res://addons/resource_wrangler/docs/demos/resources/Gradient_ffbb53f677.tres" id="12_32xne"]
+[ext_resource type="Material" uid="uid://c5h88kihltyha" path="res://addons/resource_wrangler/docs/demos/resources/StandardMaterial3D_d4a7ca35df.tres" id="12_lkjg6"]
+[ext_resource type="Texture2D" uid="uid://cqhdj31vyu5mb" path="res://addons/resource_wrangler/docs/demos/resources/rwtexBake_8429349c2f.res" id="13_ppcv4"]
+[ext_resource type="LabelSettings" uid="uid://cupu0q3kcm4lw" path="res://addons/resource_wrangler/docs/demos/resources/rwtexTextSettings_46990aa5bc.tres" id="13_qliyl"]
+[ext_resource type="Texture2D" uid="uid://c5aj38ms3o3gd" path="res://addons/resource_wrangler/docs/demos/resources/rwtexBake_7de5e4f171.res" id="14_e8dmw"]
+[ext_resource type="FastNoiseLite" uid="uid://i4p5tn1dnxmc" path="res://addons/resource_wrangler/docs/demos/resources/FastNoiseLite_c1ec54b4ac.tres" id="14_q4qq8"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="15_onsel"]
+
+[resource]
+resource_name = "rw texture nodes"
+script = ExtResource("15_onsel")
+board_zoom = 0.996533
+scroll_offset = Vector2(-331.238, -655.492)
+nodes_data = {
+"26ceaca5ce": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"26ceaca5ce",
+"position_offset": Vector2(-289.182, -379.027),
+"resource": ExtResource("2_85xy3"),
+"resource_class_name": "rwtexMix"
+},
+"342fd13c1d": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"342fd13c1d",
+"position_offset": Vector2(-617.055, -445.563),
+"resource": ExtResource("4_s4l4o"),
+"resource_class_name": "NoiseTexture2D"
+},
+"3e3648ef0c": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"3e3648ef0c",
+"position_offset": Vector2(-1209.1, -644.818),
+"resource": ExtResource("5_qlunr"),
+"resource_class_name": "FontFile"
+},
+"71227a1608": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"71227a1608",
+"position_offset": Vector2(-654.146, -706.384),
+"resource": ExtResource("7_681xw"),
+"resource_class_name": "rwtexTextRender"
+},
+"7de5e4f171": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"7de5e4f171",
+"position_offset": Vector2(-7.26297, -285.482),
+"resource": ExtResource("14_e8dmw"),
+"resource_class_name": "rwtexBake"
+},
+"839045056f": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"839045056f",
+"position_offset": Vector2(-38.9878, -557.498),
+"resource": ExtResource("8_l0wly"),
+"resource_class_name": "rwtexNormalMap"
+},
+"8429349c2f": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"8429349c2f",
+"position_offset": Vector2(243.607, -467.111),
+"resource": ExtResource("13_ppcv4"),
+"resource_class_name": "rwtexBake"
+},
+"84810316a4": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"84810316a4",
+"position_offset": Vector2(-533.886, -161.676),
+"resource": ExtResource("9_u6i78"),
+"resource_class_name": "NoiseTexture2D"
+},
+"924d96a574": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"924d96a574",
+"position_offset": Vector2(-943.831, -177.872),
+"resource": ExtResource("10_o2i4x"),
+"resource_class_name": "FastNoiseLite"
+},
+"9e642700bb": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"9e642700bb",
+"position_offset": Vector2(-303.857, -654.661),
+"resource": ExtResource("11_q138s"),
+"resource_class_name": "rwtexFiddle"
+},
+"aac862a346": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"aac862a346",
+"position_offset": Vector2(-882.304, -422.534),
+"resource": ExtResource("12_32xne"),
+"resource_class_name": "Gradient"
+},
+"c07c63d9f1": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"c07c63d9f1",
+"position_offset": Vector2(-958.71, -665.309),
+"resource": ExtResource("13_qliyl"),
+"resource_class_name": "rwtexTextSettings"
+},
+"c1ec54b4ac": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"c1ec54b4ac",
+"position_offset": Vector2(-757.043, -99.0942),
+"resource": ExtResource("14_q4qq8"),
+"resource_class_name": "FastNoiseLite"
+},
+"d4a7ca35df": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"d4a7ca35df",
+"position_offset": Vector2(584.139, -644.235),
+"resource": ExtResource("12_lkjg6"),
+"resource_class_name": "StandardMaterial3D"
+},
+"ffbb53f677": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"ffbb53f677",
+"position_offset": Vector2(-1095.83, -317.408),
+"resource": ExtResource("12_32xne"),
+"resource_class_name": "Gradient"
+}
+}
+connections = [{
+"from": &"924d96a574",
+"from_port": 0,
+"to": &"342fd13c1d",
+"to_port": 2
+}, {
+"from": &"9e642700bb",
+"from_port": 0,
+"to": &"839045056f",
+"to_port": 1
+}, {
+"from": &"c07c63d9f1",
+"from_port": 0,
+"to": &"71227a1608",
+"to_port": 1
+}, {
+"from": &"71227a1608",
+"from_port": 0,
+"to": &"9e642700bb",
+"to_port": 1
+}, {
+"from": &"aac862a346",
+"from_port": 0,
+"to": &"342fd13c1d",
+"to_port": 1
+}, {
+"from": &"c1ec54b4ac",
+"from_port": 0,
+"to": &"84810316a4",
+"to_port": 2
+}, {
+"from": &"84810316a4",
+"from_port": 0,
+"to": &"26ceaca5ce",
+"to_port": 2
+}, {
+"from": &"342fd13c1d",
+"from_port": 0,
+"to": &"26ceaca5ce",
+"to_port": 1
+}, {
+"from": &"3e3648ef0c",
+"from_port": 0,
+"to": &"c07c63d9f1",
+"to_port": 1
+}, {
+"from": &"839045056f",
+"from_port": 0,
+"to": &"8429349c2f",
+"to_port": 1
+}, {
+"from": &"8429349c2f",
+"from_port": 0,
+"to": &"d4a7ca35df",
+"to_port": 6
+}, {
+"from": &"26ceaca5ce",
+"from_port": 0,
+"to": &"7de5e4f171",
+"to_port": 1
+}, {
+"from": &"7de5e4f171",
+"from_port": 0,
+"to": &"d4a7ca35df",
+"to_port": 2
+}]
+board_created_outside_rw = false

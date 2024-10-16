@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="rwtexFiddle" load_steps=3 format=3 uid="uid://bfv1f8hkvc16t"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/fiddle.gd" id="1_hmsoo"]
+[ext_resource type="Texture2D" uid="uid://rv7b7hrqyhyn" path="res://addons/resource_wrangler/docs/demos/resources/GradientTexture2D_3b56d97b4d.tres" id="2_agjxr"]
+
+[resource]
+script = ExtResource("1_hmsoo")
+texture = ExtResource("2_agjxr")
+invert = true
+rotate_90 = 0
+flip_x = false
+flip_y = false
+normal_to_xy = false
+fix_alpha_edges = false
+premultiply_alpha = false
+shrink_x2 = false

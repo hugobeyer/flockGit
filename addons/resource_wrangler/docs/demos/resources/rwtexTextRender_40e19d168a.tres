@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="rwtexTextRender" load_steps=3 format=3 uid="uid://1npx25xsgtgk"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/text_render.gd" id="1_eavow"]
+[ext_resource type="LabelSettings" uid="uid://cupu0q3kcm4lw" path="res://addons/resource_wrangler/docs/demos/resources/rwtexTextSettings_46990aa5bc.tres" id="2_e88l2"]
+
+[resource]
+script = ExtResource("1_eavow")
+text_settings = ExtResource("2_e88l2")

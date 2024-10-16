@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="rwtexColor" load_steps=2 format=3 uid="uid://dwmula51yy3gg"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/color.gd" id="1_eq01s"]
+
+[resource]
+script = ExtResource("1_eq01s")
+color = Color(0, 0, 0, 1)
+width = 1
+height = 1

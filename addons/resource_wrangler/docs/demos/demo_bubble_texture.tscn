@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb1hj3lq16guj"]
+
+[ext_resource type="Texture2D" uid="uid://drum100eg22dj" path="res://addons/resource_wrangler/docs/demos/resources/rwtexBake_d6d8df66a3.tres" id="1_uof1p"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(257, 255)
+texture = ExtResource("1_uof1p")

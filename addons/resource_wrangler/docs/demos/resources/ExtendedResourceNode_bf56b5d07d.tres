@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ExtendedResourceNode" load_steps=3 format=3 uid="uid://cj46kporhr148"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/extended_node_uis/extended_node.gd" id="1_e2yd5"]
+[ext_resource type="ArrayMesh" uid="uid://c8a6a3ivuw1sr" path="res://addons/resource_wrangler/docs/demos/resources/suzanne.res" id="1_i8juc"]
+
+[resource]
+script = ExtResource("1_e2yd5")
+my_meshes = Array[Mesh]([ExtResource("1_i8juc")])

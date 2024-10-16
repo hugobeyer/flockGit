@@ -1,0 +1,6 @@
+A typical node, like BCS, when starting-up (on load of a board for first time, or entire project)
+will have set() run on each property. So for BCS, it's texture, brightness, contrast, saturation.
+Hence the work func will run FOUR TIMES...
+This is kind of inevitable, or is it?
+
+Can I queue them up and then fire one work func?

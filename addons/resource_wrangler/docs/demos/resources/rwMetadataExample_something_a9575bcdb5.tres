@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="rwMetadataExample" load_steps=2 format=3 uid="uid://daq3nrtnvqsi"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_metadata_example.gd" id="1_ejbpn"]
+
+[resource]
+script = ExtResource("1_ejbpn")
+name = "default"

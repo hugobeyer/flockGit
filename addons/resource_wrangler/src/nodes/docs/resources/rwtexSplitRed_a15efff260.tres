@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="rwtexSplitRed" load_steps=2 format=3 uid="uid://c05v70nm8sadg"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/rsplit.gd" id="1_5nxj1"]
+
+[resource]
+script = ExtResource("1_5nxj1")

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DemoOfDenyList" load_steps=4 format=3 uid="uid://dbthrojiq0x5"]
+
+[ext_resource type="Resource" uid="uid://daq3nrtnvqsi" path="res://addons/resource_wrangler/docs/demos/resources/rwMetadataExample_something_a9575bcdb5.tres" id="1_5s2xh"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/deny_list_metadata_keyword.gd" id="1_40ijv"]
+[ext_resource type="Resource" uid="uid://fk7l7w8yicph" path="res://addons/resource_wrangler/docs/demos/resources/CustomArrayResource_8f612c35ae.tres" id="1_ry14u"]
+
+[resource]
+script = ExtResource("1_40ijv")
+Stuff = Array[Resource]([ExtResource("1_5s2xh"), ExtResource("1_ry14u")])

@@ -37,12 +37,16 @@ func _ready():
     setup_spawn_timer()
     setup_gradual_spawn_timer()
     
-    # Preload assigned enemy scenes
+    # Preload assigned enemy resources
     for key in enemy_scenes:
-        if enemy_scenes[key] is String and enemy_scenes[key].ends_with(".tscn"):
-            _preloaded_enemy_scenes[key] = load(enemy_scenes[key])
+        if enemy_scenes[key] is String and enemy_scenes[key].ends_with(".tres"):
+            var resource = load(enemy_scenes[key])
+            if resource is EnemyType:
+                _preloaded_enemy_scenes[key] = resource
+            else:
+                push_warning("Invalid resource type for enemy: " + key)
         else:
-            push_warning("Invalid scene path for enemy type: " + key)
+            push_warning("Invalid resource path for enemy type: " + key)
     
     SignalBus.connect("enemy_killed", Callable(self, "_on_enemy_killed"))
 

@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=6 format=3 uid="uid://drpouvaj2wc7g"]
+
+[ext_resource type="Resource" uid="uid://b70ruaw7kgk8y" path="res://addons/resource_wrangler/docs/demos/resources/Alien_alien_7900a769a7.tres" id="1_lkadr"]
+[ext_resource type="Resource" uid="uid://xr7vwco66xk7" path="res://addons/resource_wrangler/docs/demos/resources/resNubbin_alien_64f17b652e.tres" id="2_nppcw"]
+[ext_resource type="Resource" uid="uid://dcoffndvm0d38" path="res://addons/resource_wrangler/docs/demos/resources/resOddPlant_0daf6b075d.tres" id="3_03boy"]
+[ext_resource type="Resource" uid="uid://2i2kl634joqn" path="res://addons/resource_wrangler/docs/demos/resources/Plant_plant_ec56f9da10.tres" id="4_5x0vm"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="5_ya07y"]
+
+[resource]
+script = ExtResource("5_ya07y")
+board_zoom = 0.943101
+scroll_offset = Vector2(-190.021, -225.187)
+nodes_data = {
+"0daf6b075d": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"0daf6b075d",
+"position_offset": Vector2(412.838, -132.817),
+"resource": ExtResource("3_03boy"),
+"resource_class_name": "resOddPlant"
+},
+"64f17b652e": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"64f17b652e",
+"position_offset": Vector2(183.867, -188.816),
+"resource": ExtResource("2_nppcw"),
+"resource_class_name": "resNubbin"
+},
+"7900a769a7": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"7900a769a7",
+"position_offset": Vector2(-150.878, -89.2631),
+"resource": ExtResource("1_lkadr"),
+"resource_class_name": "Alien"
+},
+"ec56f9da10": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"ec56f9da10",
+"position_offset": Vector2(141.558, 98.6423),
+"resource": ExtResource("4_5x0vm"),
+"resource_class_name": "Plant"
+}
+}
+connections = [{
+"from": &"ec56f9da10",
+"from_port": 0,
+"to": &"0daf6b075d",
+"to_port": 0
+}, {
+"from": &"7900a769a7",
+"from_port": 0,
+"to": &"64f17b652e",
+"to_port": 0
+}]

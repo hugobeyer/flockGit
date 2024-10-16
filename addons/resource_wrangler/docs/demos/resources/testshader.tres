@@ -1,0 +1,80 @@
+[gd_resource type="VisualShader" load_steps=9 format=3 uid="uid://dmoyceruwn32i"]
+
+[ext_resource type="Texture2D" uid="uid://dj1hmhd0yxj4f" path="res://addons/resource_wrangler/docs/demos/resources/new_noise_texture_2d.tres" id="1_bkxqa"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_555do"]
+texture = ExtResource("1_bkxqa")
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_rqm46"]
+constant = Color(1, 1, 0, 1)
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_hp0pd"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
+expanded_output_ports = [0]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_3sb4s"]
+constant = Color(0, 0.527344, 0.101929, 1)
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_n5xnh"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_63a34"]
+texture = ExtResource("1_bkxqa")
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_us8a2"]
+default_input_values = [0, 0.645]
+function = 0
+
+[resource]
+code = "shader_type canvas_item;
+render_mode blend_premul_alpha, unshaded;
+
+uniform sampler2D tex_frg_7;
+
+
+
+void fragment() {
+// ColorConstant:5
+	vec4 n_out5p0 = vec4(0.000000, 0.527344, 0.101929, 1.000000);
+
+
+// ColorConstant:3
+	vec4 n_out3p0 = vec4(1.000000, 1.000000, 0.000000, 1.000000);
+
+
+// Texture2D:7
+	vec4 n_out7p0 = texture(tex_frg_7, UV);
+
+
+// Mix:4
+	vec4 n_out4p0 = mix(n_out5p0, n_out3p0, n_out7p0);
+
+
+// Output:0
+	COLOR.rgb = vec3(n_out4p0.xyz);
+
+
+}
+"
+mode = 1
+modes/blend = 4
+flags/unshaded = true
+flags/light_only = false
+nodes/fragment/0/position = Vector2(680, 180)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_555do")
+nodes/fragment/2/position = Vector2(-100, 100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_rqm46")
+nodes/fragment/3/position = Vector2(180, 80)
+nodes/fragment/4/node = SubResource("VisualShaderNodeMix_hp0pd")
+nodes/fragment/4/position = Vector2(400, 160)
+nodes/fragment/5/node = SubResource("VisualShaderNodeColorConstant_3sb4s")
+nodes/fragment/5/position = Vector2(140, 180)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_n5xnh")
+nodes/fragment/6/position = Vector2(300, 400)
+nodes/fragment/7/node = SubResource("VisualShaderNodeTexture_63a34")
+nodes/fragment/7/position = Vector2(40, 400)
+nodes/fragment/8/node = SubResource("VisualShaderNodeFloatFunc_us8a2")
+nodes/fragment/8/position = Vector2(80, 340)
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 1, 5, 0, 4, 0, 4, 0, 0, 0, 7, 0, 4, 2)

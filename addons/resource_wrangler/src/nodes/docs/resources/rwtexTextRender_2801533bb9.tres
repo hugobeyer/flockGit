@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="rwtexTextRender" load_steps=2 format=3 uid="uid://d28080mt3x3yb"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/text_render.gd" id="1_vmqix"]
+
+[resource]
+script = ExtResource("1_vmqix")

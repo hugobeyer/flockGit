@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="rwtexBCS" load_steps=2 format=3 uid="uid://d16rkiy16wym6"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/bcs.gd" id="1_kta8s"]
+
+[resource]
+script = ExtResource("1_kta8s")
+brightness = 1.0
+contrast = 1.0
+saturation = 1.0
+invert = false

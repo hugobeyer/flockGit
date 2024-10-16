@@ -1,0 +1,6 @@
+[gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://dnsglu4oyarhq"]
+
+[ext_resource type="Gradient" uid="uid://btib1unck3eqp" path="res://addons/resource_wrangler/docs/demos/resources/Gradient_70322a07ed.tres" id="1_tvpoa"]
+
+[resource]
+gradient = ExtResource("1_tvpoa")

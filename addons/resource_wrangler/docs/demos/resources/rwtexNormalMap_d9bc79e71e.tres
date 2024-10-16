@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="rwtexNormalMap" load_steps=3 format=3 uid="uid://d0uotymvrg38a"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/normal_map.gd" id="1_od2jq"]
+[ext_resource type="Resource" uid="uid://dy8mtyjtwu8ub" path="res://addons/resource_wrangler/docs/demos/resources/rwtexFiddle_0c4e4f09b2.tres" id="2_0177j"]
+
+[resource]
+script = ExtResource("1_od2jq")
+texture = ExtResource("2_0177j")
+bump_scale = 4.0

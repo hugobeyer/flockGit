@@ -1,0 +1,9 @@
+[gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://ev6pij6tsp82"]
+
+[ext_resource type="Gradient" uid="uid://bk2rfpymfxogs" path="res://addons/resource_wrangler/docs/demos/resources/Gradient_6813c20154.tres" id="1_vd403"]
+
+[resource]
+gradient = ExtResource("1_vd403")
+fill = 1
+fill_from = Vector2(0.504274, 0.512821)
+fill_to = Vector2(1, 0.0854701)

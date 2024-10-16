@@ -1,0 +1,256 @@
+[gd_scene load_steps=10 format=3 uid="uid://8mh1elwx31yq"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/rwnode.gd" id="1_k10l5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6nws3"]
+bg_color = Color(0.24, 0.26, 0.28, 1)
+border_width_bottom = 9
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+expand_margin_top = 2.0
+expand_margin_bottom = 4.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_577d3"]
+bg_color = Color(0.182, 0.532, 0.7, 1)
+border_width_bottom = 9
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+expand_margin_top = 2.0
+expand_margin_bottom = 4.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12vtp"]
+content_margin_left = 6.0
+content_margin_top = 0.0
+content_margin_bottom = 3.0
+bg_color = Color(0.12, 0.13, 0.14, 1)
+corner_radius_top_right = 10
+corner_detail = 1
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fy3k0"]
+content_margin_left = 6.0
+content_margin_top = 0.0
+content_margin_bottom = 3.0
+bg_color = Color(0.182, 0.532, 0.7, 1)
+corner_radius_top_right = 10
+corner_detail = 1
+expand_margin_bottom = 2.0
+
+[sub_resource type="Image" id="Image_5cx0b"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_hg4mh"]
+image = SubResource("Image_5cx0b")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r14a7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oycca"]
+
+[node name="Thing" type="GraphNode"]
+offset_right = 347.0
+offset_bottom = 183.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6nws3")
+theme_override_styles/panel_selected = SubResource("StyleBoxFlat_577d3")
+theme_override_styles/titlebar = SubResource("StyleBoxFlat_12vtp")
+theme_override_styles/titlebar_selected = SubResource("StyleBoxFlat_fy3k0")
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(0.768627, 0.768627, 0.768627, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_k10l5")
+
+[node name="topslot" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 8
+
+[node name="vbox" type="HBoxContainer" parent="topslot"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="info" type="Button" parent="topslot/vbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+tooltip_text = "Show Node details"
+mouse_filter = 1
+icon = SubResource("ImageTexture_hg4mh")
+
+[node name="middle" type="VBoxContainer" parent="topslot/vbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="preview_and_info" type="HBoxContainer" parent="topslot/vbox/middle"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+size_flags_stretch_ratio = 10.68
+
+[node name="res_preview" type="TextureRect" parent="topslot/vbox/middle/preview_and_info"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 4
+
+[node name="node_info" type="VBoxContainer" parent="topslot/vbox/middle/preview_and_info"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="threebuttons" type="HBoxContainer" parent="topslot/vbox/middle/preview_and_info/node_info"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="help" type="Button" parent="topslot/vbox/middle/preview_and_info/node_info/threebuttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Help"
+mouse_filter = 1
+icon = SubResource("ImageTexture_hg4mh")
+
+[node name="showinfs" type="Button" parent="topslot/vbox/middle/preview_and_info/node_info/threebuttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Show in FileSystem"
+mouse_filter = 1
+icon = SubResource("ImageTexture_hg4mh")
+
+[node name="editscript" type="Button" parent="topslot/vbox/middle/preview_and_info/node_info/threebuttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+size_flags_stretch_ratio = 12.0
+tooltip_text = "Edit the code"
+mouse_filter = 1
+icon = SubResource("ImageTexture_hg4mh")
+
+[node name="refresh" type="Button" parent="topslot/vbox/middle/preview_and_info/node_info/threebuttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+tooltip_text = "When altering a custom class, 
+this will try to reload and show 
+the new fields.
+
+Best advice: save and restart often
+when coding resources."
+mouse_filter = 1
+icon = SubResource("ImageTexture_hg4mh")
+
+[node name="icon_and_classname" type="HBoxContainer" parent="topslot/vbox/middle/preview_and_info/node_info"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="icon" type="TextureRect" parent="topslot/vbox/middle/preview_and_info/node_info/icon_and_classname"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+expand_mode = 2
+stretch_mode = 4
+
+[node name="classname" type="RichTextLabel" parent="topslot/vbox/middle/preview_and_info/node_info/icon_and_classname"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+mouse_filter = 1
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.2)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/normal_font_size = 17
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r14a7")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oycca")
+text = "Label"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+meta_underlined = false
+hint_underlined = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="deets" type="VBoxContainer" parent="topslot/vbox/middle"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="details" type="ItemList" parent="topslot/vbox/middle/deets"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+mouse_filter = 2
+allow_search = false
+auto_height = true
+item_count = 1
+same_column_width = true
+item_0/text = "icon text"
+item_0/selectable = false
+
+[node name="comment_text" type="TextEdit" parent="topslot/vbox/middle/deets"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "Comments"
+context_menu_enabled = false
+wrap_mode = 1
+
+[node name="close" type="Button" parent="topslot/vbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 1
+icon = SubResource("ImageTexture_hg4mh")
+
+[connection signal="dragged" from="." to="." method="_on_dragged"]
+[connection signal="gui_input" from="." to="." method="_on_thing_gui_input"]
+[connection signal="pressed" from="topslot/vbox/info" to="." method="_on_info_pressed"]
+[connection signal="pressed" from="topslot/vbox/middle/preview_and_info/node_info/threebuttons/help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="topslot/vbox/middle/preview_and_info/node_info/threebuttons/showinfs" to="." method="_on_showinfs_pressed"]
+[connection signal="pressed" from="topslot/vbox/middle/preview_and_info/node_info/threebuttons/editscript" to="." method="_on_editscript_pressed"]
+[connection signal="pressed" from="topslot/vbox/middle/preview_and_info/node_info/threebuttons/refresh" to="." method="_on_refresh_pressed"]
+[connection signal="pressed" from="topslot/vbox/close" to="." method="_on_close_pressed"]

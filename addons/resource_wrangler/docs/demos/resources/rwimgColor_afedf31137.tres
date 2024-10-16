@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="rwimgColor" load_steps=2 format=3 uid="uid://b31avjpbngiur"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/color.gd" id="1_13dfc"]
+
+[resource]
+script = ExtResource("1_13dfc")
+color = Color(0.898039, 1, 0.4, 1)

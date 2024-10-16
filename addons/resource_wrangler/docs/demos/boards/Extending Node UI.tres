@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=4 format=3 uid="uid://bpqqoedgi8db8"]
+
+[ext_resource type="Resource" uid="uid://cj46kporhr148" path="res://addons/resource_wrangler/docs/demos/resources/ExtendedResourceNode_bf56b5d07d.tres" id="1_ela08"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="1_i2xb5"]
+[ext_resource type="ArrayMesh" uid="uid://c8a6a3ivuw1sr" path="res://addons/resource_wrangler/docs/demos/resources/suzanne.res" id="2_f6bvk"]
+
+[resource]
+script = ExtResource("1_i2xb5")
+board_zoom = 0.740025
+scroll_offset = Vector2(-282.357, -101.794)
+nodes_data = {
+"a69999205c": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"a69999205c",
+"position_offset": Vector2(-162.427, 47.5807),
+"resource": ExtResource("2_f6bvk"),
+"resource_class_name": "ArrayMesh"
+},
+"bf56b5d07d": {
+"_comment_text": "",
+"_details_visible": false,
+"_updown": false,
+"id": &"bf56b5d07d",
+"position_offset": Vector2(97.2197, 85.4015),
+"resource": ExtResource("1_ela08"),
+"resource_class_name": "ExtendedResourceNode"
+}
+}
+connections = [{
+"from": &"a69999205c",
+"from_port": 0,
+"to": &"bf56b5d07d",
+"to_port": 1
+}]

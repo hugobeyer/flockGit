@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="rwtexMix" load_steps=5 format=3 uid="uid://d261hd2knnyae"]
+
+[ext_resource type="Texture2D" uid="uid://yqu8fwmj0yg8" path="res://addons/resource_wrangler/docs/demos/resources/GradientTexture2D_f1e649c03a.tres" id="1_ctd55"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/mix.gd" id="2_ug3ju"]
+[ext_resource type="Texture2D" uid="uid://bj6tkikg3bp0s" path="res://addons/resource_wrangler/docs/demos/resources/GradientTexture2D_8211108a29.tres" id="3_r7m85"]
+[ext_resource type="Texture2D" uid="uid://c45ggb80uswpx" path="res://addons/resource_wrangler/docs/demos/resources/GradientTexture2D_c7413fc237.tres" id="4_1jwwa"]
+
+[resource]
+script = ExtResource("2_ug3ju")
+texture1 = ExtResource("3_r7m85")
+texture2 = ExtResource("4_1jwwa")
+fac = ExtResource("1_ctd55")

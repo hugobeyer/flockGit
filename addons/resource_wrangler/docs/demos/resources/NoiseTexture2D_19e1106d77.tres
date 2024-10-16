@@ -1,0 +1,11 @@
+[gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://bp3ak3hltqxg4"]
+
+[ext_resource type="Gradient" uid="uid://bs2mmss8ic2jk" path="res://addons/resource_wrangler/docs/demos/resources/Gradient_72fb0e7911.tres" id="1_dvtat"]
+[ext_resource type="FastNoiseLite" uid="uid://i4p5tn1dnxmc" path="res://addons/resource_wrangler/docs/demos/resources/FastNoiseLite_c1ec54b4ac.tres" id="2_e3yx0"]
+
+[resource]
+width = 624
+height = 128
+generate_mipmaps = false
+color_ramp = ExtResource("1_dvtat")
+noise = ExtResource("2_e3yx0")

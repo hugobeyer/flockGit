@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="rwtexSplitGreen" load_steps=2 format=3 uid="uid://bljqgy8el3fhp"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/nodes/image_texture/memory/gsplit.gd" id="1_yl2hu"]
+
+[resource]
+script = ExtResource("1_yl2hu")

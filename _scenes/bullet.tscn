@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbg8lda400aod"]
+[gd_scene load_steps=7 format=3 uid="uid://dbg8lda400aod"]
 
 [ext_resource type="Script" path="res://_scripts/bullet.gd" id="1_6qr1r"]
 [ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="2_548kj"]
@@ -13,7 +13,7 @@ shader_parameter/fresnel_color = Color(1, 1, 1, 1)
 shader_parameter/vertex_color_mix = 0.0
 shader_parameter/blend_mode = 1
 shader_parameter/gradient_rotation_mode = 1
-shader_parameter/gradient_offset = -0.14
+shader_parameter/gradient_offset = 0.11
 shader_parameter/gradient_smoothness = 0.0
 shader_parameter/diffuse_contrast = 0.88
 shader_parameter/diffuse_wrap = 2.0
@@ -27,31 +27,36 @@ shader_parameter/fresnel_intensity = 0.0
 shader_parameter/fresnel_contrast = 2.615
 shader_parameter/fresnel_offset = 0.251
 
-[sub_resource type="SphereMesh" id="SphereMesh_0a1fa"]
-radius = 0.314
-height = 0.559
-radial_segments = 7
-rings = 6
-is_hemisphere = true
+[sub_resource type="Curve" id="Curve_0k6bf"]
+_data = [Vector2(0, 0), 0.0, 5.67061, 0, 0, Vector2(0.177501, 0.687438), 1.22349, 1.22349, 0, 0, Vector2(0.89251, 0.957019), 0.0, 0.0, 0, 0, Vector2(1, 0), -15.7529, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_7ckpg"]
+radius = 0.3
+radial_steps = 5
+sections = 6
+section_length = 0.1
+section_rings = 1
+cap_top = false
+curve = SubResource("Curve_0k6bf")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8016x"]
-radius = 0.297
-height = 0.7
+radius = 0.343233
+height = 0.755344
 
-[node name="Bullet" type="Area3D"]
+[node name="Bullet" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.393739)
 top_level = true
-collision_layer = 8
-collision_mask = 6
+collision_layer = 16
+collision_mask = 395270
 input_ray_pickable = false
-priority = 1
-gravity_point = true
-linear_damp_space_override = 3
-linear_damp = 11.98
+can_sleep = false
 script = ExtResource("1_6qr1r")
 damage = 1.0
+lifetime = 1.86
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, -8.74228e-08, 0, -3.82137e-15, 4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 4.64828e-08, -2.32414e-08, 0.531701)
+transform = Transform3D(-1, -8.74228e-08, 0, -3.82137e-15, 4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, -9.31969e-09, 4.65984e-09, -0.106605)
 material_override = SubResource("ShaderMaterial_44twl")
 instance_shader_parameters/alpha = 1.0
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
@@ -61,9 +66,8 @@ instance_shader_parameters/lerp_wave_freq = 1.0
 instance_shader_parameters/lerp_wave_offset = 0.0
 instance_shader_parameters/lerp_wave_type = 0
 instance_shader_parameters/wave_range_lerp = 0.0
-mesh = SubResource("SphereMesh_0a1fa")
+mesh = SubResource("TubeTrailMesh_7ckpg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-physics_interpolation_mode = 1
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.21485e-08, 0.277925)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.29875e-09, -0.0525894)
 shape = SubResource("CapsuleShape3D_8016x")

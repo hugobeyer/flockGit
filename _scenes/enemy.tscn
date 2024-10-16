@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://deykio3jwy2vg"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_ia10i"]
-[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/enemy_die_fx.tscn" id="2_3gwb4"]
+[ext_resource type="PackedScene" uid="uid://b6m5ebh7isok8" path="res://_pfx/default_enemy_die_fx.tscn" id="2_3gwb4"]
 [ext_resource type="Material" uid="uid://c41y16wbx4hl1" path="res://_materials/enemy_imp_mat.tres" id="2_gr5oo"]
 [ext_resource type="CapsuleMesh" uid="uid://bvl0n3ggpeowq" path="res://_meshes/Enemy/enemy_imp.tres" id="3_qf47k"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_earu6"]

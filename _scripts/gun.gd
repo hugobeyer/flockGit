@@ -6,84 +6,59 @@ signal recoil_reset()
 #✦ 🔫 BULLET PARAMETERS 🔫                              ✦
 #╘═════════════════════════════════════════════════════╛
 @export_group("Bullet Parameters")
-## Time between shots in seconds
 @export_range(0.01, 2.0) var fire_rate: float = 0.05
-## Speed of the bullet in units per second
 @export_range(1.0, 1000.0) var bullet_speed: float = 50.0
-## Damage dealt by each bullet
 @export_range(1, 100) var bullet_damage: float = 10.0
-## Force applied to hit objects
 @export_range(0.0, 100.0) var knockback: float = 10.0
-## Scene file for the bullet projectile
 @export var bullet_scene: PackedScene
-# End Bullet Parameters
 
 #✦ 🧭 SPREAD PARAMETERS 🧭                             ✦
 #╘═════════════════════════════════════════════════════╛
 @export_group("Spread Parameters")
-## Number of bullets fired per shot
 @export_range(1, 20) var spread_count_bullet: int = 1
-## Total angle of bullet spread in degrees
 @export_range(0.1, 360.0) var spread_count_angle: float = 20.0
-## Maximum random angle variation for each bullet in degrees
 @export_range(0.1, 45.0) var spread_count_randomize_angle: float = 5.0
-# End Spread Parameters
 
 #✦ 🔧 RECOIL PARAMETERS 🔧                             ✦
 #╘═════════════════════════════════════════════════════╛
 @export_group("Recoil Parameters")
 ## Base force of recoil applied to the gun
 @export_range(0.001, 256.0) var recoil_force: float = 0.5
-## Maximum recoil offset
 @export_range(0.001, 256.0) var max_recoil: float = 2.0
-## Maximum angle of recoil in degrees
 @export_range(0.01, 5.0) var recoil_amplitude: float = 45.0
-## Frequency of recoil oscillation
 @export_range(0.01, 5.0) var recoil_frequency: float = 1.0
-## Duration over which recoil increases
 @export_range(0.001, 16.0) var recoil_increase_duration: float = 1.0
-## Curve controlling recoil over time
 @export var recoil_curve_time: Curve = Curve.new()
-## Curve controlling recoil recovery when mouse is released
 @export var recoil_mouse_up_curve: Curve = Curve.new()
 @export var recoil_noise_speed: float = 1.0
-@export var recoil_noise_texture: NoiseTexture2D
-# Keep these variables
+@export var recoil_noise_texture: Texture2D  # This should now be a normal map texture
 @export var recoil_linear_damp: float = 0.01
 @export var recoil_angle_damp: float = 0.01
-# End Recoil Parameters
 
 #✦ ⏱ RECOVERY PARAMETERS ⏱                             ✦
 #╘═════════════════════════════════════════════════════╛
 @export_group("Recovery Parameters")
-## Time for recoil to fully recover when mouse is released
 @export_range(0.0001, 32.0) var recoil_mouse_up_recovery_time: float = 1.0
-# End Recovery Parameters
 
 #✦ 🔧 NODE REFERENCES 🔧                               ✦
 #╘═════════════════════════════════════════════════════╛
 @export_group("Node References")
-## Node representing the muzzle (bullet spawn point)
 @onready var muzzle_node = get_node("Muzzle")
-## Node for the gun that will be rotated for recoil
 @onready var gun_node = self
-# End Node References
 
 # Add these new variables at the top of your script
-@export_range(0.01, 1.0) var mouse_reset_threshold: float = 0.1
-var mouse_reset_triggered: bool = false
 var is_shooting: bool = false
-var mouse_up_recovery_elapsed_time: float = 0.0
 var recoil_start_time: float = 0.0
 
 # Variables
 var current_recoil: float = 0.0
-@onready var player = get_parent().get_node("Player")
+@onready var player = get_parent()
 var time_since_last_shot: float = 0.0
 var last_shot_time: float = 0.0
 var current_recoil_offset: float = 0.0
 var current_recoil_rotation_y: float = 0.0  # Only track Y-axis rotation for gun recoil
 var noise_sample_x: float = 0.0  # Track the current X position for sampling the noise texture
+var noise_sample_y: float = 0.0  # Track the current Y position for sampling the noise texture
 var initial_gun_rotation: Vector3  # Store the initial rotation of the gun
 
 # Debug cylinder export variables
@@ -126,6 +101,18 @@ var recovery_start_time: float = 0.0
 
 @export var camera_node: Camera3D  # Assign this in the Inspector
 
+var thumbstick: Node = null
+var fire_threshold: float = 0.5  # Adjust this value as needed
+
+var is_trigger_pressed: bool = false
+
+var shoot_direction: Vector2 = Vector2.ZERO
+
+# Add these if they're not already present
+var recoil_recovery_time: float = 0.5  # Adjust this value as needed
+var is_recovering_from_recoil: bool = false
+var recoil_recovery_start_time: float = 0.0
+
 func _ready():
     if camera_node:
         if not camera_node:
@@ -150,6 +137,17 @@ func _ready():
     
     # Create debug sprites
     create_debug_cylinders()
+
+    thumbstick = get_node("../../../MainHUD/ControllerCanvas/MovementJoystick")
+    if not thumbstick:
+        push_error("Thumbstick not found. Make sure it's properly added to the scene.")
+
+    # Ensure muzzle_node is a child of the gun and positioned correctly
+    muzzle_node = $Muzzle  # Adjust the path if necessary
+    if not muzzle_node:
+        push_error("Muzzle node not found!")
+    else:
+        print("Muzzle position: ", muzzle_node.global_transform.origin)
 
 func create_debug_cylinders():
     recoil_cylinder = create_cylinder(recoil_color_start)
@@ -211,7 +209,7 @@ func update_debug_cylinders():
     # Update recoil increase cylinder
     var current_time = Time.get_ticks_msec() / 1000.0
     var recoil_duration = current_time - recoil_start_time
-    var recoil_increase_progress = min(recoil_duration / recoil_increase_duration, 1.0)
+    var recoil_increase_progress = recoil_duration / recoil_increase_duration
     var recoil_curve_value = recoil_curve_time.sample_baked(recoil_increase_progress) if recoil_curve_time else recoil_increase_progress
     update_cylinder_scale(recoil_increase_cylinder, recoil_curve_value if is_shooting else 0.1)
     update_cylinder_color(recoil_increase_cylinder, recoil_increase_color_start, recoil_increase_color_end, recoil_curve_value if is_shooting else 0.1)
@@ -263,27 +261,15 @@ func _process(delta: float):
     var current_time = Time.get_ticks_msec() / 1000.0
     time_since_last_shot = current_time - last_shot_time
 
-    if Input.is_action_pressed("fire"):
-        if not is_shooting:
-            mouse_up_recovery_elapsed_time = 0.0
-            recoil_start_time = current_time
-            reset_noise_sampling()
-            is_recovering = false
-        is_shooting = true
-        shoot()
-        update_recoil(delta, current_time)
+    if is_shooting:
+        time_since_last_shot += delta
+        if time_since_last_shot >= fire_rate:
+            shoot_bullet()
+            time_since_last_shot = 0.0
     else:
-        if is_shooting:
-            is_recovering = true
-            recovery_start_time = current_time
-            reset_noise_sampling()
-        is_shooting = false
-    
+        handle_recoil_recovery(delta)
+
     apply_recoil_to_player(delta)
-    
-    if is_recovering:
-        recover_recoil(delta, current_time)
-    
     update_debug_cylinders()
 
 func update_recoil(delta: float, current_time: float):
@@ -324,53 +310,31 @@ func shoot():
         # Reset recoil accumulation when starting a new burst
         if not is_shooting:
             recoil_accumulation = 0.0
-        # Reset recovery time on each shot
-        mouse_up_recovery_elapsed_time = 0.0
 
-func recover_recoil(delta: float, current_time: float):
-    if player and gun_node:
-        var recovery_duration = current_time - recovery_start_time
-        var recovery_progress = min(recovery_duration / recoil_mouse_up_recovery_time, 1.0)
-        var curve_value = recoil_mouse_up_curve.sample_baked(recovery_progress)
-
-        # Apply damping to the recovery
-        var linear_recovery_factor = curve_value * recoil_linear_damp
-        var angular_recovery_factor = curve_value * recoil_angle_damp
-
-        # Recover linear recoil offset gradually
-        recoil_accumulation = lerp(recoil_accumulation, 0.0, linear_recovery_factor)
-        current_recoil_offset = lerp(current_recoil_offset, 0.0, linear_recovery_factor)
-
-        # Recover angular recoil gradually (rotation for gun_node)
-        gun_node.rotation = gun_node.rotation.lerp(initial_gun_rotation, angular_recovery_factor)
-
-        # Continue applying a small amount of recoil even when recovering
-        if recoil_noise_texture:
-            noise_sample_x += recoil_noise_speed * recoil_frequency * delta
-            var noise_value = recoil_noise_texture.get_image().get_pixelv(Vector2(int(noise_sample_x) % recoil_noise_texture.get_width(), 0)).r * 2.0 - 1.0
-            var recoil_angle = noise_value * recoil_amplitude * 0.1  # Apply a small amount of recoil
-            gun_node.rotate_y(deg_to_rad(recoil_angle))
-
-        # Stop recovering when recoil reaches near zero or recovery time is exceeded
-        if recovery_progress >= 1.0 or (abs(current_recoil_offset) < 0.01 and gun_node.rotation.distance_to(initial_gun_rotation) < 0.01):
+func handle_recoil_recovery(delta: float):
+    if is_recovering:
+        var current_time = Time.get_ticks_msec() / 1000.0
+        var recovery_progress = (current_time - recovery_start_time) / recoil_mouse_up_recovery_time
+        
+        if recovery_progress >= 1.0:
+            is_recovering = false
             recoil_accumulation = 0.0
             current_recoil_offset = 0.0
-            gun_node.rotation = initial_gun_rotation
-            is_recovering = false
+            if gun_node:
+                gun_node.rotation = initial_gun_rotation
+            reset_noise_sampling()
+        else:
+            var recovery_curve_value = recoil_mouse_up_curve.sample_baked(recovery_progress)
+            recoil_accumulation = lerp(recoil_accumulation, 0.0, recovery_curve_value * delta)
+            current_recoil_offset = lerp(current_recoil_offset, 0.0, recovery_curve_value * delta)
+            
+            if gun_node:
+                gun_node.rotation = gun_node.rotation.lerp(initial_gun_rotation, recovery_curve_value * delta)
 
 func shoot_bullet():
-    if bullet_scene == null or recoil_noise_texture == null:
-        push_error("Bullet scene or recoil noise texture is not assigned or failed to load.")
-        return
-
     var muzzle_transform = muzzle_node.global_transform
-    var forward_direction = -muzzle_transform.basis.z.normalized()
+    var forward_direction = muzzle_transform.basis.z.normalized()
 
-    # Calculate recoil force value based on increase duration and curve
-    var recoil_time_factor = min(time_since_last_shot / recoil_increase_duration, 1.0)
-    var recoil_curve_value = recoil_curve_time.sample_baked(recoil_time_factor)
-
-    # Create a new random number generator for this shot
     var rng = RandomNumberGenerator.new()
     rng.randomize()
 
@@ -378,46 +342,50 @@ func shoot_bullet():
     var base_spread_angle = spread_count_angle / max(1, spread_count_bullet - 1)
 
     for i in range(spread_count_bullet):
-        # Generate a unique random seed for each bullet
         var bullet_seed = rng.randi()
         var bullet_rng = RandomNumberGenerator.new()
         bullet_rng.seed = bullet_seed
 
         # Calculate the spread angle for this bullet
         var spread_angle = (i - (spread_count_bullet - 1) / 2.0) * base_spread_angle
-        
-        # Add randomization to the spread angle
         var random_angle_variation = bullet_rng.randf_range(-spread_count_randomize_angle, spread_count_randomize_angle)
         var final_spread_angle = spread_angle + random_angle_variation
         
         var angle_offset = deg_to_rad(final_spread_angle)
+        var random_rotation = bullet_rng.randf() * TAU
 
-        # Generate random rotation around forward axis
-        var random_rotation = bullet_rng.randf() * TAU  # TAU is 2*PI
+        # Calculate spread direction
+        var spread_direction = Quaternion(muzzle_transform.basis.y, angle_offset) * forward_direction
+        spread_direction = Quaternion(forward_direction, random_rotation) * spread_direction
 
-        # Start with the muzzle's forward direction
-        var spread_direction = -forward_direction
-        spread_direction = spread_direction.rotated(muzzle_transform.basis.y, angle_offset)
-        spread_direction = spread_direction.rotated(forward_direction, random_rotation)
+        # Ensure spread_direction is not zero
+        if spread_direction.is_equal_approx(Vector3.ZERO):
+            spread_direction = forward_direction  # Use a default direction
 
-        # Calculate recoil angle separately
+        # Calculate recoil angle
         var recoil_noise_sample = bullet_rng.randf() * recoil_noise_texture.get_width()
-        var recoil_noise_value = recoil_noise_texture.get_image().get_pixelv(Vector2(int(recoil_noise_sample) % recoil_noise_texture.get_width(), 0)).r * 2.0 - 1.0
-        var bullet_recoil_angle = recoil_noise_value * recoil_amplitude * recoil_curve_value
-        spread_direction = spread_direction.rotated(muzzle_transform.basis.y, deg_to_rad(bullet_recoil_angle))
+        var recoil_noise_value = recoil_noise_texture.get_image().get_pixelv(Vector2(int(recoil_noise_sample) % recoil_noise_texture.get_width(), 0)).r * 2 - 1
+        var bullet_recoil_angle = recoil_noise_value * recoil_amplitude * get_recoil_value()
+        spread_direction = Quaternion(muzzle_transform.basis.y, deg_to_rad(bullet_recoil_angle)) * spread_direction
 
         var bullet = bullet_scene.instantiate()
         if bullet:
             get_tree().root.add_child(bullet)
-            bullet.global_transform = muzzle_transform
-            bullet.global_transform = bullet.global_transform.looking_at(bullet.global_transform.origin + spread_direction, Vector3.UP)
+            bullet.global_transform.origin = muzzle_node.global_transform.origin
+            
+            # Set bullet rotation
+            bullet.global_transform = bullet.global_transform.looking_at(
+                bullet.global_transform.origin + spread_direction, 
+                Vector3.UP
+            )
 
+            # Set velocity
             if bullet.has_method("set_velocity"):
-                bullet.set_velocity(spread_direction * bullet_speed)
+                var velocity = spread_direction.normalized() * bullet_speed
+                bullet.set_velocity(velocity)
 
             if bullet.has_method("set_bullet_owner"):
                 bullet.set_bullet_owner(player)
-            
             if bullet.has_method("set_damage"):
                 bullet.set_damage(bullet_damage)
             if bullet.has_method("set_knockback"):
@@ -425,40 +393,50 @@ func shoot_bullet():
             if bullet.has_method("set_lifetime"):
                 bullet.set_lifetime(3.0)
 
-            # print("Bullet Fired from Position: ", muzzle_transform.origin)
-            # print("Bullet Direction: ", spread_direction)
+    # Calculate and apply recoil
+    var recoil_force_forward = -forward_direction * get_recoil_value()
+    apply_recoil(forward_direction)
+    emit_signal("gun_fired", recoil_force_forward)
 
-    apply_recoil(forward_direction, recoil_curve_value)
-    emit_signal("gun_fired", Vector3.ZERO)
-
-    # Increment the noise sample position, wrapping back to 0 if it exceeds the texture width
+    # Update noise sample position
     noise_sample_x = fmod(noise_sample_x + recoil_frequency, float(recoil_noise_texture.get_width()))
 
-func apply_recoil(direction: Vector3, curve_value: float):
-    var current_time = Time.get_ticks_msec() / 1000.0
-    var recoil_duration = current_time - recoil_start_time
-    var recoil_progress = min(recoil_duration / recoil_increase_duration, 1.0)
-    curve_value = recoil_curve_time.sample_baked(recoil_progress)
+func apply_recoil(direction: Vector3):
+    is_recovering = false  # Reset recovery when new recoil is applied
     
-    # Calculate recoil increment
-    var recoil_increment = recoil_force * curve_value * (1.0 / recoil_increase_duration)
-    recoil_accumulation += recoil_increment
-    recoil_accumulation = min(recoil_accumulation, max_recoil)
+    var recoil_value = get_recoil_value()
     
     # Calculate recoil offset
-    var local_back_direction = player.to_local(direction) * -recoil_accumulation
+    var local_back_direction = player.to_local(direction) * -recoil_value
     current_recoil_offset = local_back_direction.length()
     current_recoil_offset = clamp(current_recoil_offset, 0, max_recoil)
 
     # Apply recoil to the gun's rotation
     if gun_node and recoil_noise_texture:
         # Use recoil_noise_speed to control the sampling rate
-        noise_sample_x += recoil_noise_speed * recoil_frequency * curve_value
-        var noise_value = recoil_noise_texture.get_image().get_pixelv(Vector2(int(noise_sample_x) % recoil_noise_texture.get_width(), 0)).r * 2.0 - 1.0
-        var recoil_angle = noise_value * recoil_amplitude * max(curve_value, 0.1)  # Ensure a minimum recoil
-        gun_node.rotate_y(deg_to_rad(recoil_angle))
-        var max_rotation = deg_to_rad(max_recoil * curve_value)
+        noise_sample_x += recoil_noise_speed * recoil_frequency * (recoil_value / max_recoil)
+        noise_sample_y += recoil_noise_speed * recoil_frequency * (recoil_value / max_recoil) * 0.7  # Slightly different rate for Y
+        
+        # Sample the normal map texture
+        var texture_size = recoil_noise_texture.get_width()  # Assuming square texture
+        var sample_pos = Vector2(
+            fmod(noise_sample_x, float(texture_size)) / float(texture_size),
+            fmod(noise_sample_y, float(texture_size)) / float(texture_size)
+        )
+        var normal = recoil_noise_texture.get_image().get_pixelv(sample_pos * texture_size)
+        
+        # Convert normal map values from [0, 1] to [-1, 1] range
+        var recoil_x = (normal.r * 2.0 - 1.0) * recoil_amplitude * (recoil_value / max_recoil)
+        var recoil_y = (normal.g * 2.0 - 1.0) * recoil_amplitude * (recoil_value / max_recoil)
+        
+        # Apply recoil rotation
+        gun_node.rotate_y(deg_to_rad(recoil_x))
+        gun_node.rotate_x(deg_to_rad(recoil_y))
+        
+        # Clamp rotation to prevent excessive recoil
+        var max_rotation = deg_to_rad(recoil_value)
         gun_node.rotation.y = clamp(gun_node.rotation.y, initial_gun_rotation.y - max_rotation, initial_gun_rotation.y + max_rotation)
+        gun_node.rotation.x = clamp(gun_node.rotation.x, initial_gun_rotation.x - max_rotation, initial_gun_rotation.x + max_rotation)
 
 func apply_recoil_force(delta: float):
     # Apply translation recoil to player
@@ -470,17 +448,27 @@ func apply_recoil_force(delta: float):
         # gun_node.rotate_y(current_recoil_rotation_y * delta)
 
 func reset_recoil():
+    if not is_recovering:
+        is_recovering = true
+        recovery_start_time = Time.get_ticks_msec() / 1000.0
     emit_signal("recoil_reset")
-    if recoil_increase_duration > 0:
-        current_recoil = max(current_recoil - (get_curve_value() / recoil_increase_duration), 0.0)
-    else:
-        current_recoil = 0.0
 
-func get_curve_value() -> float:
-    var recoil_progress = min(time_since_last_shot / recoil_increase_duration, 1.0)
-    return recoil_curve_time.sample_baked(recoil_progress)
+func get_recoil_value() -> float:
+    var curve_time = min(time_since_last_shot / recoil_increase_duration, 1.0)
+    var curve_value = recoil_curve_time.sample_baked(curve_time)
+    return curve_value * max_recoil
 
-# Add this function to reset noise sampling when needed (e.g., when stopping shooting)
 func reset_noise_sampling():
     noise_sample_x = 0.0
+    noise_sample_y = 0.0
 
+func trigger_pressed(direction: Vector2):
+    is_trigger_pressed = true
+    shoot_direction = direction
+    is_shooting = true
+
+func trigger_released():
+    is_trigger_pressed = false
+    shoot_direction = Vector2.ZERO
+    is_shooting = false
+    reset_recoil()

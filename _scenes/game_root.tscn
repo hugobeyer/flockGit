@@ -1,16 +1,33 @@
-[gd_scene load_steps=18 format=3 uid="uid://c2xd4i2lcvsgy"]
+[gd_scene load_steps=26 format=3 uid="uid://c2xd4i2lcvsgy"]
 
 [ext_resource type="Script" path="res://_scripts/game_root.gd" id="1_1826r"]
 [ext_resource type="PackedScene" uid="uid://clcwdr5begw0g" path="res://_scenes/main.tscn" id="2_3drmh"]
 [ext_resource type="Script" path="res://_scripts/main.gd" id="3_l2xr8"]
 [ext_resource type="PackedScene" uid="uid://cqhe3y3sj4vb3" path="res://_scenes/player.tscn" id="4_2xjta"]
 [ext_resource type="Script" path="res://_scripts/ai/AIDirector.gd" id="4_5jyth"]
+[ext_resource type="PackedScene" uid="uid://cw3xgyijrvuub" path="res://_scenes/enemy_types/imps/imp_berserker.tscn" id="6_4tiw5"]
 [ext_resource type="PackedScene" uid="uid://02l4fil5f7hb" path="res://_scenes/spawner.tscn" id="6_tgciq"]
-[ext_resource type="PackedScene" uid="uid://cwaii0c2fbcpm" path="res://_scenes/debug_touch.tscn" id="8_fqblv"]
+[ext_resource type="PackedScene" uid="uid://d04f1fywismba" path="res://_scenes/enemy_types/imps/imp_dummy.tscn" id="7_q02my"]
 [ext_resource type="Script" path="res://_scripts/ai/formation_manager.gd" id="9_7yfm7"]
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_428cj"]
+[ext_resource type="Material" uid="uid://bd262mf6ee1vt" path="res://_materials/gr.tres" id="11_xwy4t"]
 [ext_resource type="FontVariation" uid="uid://cws4onh6frwva" path="res://_resources/fonts/font_health_overhead.tres" id="12_ihlwy"]
 [ext_resource type="Script" path="res://_scripts/UI/game_label_kills.gd" id="13_aid0c"]
+[ext_resource type="PackedScene" uid="uid://bc15gesn8lubs" path="res://addons/thumbstick_plugin/plugin/joysticks/normal_joystick.tscn" id="14_wgw40"]
+[ext_resource type="Shader" path="res://addons/post_processing/node/children/outline.gdshader" id="15_v7g0k"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w3p0d"]
+friction = 0.15
+bounce = 0.15
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ytlyv"]
+resource_local_to_scene = true
+size = Vector3(256, 10, 256)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_caqoe"]
+size = Vector2(256, 256)
+subdivide_width = 64
+subdivide_depth = 64
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_feyws"]
 bg_color = Color(0.46875, 0.0128174, 0.226536, 1)
@@ -55,6 +72,12 @@ shadow_size = 0
 shadow_color = Color(0.00569999, 0.0732767, 0.19, 0.490196)
 shadow_offset = Vector2(9, 7)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3r183"]
+shader = ExtResource("15_v7g0k")
+shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/threshold = 0.0
+shader_parameter/blend = 0.01
+
 [node name="GameRoot" type="Node3D"]
 script = ExtResource("1_1826r")
 
@@ -66,22 +89,21 @@ script = ExtResource("4_5jyth")
 
 [node name="Spawner" parent="Main" instance=ExtResource("6_tgciq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-min_spawn_radius = 10.4
-max_spawn_radius = 21.215
-below_ground_offset = 1.825
-max_enemies = 0
-min_spawn_interval = 4.39
-max_spawn_interval = 7.4
-min_enemies_per_cluster = 0
-max_enemies_per_cluster = 0
-cluster_radius = 10.075
+enemy_scenes = {
+"imp_berserker": ExtResource("6_4tiw5"),
+"imp_dummy": ExtResource("7_q02my")
+}
+min_spawn_radius = 12.0
+max_spawn_radius = 32.0
+below_ground_offset = 2.0
+max_enemies = 3
+max_spawn_interval = 12.0
+max_cluster_points = 2
+min_enemies_per_cluster = 1
+max_enemies_per_cluster = 3
 
 [node name="FormationManager" type="Node3D" parent="Main/Spawner"]
 script = ExtResource("9_7yfm7")
-
-[node name="debug_touch" parent="Main" node_paths=PackedStringArray("camera", "player") instance=ExtResource("8_fqblv")]
-camera = NodePath("")
-player = NodePath("../Player")
 
 [node name="Buddy" parent="Main" instance=ExtResource("9_428cj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.018342, 4.36571, 0.00228286)
@@ -97,13 +119,32 @@ fear_threshold = 1
 warning_cooldown = 3.0
 spiral_attack_duration = 4.0
 
-[node name="Player" parent="Main" node_paths=PackedStringArray("camera", "debug_touch") instance=ExtResource("4_2xjta")]
-camera = NodePath("")
-debug_touch = NodePath("../debug_touch")
+[node name="Player" parent="Main" instance=ExtResource("4_2xjta")]
+floor_constant_speed = true
+floor_snap_length = 0.8
+SPEED = 12.0
+SHOOTING_THRESHOLD = 0.325
 
-[node name="MainHUD" type="Node3D" parent="."]
+[node name="FloorStatic" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 27
+input_ray_pickable = false
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+physics_material_override = SubResource("PhysicsMaterial_w3p0d")
 
-[node name="MainHUD" type="Control" parent="MainHUD"]
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="FloorStatic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+shape = SubResource("BoxShape3D_ytlyv")
+
+[node name="FloorMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0597019, 0.140897, 0.0823631)
+material_override = ExtResource("11_xwy4t")
+mesh = SubResource("PlaneMesh_caqoe")
+skeleton = NodePath("../FloorStatic")
+
+[node name="MainHUD" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -114,7 +155,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="MainHUD/MainHUD"]
+[node name="Panel" type="Panel" parent="MainHUD"]
 layout_mode = 2
 offset_left = 555.931
 offset_top = 68.937
@@ -125,7 +166,7 @@ scale = Vector2(0.891339, 0.789322)
 theme_override_styles/panel = SubResource("StyleBoxFlat_feyws")
 metadata/_edit_use_anchors_ = true
 
-[node name="Based" type="Label" parent="MainHUD/MainHUD"]
+[node name="Based" type="Label" parent="MainHUD"]
 light_mask = 0
 material = SubResource("CanvasItemMaterial_7s0d6")
 layout_direction = 1
@@ -149,7 +190,7 @@ vertical_alignment = 1
 justification_flags = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="LabelKills" type="Label" parent="MainHUD/MainHUD"]
+[node name="LabelKills" type="Label" parent="MainHUD"]
 z_as_relative = false
 texture_filter = 2
 texture_repeat = 1
@@ -172,3 +213,60 @@ label_settings = SubResource("LabelSettings_uetrx")
 horizontal_alignment = 1
 script = ExtResource("13_aid0c")
 metadata/_edit_use_anchors_ = true
+
+[node name="ControllerCanvas" type="CanvasLayer" parent="MainHUD" groups=["thumbstick"]]
+
+[node name="MovementJoystick" parent="MainHUD/ControllerCanvas" node_paths=PackedStringArray("control_target_node") groups=["thumbstick"] instance=ExtResource("14_wgw40")]
+anchors_preset = -1
+anchor_top = 0.356667
+grow_horizontal = 1
+grow_vertical = 0
+_mode = "Follow"
+_visibility_mode = "Touchscreen"
+follow_radius_tolerance = 32.0
+max_drag_radius = 94.415
+deadzone_radius_percentage = 0.629
+start_elapsed_on_trigger = true
+normalize_output = true
+inverse_output = true
+_base_color = Color(0.74249, 0.770697, 0.855319, 1)
+_normal_bg_tint = Color(0.716795, 0.792712, 0.829787, 1)
+_normal_handle_tint = Color(0.96393, 1, 0.851064, 1)
+_pressed_bg_tint = Color(0.0170213, 1, 0.216689, 1)
+_pressed_handle_tint = Color(0.978723, 0.632249, 0.270711, 1)
+_disabled_bg_tint = Color(0.6, 0.6, 0.6, 0)
+_disabled_handle_tint = Color(0.6, 0.6, 0.6, 0)
+_transparent_bg_tint = Color(1, 1, 1, 0)
+_transparent_handle_tint = Color(1, 1, 1, 0)
+control_target_node = NodePath("../../../Main/Player")
+_on_trigger_method_name = "_on_trigger"
+_on_pressed_method_name = "_on_pressed"
+_on_released_method_name = "_on_released"
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewport" type="SubViewport" parent="MainHUD"]
+use_hdr_2d = true
+vrs_update_mode = 2
+gui_disable_input = true
+gui_snap_controls_to_pixels = false
+size_2d_override = Vector2i(495, 660)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="MainHUD/SubViewport"]
+transform = Transform3D(-3.35089e-08, -0.642132, 0.766594, -2.80685e-08, 0.766594, 0.642132, -1, 0, -4.37114e-08, 10.9857, 10.8749, 0)
+current = true
+
+[node name="TextureRect" type="TextureRect" parent="MainHUD/SubViewport/Camera3D"]
+top_level = true
+light_mask = 0
+visibility_layer = 31
+texture_filter = 2
+material = SubResource("ShaderMaterial_3r183")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

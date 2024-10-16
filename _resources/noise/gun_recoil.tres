@@ -1,17 +1,29 @@
-[gd_resource type="NoiseTexture2D" load_steps=2 format=3 uid="uid://b8nsan04cmd2i"]
+[gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://b8nsan04cmd2i"]
+
+[sub_resource type="Gradient" id="Gradient_es7ds"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.227074, 0.438865, 0.669214, 0.777293, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.953057, 0.953057, 0.953057, 1, 0, 0, 0, 1, 0.953057, 0.953057, 0.953057, 1, 0, 0, 0, 1, 1, 1, 1, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ggrtb"]
-noise_type = 0
-frequency = 0.0182
-fractal_octaves = 4
-fractal_gain = 1.0
-domain_warp_amplitude = 4.0
-domain_warp_frequency = 0.1
+noise_type = 5
+frequency = 0.0977
+fractal_lacunarity = 2.636
+fractal_gain = 1.017
+fractal_weighted_strength = 0.46
+fractal_ping_pong_strength = 1.649
+domain_warp_type = 2
+domain_warp_amplitude = 15.643
+domain_warp_frequency = 0.085
 domain_warp_fractal_type = 2
+domain_warp_fractal_octaves = 3
+domain_warp_fractal_lacunarity = 3.0
+domain_warp_fractal_gain = 0.68
 
 [resource]
-width = 128
-height = 1
-generate_mipmaps = false
-normalize = false
+resource_local_to_scene = true
+seamless = true
+seamless_blend_skirt = 0.155
+bump_strength = 32.0
+color_ramp = SubResource("Gradient_es7ds")
 noise = SubResource("FastNoiseLite_ggrtb")

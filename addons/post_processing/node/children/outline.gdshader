@@ -16,7 +16,7 @@ float getGrayScale(sampler2D sampler, vec2 coods){
 }
 
 void fragment(){
-	vec2 delta = vec2(0.0,0.003);
+	vec2 delta = vec2(0.0,0.05);
 	vec2 iResolution = 1.0 / SCREEN_PIXEL_SIZE;
 	float m = max(iResolution.x,iResolution.y);
 	vec2 texCoords = SCREEN_UV;

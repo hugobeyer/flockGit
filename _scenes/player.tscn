@@ -1,14 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=15 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://_scripts/Player.gd" id="1_7wjim"]
 [ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="3_v7pw0"]
 [ext_resource type="Script" path="res://_scripts/camera.gd" id="4_pg2h6"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
-margin = 0.25
-radius = 0.577
-height = 2.046
 
 [sub_resource type="Gradient" id="Gradient_2b6n3"]
 offsets = PackedFloat32Array(0, 0.262561, 0.518639, 0.753647, 1)
@@ -25,17 +20,66 @@ radius = 0.6
 radial_segments = 9
 rings = 4
 
-[node name="Player" type="CharacterBody3D" groups=["player"]]
-collision_mask = 6
+[sub_resource type="Gradient" id="Gradient_cmr4j"]
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0.0545809, 0.378168, 0.452242, 0.62768, 0.717349, 0.758285, 1)
+colors = PackedColorArray(1, 0.932333, 0.86, 0, 1, 0.932333, 0.86, 0, 0.652433, 0.2146, 0.74, 0.796078, 0.61746, 0.1804, 0.82, 0.156863, 0.547351, 1, 0, 0.847531, 0.546875, 1, 0, 1, 0.156933, 0.88, 0.132, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mdq4w"]
+gradient = SubResource("Gradient_cmr4j")
+width = 32
+fill = 1
+fill_from = Vector2(0.5, 1.155)
+repeat = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s7uvh"]
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
+albedo_color = Color(0.856348, 0.97, 0.7857, 0.12549)
+albedo_texture = SubResource("GradientTexture2D_mdq4w")
+albedo_texture_msdf = true
+disable_receive_shadows = true
+billboard_keep_scale = true
+grow_amount = -1.35
+point_size = 5.5
+proximity_fade_distance = 0.01
+msdf_pixel_range = 1.0
+distance_fade_max_distance = 24.38
+
+[sub_resource type="Curve" id="Curve_qkx6c"]
+bake_resolution = 128
+_data = [Vector2(0, 0), 0.0, 3.08926, 0, 0, Vector2(0.373473, 0.846326), 2.2661, -0.0652022, 1, 0, Vector2(0.565445, 0.663578), 1.74991, 1.74991, 0, 0, Vector2(1, 0.871246), 0.5691, -3.87831, 0, 0]
+point_count = 4
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_oyiho"]
+flip_faces = true
+shape = 0
+size = 2.438
+sections = 10
+section_length = 0.311
+section_segments = 6
+curve = SubResource("Curve_qkx6c")
+
+[sub_resource type="Environment" id="Environment_mbjl6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3lyym"]
+margin = 0.25
+radius = 0.577
+height = 2.046
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera") groups=["player"]]
+collision_mask = 3775921926
 input_ray_pickable = false
 axis_lock_linear_y = true
+floor_stop_on_slope = false
+floor_block_on_wall = false
+floor_max_angle = 0.0174533
 script = ExtResource("1_7wjim")
-SPEED = 12.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-physics_interpolation_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.181, 0)
-shape = SubResource("CapsuleShape3D_3lyym")
+camera = NodePath("GameCamera")
 
 [node name="RecoilBar" type="Sprite3D" parent="."]
 transform = Transform3D(1, -5.96629e-10, 0, 3.45608e-10, 1, -4.65661e-10, 0, 0, 1, -0.000349001, 2.81822, 0.000272769)
@@ -45,7 +89,7 @@ texture = SubResource("GradientTexture2D_oaafo")
 region_enabled = true
 region_rect = Rect2(-3, -3, 135, 19)
 
-[node name="Player" type="MeshInstance3D" parent="."]
+[node name="PlayerMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.999908, -0.0120488, 0.0062203, 0.0120859, 0.999909, -0.00596117, -0.00614791, 0.0060358, 0.999963, -0.001, 1.183, -0.003)
 material_override = ExtResource("2_qw1fv")
 instance_shader_parameters/lerp_color = Color(1, 1, 1, 1)
@@ -59,12 +103,29 @@ instance_shader_parameters/wave_range_lerp = 0.0
 mesh = SubResource("CapsuleMesh_ayx0v")
 skeleton = NodePath("")
 
+[node name="PlayerMesh3" type="MeshInstance3D" parent="PlayerMesh"]
+transform = Transform3D(1, 1.16415e-08, 2.1937e-09, -7.50151e-09, -5.44824e-08, -1, -1.86265e-09, 1, -4.79631e-08, -0.0121381, -0.757969, 1.38697)
+layers = 2
+material_override = SubResource("StandardMaterial3D_s7uvh")
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("RibbonTrailMesh_oyiho")
+skeleton = NodePath("")
+
 [node name="Gun" parent="." node_paths=PackedStringArray("camera_node") instance=ExtResource("3_v7pw0")]
-top_level = true
-camera_node = NodePath("")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00287482, 1.28039, 0.43771)
+recoil_force = 4.93
+max_recoil = 5.815
+recoil_amplitude = 1.24
+recoil_frequency = 1.985
+recoil_linear_damp = 0.28
+recoil_mouse_up_recovery_time = 0.1871
+debug_x_offset = 0.5
+debug_cylinder_spacing = 0.15
+camera_node = NodePath("../GameCamera")
 
 [node name="Muzzle" type="Node3D" parent="Gun"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.16924)
+transform = Transform3D(-1, 7.64274e-15, -8.74228e-08, 0, -1, -8.74228e-08, -8.74228e-08, -8.74228e-08, 1, 0, 0, 1.16924)
 
 [node name="Marker3D" type="Marker3D" parent="Gun/Muzzle"]
 gizmo_extents = 1.0
@@ -72,11 +133,20 @@ gizmo_extents = 1.0
 [node name="GameCamera" type="Camera3D" parent="." node_paths=PackedStringArray("player_pos") groups=["cameragame"]]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 33.085, 48.535, 32.62)
 top_level = true
-current = true
+cull_mask = 1
+environment = SubResource("Environment_mbjl6")
 fov = 32.0
 far = 20000.0
 script = ExtResource("4_pg2h6")
-player_pos = NodePath("")
+player_pos = NodePath("..")
 camera_offset = Vector3(22, 44, 32)
 max_offset = 22.13
 attraction_strength = 1.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.181, 0)
+shape = SubResource("CapsuleShape3D_3lyym")
+
+[connection signal="gun_fired" from="Gun" to="." method="_on_gun_fired"]
+[connection signal="recoil_reset" from="Gun" to="." method="_on_gun_recoil_reset"]

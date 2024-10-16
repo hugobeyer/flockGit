@@ -1,8 +1,28 @@
 {
   "hidden_columns": {
+    "res://": {
+      "resource_local_to_scene": true,
+      "resource_name": true
+    },
     "res://_materials/": {
       "resource_local_to_scene": true,
       "resource_name": true
+    },
+    "res://_resources/enemies/": {
+      "damage": true,
+      "detection_range": true,
+      "flock_alignment_weight": true,
+      "flock_cohesion_weight": true,
+      "flock_neighbor_distance": true,
+      "flock_separation_weight": true,
+      "knockback_resistance": true,
+      "max_health": true,
+      "movement_speed": true,
+      "resource_local_to_scene": true,
+      "resource_name": true,
+      "turn_speed": true,
+      "use_melee": true,
+      "use_shield": true
     },
     "res://_scenes/enemy_types/": {
       "resource_local_to_scene": true,
@@ -10,8 +30,8 @@
     }
   },
   "recent_paths": [
-    "res://_materials/",
-    "res://_scenes/enemy_types/"
+    "res://",
+    "res://_resources/enemies/"
   ],
   "table_functions": {
     "filter": [

@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6m5ebh7isok8"]
+
+[ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="1_xddgb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_867p3"]
+render_priority = 0
+shader = ExtResource("1_xddgb")
+shader_parameter/color_top = Color(0.716095, 0.726287, 0.742188, 1)
+shader_parameter/color_bottom = Color(0.428467, 0.46875, 0.433817, 1)
+shader_parameter/specular_color = Color(1, 1, 1, 1)
+shader_parameter/fresnel_color = Color(0, 0, 0, 1)
+shader_parameter/vertex_color_mix = 0.0
+shader_parameter/blend_mode = 0
+shader_parameter/gradient_rotation_mode = 1
+shader_parameter/gradient_offset = -0.435
+shader_parameter/gradient_smoothness = 0.85
+shader_parameter/diffuse_contrast = 0.48
+shader_parameter/diffuse_wrap = 2.0
+shader_parameter/diffuse_offset = 0.0
+shader_parameter/specular_intensity = 0.0
+shader_parameter/specular_size = 0.2
+shader_parameter/specular_smoothness = 0.25
+shader_parameter/specular_offset = 0.0
+shader_parameter/fresnel_power = 4.0
+shader_parameter/fresnel_intensity = 0.0
+shader_parameter/fresnel_contrast = 2.0
+shader_parameter/fresnel_offset = 0.25
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jgolq"]
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 0.25
+angle_min = 1.07288e-05
+angle_max = 55.0
+velocity_pivot = Vector3(0, -1, 0)
+direction = Vector3(0, 1, 0)
+spread = 70.02
+initial_velocity_max = 1.0
+radial_velocity_min = 1.99998
+radial_velocity_max = 4.09998
+linear_accel_min = -2.0
+linear_accel_max = 2.75
+radial_accel_min = -1.1
+radial_accel_max = 1.28
+damping_min = 0.5
+damping_max = 3.0
+attractor_interaction_enabled = false
+scale_min = 0.25
+scale_max = 1.75
+
+[sub_resource type="SphereMesh" id="SphereMesh_uv5p0"]
+radial_segments = 9
+rings = 6
+
+[node name="EnemyDieFX" type="GPUParticles3D"]
+top_level = true
+material_override = SubResource("ShaderMaterial_867p3")
+instance_shader_parameters/lerp_color = Color(0.199219, 0.199219, 0.199219, 1)
+instance_shader_parameters/lerp_displace_normal = 4.75e-08
+instance_shader_parameters/lerp_wave = 1.0
+instance_shader_parameters/lerp_wave_contrast = 0.285
+instance_shader_parameters/lerp_wave_freq = 2.0
+instance_shader_parameters/lerp_wave_offset = 12.0
+instance_shader_parameters/lerp_wave_type = 16
+instance_shader_parameters/wave_range_lerp = 2.375e-07
+emitting = false
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+interpolate = false
+visibility_aabb = AABB(-1, 0, -1, 2, 4, 2)
+process_material = SubResource("ParticleProcessMaterial_jgolq")
+draw_pass_1 = SubResource("SphereMesh_uv5p0")

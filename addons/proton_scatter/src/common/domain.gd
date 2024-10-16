@@ -254,7 +254,7 @@ func compute_edges() -> void:
 			edges.push_back(curve)
 
 
-func get_root() -> ProtonScatter:
+func get_root_node() -> ProtonScatter:
 	return root
 
 

@@ -1,12 +1,6 @@
 extends Node3D
 
-@export var enemy_scenes: Dictionary = {
-    "basic": preload("res://_scenes/enemy_types/naked_imp.tscn"),
-    "fast": preload("res://_scenes/enemy_types/fast_imp.tscn"),
-    "tank": preload("res://_scenes/enemy_types/shielded_imp.tscn")
-}
-
-
+@export var enemy_scenes: Dictionary = {}
 @export var min_spawn_radius: float = 15.0
 @export var max_spawn_radius: float = 25.0
 @export var spawn_height: float = 1.0
@@ -29,6 +23,8 @@ var ai_director: Node
 @onready var formation_manager = $FormationManager
 var spawn_queue: Array = []
 
+var _preloaded_enemy_scenes: Dictionary = {}
+
 func set_ai_director(director: Node):
     ai_director = director
 
@@ -40,6 +36,14 @@ func _ready():
         return    
     setup_spawn_timer()
     setup_gradual_spawn_timer()
+    
+    # Preload assigned enemy scenes
+    for key in enemy_scenes:
+        if enemy_scenes[key] is String and enemy_scenes[key].ends_with(".tscn"):
+            _preloaded_enemy_scenes[key] = load(enemy_scenes[key])
+        else:
+            push_warning("Invalid scene path for enemy type: " + key)
+    
     SignalBus.connect("enemy_killed", Callable(self, "_on_enemy_killed"))
 
 func setup_spawn_timer():
@@ -97,7 +101,11 @@ func spawn_next_enemy():
 
 func spawn_enemy(spawn_position: Vector3):
     var enemy_type = ai_director.get_enemy_type()
-    var enemy_scene = enemy_scenes[enemy_type]
+    if enemy_type not in _preloaded_enemy_scenes:
+        push_error("Enemy type not found: " + enemy_type)
+        return
+    
+    var enemy_scene = _preloaded_enemy_scenes[enemy_type]
     var enemy_instance = enemy_scene.instantiate()
     
     # Calculate the below-ground position

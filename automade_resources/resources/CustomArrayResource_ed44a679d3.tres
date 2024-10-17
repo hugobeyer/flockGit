@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CustomArrayResource" load_steps=5 format=3 uid="uid://btersarsyatry"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_basic_resource_array.gd" id="1_fgskp"]
+[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_basic_resource.gd" id="2_37d32"]
+[ext_resource type="Resource" uid="uid://cau35x2urlbxg" path="res://automade_resources/resources/CustomResource_52506ba6dd.tres" id="3_7v13y"]
+[ext_resource type="SphereMesh" uid="uid://dq6k11apqpjpy" path="res://automade_resources/resources/SphereMesh_5f1c342a29.tres" id="4_0kwc3"]
+
+[resource]
+script = ExtResource("1_fgskp")
+teststring = ""
+thing = ExtResource("4_0kwc3")
+stuff = Array[ExtResource("2_37d32")]([ExtResource("3_7v13y")])
+stuff2 = Array[Resource]([])

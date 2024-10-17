@@ -1,12 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3sp3iuegsito"]
+[gd_scene load_steps=2 format=3 uid="uid://b1knikb33vu2w"]
 
-[ext_resource type="Script" path="res://addons/pillz_table_editor/scripts/pillz_table_editor.gd" id="1_vugfr"]
+[ext_resource type="Script" path="res://addons/pillz_table_editor/table_editor.gd" id="1_ggqr2"]
 
-[node name="TableEditor" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_vugfr")
+[node name="TableEditor" type="EditorPlugin"]
+script = ExtResource("1_ggqr2")

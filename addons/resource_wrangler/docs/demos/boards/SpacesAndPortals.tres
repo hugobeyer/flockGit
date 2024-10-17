@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="rwBoardDataBasePrivate" load_steps=7 format=3 uid="uid://bb1jtinenu25w"]
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=7 format=3 uid="uid://bb1jtinenu25w"]
 
 [ext_resource type="Resource" uid="uid://ctsi3wayg7m23" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advSpace_0fcda2ab61.tres" id="1_74wdo"]
 [ext_resource type="Resource" uid="uid://cwfg00bnmrku0" path="res://addons/resource_wrangler/docs/demos/rooms_demo/resources/advPortal_4e1532fdc9.tres" id="2_ha8eg"]
@@ -9,8 +9,8 @@
 
 [resource]
 script = ExtResource("6_2fsxf")
-board_zoom = 1.0483
-scroll_offset = Vector2(-11.7053, -318.011)
+board_zoom = 0.736313
+scroll_offset = Vector2(12.35, -26.9281)
 nodes_data = {
 "0fcda2ab61": {
 "_comment_text": "",
@@ -79,3 +79,4 @@ connections = [{
 "to": &"4e1532fdc9",
 "to_port": 1
 }]
+board_created_outside_rw = false

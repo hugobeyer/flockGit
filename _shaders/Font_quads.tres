@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=45 format=3 uid="uid://cv1hgwbhrmbnq"]
+[gd_resource type="VisualShader" load_steps=45 format=3 uid="uid://dwl5178qpf3xl"]
 
 [ext_resource type="Script" path="res://addons/ShaderLib_v2_2_4/Maths/Wave/SquareWave.gd" id="2_58bsa"]
 [ext_resource type="Script" path="res://addons/ShaderLib_v2_2_4/Maths/Wave/SawtoothWave.gd" id="6_kjc5y"]

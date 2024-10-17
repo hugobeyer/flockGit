@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="rwBoardDatabaseResource" load_steps=2 format=3 uid="uid://dd5p0wij6e5yu"]
+
+[ext_resource type="Script" path="res://addons/resource_wrangler/src/main/board_data.gd" id="1_1oej8"]
+
+[resource]
+script = ExtResource("1_1oej8")
+board_zoom = 1.0
+scroll_offset = Vector2(0, 0)
+nodes_data = {}
+connections = []
+board_created_outside_rw = false

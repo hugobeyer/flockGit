@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=28 format=3 uid="uid://ylife72ym5et"]
+[gd_resource type="BehaviorTree" load_steps=28 format=3 uid="uid://bo4qitd5us6g5"]
 
 [ext_resource type="Script" path="res://demo/ai/tasks/get_first_in_group.gd" id="1_657p6"]
 [ext_resource type="Script" path="res://demo/ai/tasks/select_flanking_pos.gd" id="2_t3udh"]

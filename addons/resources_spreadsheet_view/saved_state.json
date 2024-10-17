@@ -18,8 +18,6 @@
       "knockback_resistance": true,
       "max_health": true,
       "movement_speed": true,
-      "resource_local_to_scene": true,
-      "resource_name": true,
       "turn_speed": true,
       "use_melee": true,
       "use_shield": true

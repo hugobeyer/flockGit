@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=3 format=3 uid="uid://c5xo5oiesuhs8"]
+[gd_resource type="VisualShader" load_steps=3 format=3 uid="uid://e5o75cim8jpc"]
 
 [sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_5nk76"]
 parameter_name = "emissive_color"

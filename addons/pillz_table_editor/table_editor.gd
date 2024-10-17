@@ -2,28 +2,30 @@
 extends EditorPlugin
 
 var editor_interface
-var enemy_editor
+var table_editor
 
 func _enter_tree():
     editor_interface = get_editor_interface()
-    enemy_editor = preload("res://addons/pillz_table_editor/main_panel.tscn").instantiate()
-    enemy_editor.editor_interface = editor_interface
-    editor_interface.get_editor_main_screen().add_child(enemy_editor)
-    _make_visible(false)
+    table_editor = preload("res://addons/pillz_table_editor/scenes/main_panel.tscn").instantiate()
+    table_editor.editor_interface = editor_interface
+    # Change this line to use add_control_to_dock instead
+    add_control_to_dock(DOCK_SLOT_RIGHT_UL, table_editor)
 
 func _exit_tree():
-    if enemy_editor:
-        enemy_editor.queue_free()
+    # And change this line accordingly
+    remove_control_from_docks(table_editor)
+    table_editor.free()
 
 func _has_main_screen():
     return true
 
 func _make_visible(visible):
-    if enemy_editor:
-        enemy_editor.visible = visible
+    if table_editor:
+        table_editor.visible = visible
 
 func _get_plugin_name():
-    return "Enemy Editor"
+    return "Table Editor"
 
 func _get_plugin_icon():
-    return editor_interface.get_base_control().get_theme_icon("Node", "EditorIcons")
+    # Use a built-in icon as a fallback
+    return get_editor_interface().get_base_control().get_theme_icon("Node", "EditorIcons")

@@ -59,3 +59,4 @@ connections = [{
 "to": &"64f17b652e",
 "to_port": 0
 }]
+board_created_outside_rw = false

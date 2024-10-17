@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=30 format=3 uid="uid://c2bxoo68ywb27"]
+[gd_resource type="BehaviorTree" load_steps=30 format=3 uid="uid://d23ypqo0xg8do"]
 
 [ext_resource type="Script" path="res://demo/ai/tasks/select_random_nearby_pos.gd" id="1_cdtqu"]
 [ext_resource type="Script" path="res://demo/ai/tasks/arrive_pos.gd" id="2_31fsn"]

@@ -1,6 +1,6 @@
-[gd_resource type="AnimationLibrary" load_steps=2 format=3 uid="uid://bavw52fdajpd6"]
+[gd_resource type="AnimationLibrary" load_steps=2 format=3 uid="uid://i4t2law61ppy"]
 
-[ext_resource type="Animation" uid="uid://7r76vec1kttu" path="res://_animations/melee_swing.tres" id="1_fadin"]
+[ext_resource type="Animation" uid="uid://cnqr2svne5oy2" path="res://_animations/melee_swing.tres" id="1_fadin"]
 
 [resource]
 _data = {

@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://d1d575aqxdr14"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_mpxs5"]
-[ext_resource type="Resource" uid="uid://xcou7bosypjt" path="res://_resources/enemies/imp_default.tres" id="2_bff0a"]
+[ext_resource type="Resource" uid="uid://doy5u21vcsick" path="res://_resources/enemies/IMP_Default.tres" id="2_6d7qa"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="3_rmv3q"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="4_nge7d"]
 [ext_resource type="Material" uid="uid://chsniolv24rhs" path="res://_materials/imp_mats/shielded_imp_mat.tres" id="5_urvln"]
@@ -39,11 +39,11 @@ wall_min_slide_angle = 1.24093
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_mpxs5")
-enemy_type = ExtResource("2_bff0a")
+enemy_type = ExtResource("2_6d7qa")
 flock_alignment_weight = inf
 flock_cohesion_weight = inf
 death_effect_scene = null
-enemy_type = ExtResource("2_bff0a")
+enemy_type = ExtResource("2_6d7qa")
 metadata/_edit_pinned_properties_ = [&"death_effect_scene"]
 
 [node name="EnemyEffects" type="Node3D" parent="."]

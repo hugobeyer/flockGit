@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="ARes" load_steps=2 format=3 uid="uid://qkfhuwdufotq"]
-
-[ext_resource type="Script" path="res://addons/resource_wrangler/docs/demos/basic_nodes/custom_prevent_init_resource.gd" id="1_2udto"]
-
-[resource]
-script = ExtResource("1_2udto")
-name = "changed"

@@ -9,8 +9,8 @@
 
 [resource]
 script = ExtResource("6_2fsxf")
-board_zoom = 0.736313
-scroll_offset = Vector2(12.35, -26.9281)
+board_zoom = 0.674324
+scroll_offset = Vector2(11.7325, -25.5817)
 nodes_data = {
 "0fcda2ab61": {
 "_comment_text": "",

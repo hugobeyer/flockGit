@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://cw3xgyijrvuub"]
 
 [ext_resource type="Script" path="res://_scripts/enemy.gd" id="1_a3n1o"]
-[ext_resource type="Resource" uid="uid://1q7pvg4l5uit" path="res://_resources/enemies/imp_berserker.tres" id="2_020gp"]
+[ext_resource type="Resource" uid="uid://ccq2neowdt8i3" path="res://_resources/enemies/imp_berserker.tres" id="2_nv8b4"]
 [ext_resource type="Script" path="res://_scripts/include/enemy_effects.gd" id="3_yiueq"]
-[ext_resource type="Material" uid="uid://qo8nem1lvfpu" path="res://_materials/imp_mats/fast_imp.tres" id="4_cqftm"]
+[ext_resource type="Material" uid="uid://c3n5l5qp54ah5" path="res://_materials/imp_mats/fast_imp.tres" id="4_cqftm"]
 [ext_resource type="PackedScene" uid="uid://d1dt4pblukewh" path="res://_scenes/UI/enemy_health_bar.tscn" id="5_upr6t"]
 [ext_resource type="PackedScene" uid="uid://dwpsppfskic5x" path="res://_scenes/enemy_features/melee.tscn" id="6_gj68s"]
 [ext_resource type="PackedScene" uid="uid://bud2p2xgbdxj4" path="res://_scenes/enemy_features/shield.tscn" id="7_itrb1"]
@@ -31,7 +31,7 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 safe_margin = 0.05
 script = ExtResource("1_a3n1o")
-enemy_type = ExtResource("2_020gp")
+enemy_type = ExtResource("2_nv8b4")
 movement_speed = 8.0
 knockback_resistance = 44.0
 turn_speed = 7.0
@@ -43,7 +43,7 @@ flock_cohesion_weight = inf
 wobble_strength = 0.51
 wobble_decay = 1.675
 wobble_damping = 0.91
-enemy_type = ExtResource("2_020gp")
+enemy_type = ExtResource("2_nv8b4")
 
 [node name="EnemyEffects" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)

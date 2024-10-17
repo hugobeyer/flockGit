@@ -1,0 +1,83 @@
+[gd_resource type="VisualShader" load_steps=8 format=3 uid="uid://f7vlj7i8eh00"]
+
+[ext_resource type="Texture2D" uid="uid://dil1pqmf4s0n3" path="res://_textures/environment/stone_tiles_basecolor.png" id="1_wnf1b"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_lviul"]
+expanded_output_ports = [0]
+texture = ExtResource("1_wnf1b")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_a4160"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_7s7to"]
+parameter_name = "ColorBot"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_gw1ou"]
+parameter_name = "ColorTop"
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_d72ng"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, 0.5]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_sjalv"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(8, 8)]
+op_type = 0
+operator = 2
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform vec4 ColorBot : source_color;
+uniform vec4 ColorTop : source_color;
+uniform sampler2D tex_frg_2;
+
+
+
+void fragment() {
+// ColorParameter:4
+	vec4 n_out4p0 = ColorBot;
+
+
+// ColorParameter:5
+	vec4 n_out5p0 = ColorTop;
+
+
+// Input:3
+	vec2 n_out3p0 = UV;
+
+
+// VectorOp:7
+	vec2 n_in7p1 = vec2(8.00000, 8.00000);
+	vec2 n_out7p0 = n_out3p0 * n_in7p1;
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, n_out7p0);
+	float n_out2p1 = n_out2p0.r;
+
+
+// Mix:6
+	vec3 n_out6p0 = mix(vec3(n_out4p0.xyz), vec3(n_out5p0.xyz), n_out2p1);
+
+
+// Output:0
+	ALBEDO = n_out6p0;
+
+
+}
+"
+graph_offset = Vector2(-1712.33, -167.427)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_lviul")
+nodes/fragment/2/position = Vector2(-900, 120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_a4160")
+nodes/fragment/3/position = Vector2(-1800, 220)
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorParameter_7s7to")
+nodes/fragment/4/position = Vector2(-540, -20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeColorParameter_gw1ou")
+nodes/fragment/5/position = Vector2(-380, 420)
+nodes/fragment/6/node = SubResource("VisualShaderNodeMix_d72ng")
+nodes/fragment/6/position = Vector2(40, 240)
+nodes/fragment/7/node = SubResource("VisualShaderNodeVectorOp_sjalv")
+nodes/fragment/7/position = Vector2(-1308, 221)
+nodes/fragment/connections = PackedInt32Array(4, 0, 6, 0, 5, 0, 6, 1, 2, 1, 6, 2, 6, 0, 0, 0, 3, 0, 7, 0, 7, 0, 2, 0)

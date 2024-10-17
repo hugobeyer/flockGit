@@ -22,14 +22,18 @@
       "use_melee": true,
       "use_shield": true
     },
+    "res://_resources/fonts/": {
+      "resource_local_to_scene": true,
+      "resource_name": true
+    },
     "res://_scenes/enemy_types/": {
       "resource_local_to_scene": true,
       "resource_name": true
     }
   },
   "recent_paths": [
-    "res://",
-    "res://_resources/enemies/"
+    "res://_resources/enemies/",
+    "res://_resources/fonts/"
   ],
   "table_functions": {
     "filter": [

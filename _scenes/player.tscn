@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://cqhe3y3sj4vb3"]
+[gd_scene load_steps=16 format=3 uid="uid://cqhe3y3sj4vb3"]
 
 [ext_resource type="Script" path="res://_scripts/Player.gd" id="1_7wjim"]
-[ext_resource type="Material" uid="uid://bo5ngu2glawxm" path="res://_materials/player_mat.tres" id="2_qw1fv"]
+[ext_resource type="Material" uid="uid://tw4df8l0grgj" path="res://_materials/player_mat.tres" id="2_qw1fv"]
 [ext_resource type="PackedScene" uid="uid://b4uuwqe6deuv8" path="res://_scenes/gun.tscn" id="3_v7pw0"]
 [ext_resource type="Script" path="res://_scripts/camera.gd" id="4_pg2h6"]
+[ext_resource type="Texture2D" uid="uid://dpjlucxl35cde" path="res://_textures/utils/noise.tres" id="4_vo68r"]
 
 [sub_resource type="Gradient" id="Gradient_2b6n3"]
 offsets = PackedFloat32Array(0, 0.262561, 0.518639, 0.753647, 1)
@@ -118,6 +119,7 @@ recoil_force = 4.93
 max_recoil = 5.815
 recoil_amplitude = 1.24
 recoil_frequency = 1.985
+recoil_noise_texture = ExtResource("4_vo68r")
 recoil_linear_damp = 0.28
 recoil_mouse_up_recovery_time = 0.1871
 debug_x_offset = 0.5
@@ -138,8 +140,8 @@ environment = SubResource("Environment_mbjl6")
 fov = 32.0
 far = 20000.0
 script = ExtResource("4_pg2h6")
-player_pos = NodePath("..")
-camera_offset = Vector3(22, 44, 32)
+player_pos = NodePath("../Marker3D")
+camera_offset = Vector3(27.825, 33.315, 38.87)
 max_offset = 22.13
 attraction_strength = 1.0
 
@@ -147,6 +149,9 @@ attraction_strength = 1.0
 physics_interpolation_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.181, 0)
 shape = SubResource("CapsuleShape3D_3lyym")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 
 [connection signal="gun_fired" from="Gun" to="." method="_on_gun_fired"]
 [connection signal="recoil_reset" from="Gun" to="." method="_on_gun_recoil_reset"]

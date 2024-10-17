@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bud2p2xgbdxj4"]
 
 [ext_resource type="Script" path="res://_scripts/include/enemy_shield.gd" id="1_02fak"]
-[ext_resource type="Material" uid="uid://dgwepgsd2e6j" path="res://_materials/small_shield_mat.tres" id="2_01ufx"]
+[ext_resource type="Material" uid="uid://bt2bmhciuf5o6" path="res://_materials/small_shield_mat.tres" id="2_01ufx"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_bk26o"]
 radius = 0.7

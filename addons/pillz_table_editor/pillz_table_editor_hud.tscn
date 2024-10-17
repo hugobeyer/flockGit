@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b1knikb33vu2w"]
 
-[ext_resource type="Script" path="res://addons/pillz_table_editor/table_editor.gd" id="1_ggqr2"]
+[ext_resource type="Script" path="res://addons/pillz_table_editor/pillz_table_editor.gd" id="1_ggqr2"]
 
 [node name="TableEditor" type="EditorPlugin"]
 script = ExtResource("1_ggqr2")

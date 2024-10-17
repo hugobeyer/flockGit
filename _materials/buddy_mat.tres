@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d3ch6woe05ohi"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bi2aqtvds4hu6"]
 
 [ext_resource type="Shader" path="res://_shaders/custom/custom_frag_actors.gdshader" id="1_3q4px"]
 

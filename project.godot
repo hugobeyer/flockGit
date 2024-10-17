@@ -60,24 +60,27 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GDScript.h8.Palette/plugin.cfg", "res://addons/Hider Node/plugin.cfg", "res://addons/Previewer_2D_3D/plugin.cfg", "res://addons/editor_icon_previewer/plugin.cfg", "res://addons/icon_explorer/plugin.cfg", "res://addons/pillz_table_editor/plugin.cfg", "res://addons/proton_scatter/plugin.cfg", "res://addons/resource_wrangler/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg", "res://addons/subresource_inspector/plugin.cfg", "res://addons/thumbstick_plugin/plugin.cfg")
+enabled=PackedStringArray("res://addons/GDScript.h8.Palette/plugin.cfg", "res://addons/editor_icon_previewer/plugin.cfg", "res://addons/pillz_table_editor/plugin.cfg", "res://addons/subresource_inspector/plugin.cfg", "res://addons/thumbstick_plugin/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
 "res://_animations/": "pink",
 "res://_assets/": "orange",
-"res://_materials/": "red",
+"res://_materials/": "purple",
 "res://_meshes/": "orange",
 "res://_pfx/": "yellow",
 "res://_resources/": "green",
 "res://_scenes/": "teal",
-"res://_scripts/": "blue",
+"res://_scripts/": "red",
 "res://_scripts/z_bkp/": "gray",
 "res://_shaders/": "purple",
 "res://_textures/": "pink",
 "res://addons/": "gray",
-"res://addons/pillz_table_editor/": "green"
+"res://addons/pillz_table_editor/": "orange",
+"res://demo/": "gray",
+"res://example/": "gray",
+"res://examples/": "gray"
 }
 
 [global]
@@ -245,7 +248,7 @@ jolt_3d/limits/max_bodies=2500
 [plugins]
 
 icon_explorer/load_on_startup=true
-icon_explorer/preview_size_exp=5.0
+icon_explorer/preview_size_exp=5
 
 [rendering]
 
@@ -264,7 +267,7 @@ environment/subsurface_scattering/subsurface_scattering_quality=0
 [resource_wrangler]
 
 automade_path="res://automade_resources"
-recent_boards=["res://addons/resource_wrangler/docs/demos/boards/SpacesAndPortals.tres", "res://addons/resource_wrangler/docs/demos/boards/Extending Resource Classes.tres", "res://addons/resource_wrangler/docs/demos/boards/Extending Node UI.tres", "res://automade_resources/resources/rwBoardDatabaseResource_47d6fdf4f3.tres"]
+recent_boards=["res://addons/resource_wrangler/docs/demos/boards/SpacesAndPortals.tres", "res://addons/resource_wrangler/docs/demos/boards/Extending Resource Classes.tres", "res://addons/resource_wrangler/docs/demos/boards/Extending Node UI.tres"]
 minimap_enabled=true
 
 [shader_globals]

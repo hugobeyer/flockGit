@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=40 format=3 uid="uid://dnr2iciu25oth"]
+[gd_resource type="VisualShader" load_steps=40 format=3 uid="uid://yce5hjpk54je"]
 
 [sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_0um37"]
 size = Vector2(480, 280)
@@ -433,6 +433,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-1191.04, -220.708)
 modes/diffuse = 3
 modes/specular = 2
 varyings/player_pos = "0,5"

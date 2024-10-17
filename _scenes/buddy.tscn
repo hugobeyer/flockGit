@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bwr26kclpyg6b"]
 
 [ext_resource type="Script" path="res://_scripts/buddy.gd" id="1_gouxi"]
-[ext_resource type="Material" uid="uid://d3ch6woe05ohi" path="res://_materials/buddy_mat.tres" id="3_afx0b"]
+[ext_resource type="Material" uid="uid://bi2aqtvds4hu6" path="res://_materials/buddy_mat.tres" id="3_afx0b"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_hjovk"]
 radius = 0.6

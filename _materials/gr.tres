@@ -1,9 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bd262mf6ee1vt"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d58p32hgp45d"]
 
-[ext_resource type="Shader" uid="uid://c4mlfhsa5keiy" path="res://_shaders/custom/custom_gr_tex.tres" id="1_nwf17"]
+[ext_resource type="Shader" uid="uid://f7vlj7i8eh00" path="res://_shaders/grounds/custom_gr_tex.tres" id="1_ydjo3"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_nwf17")
-shader_parameter/ColorBot = Color(0.0933838, 0.332031, 0.108299, 1)
-shader_parameter/ColorTop = Color(0.297089, 0.460938, 0.230469, 1)
+shader = ExtResource("1_ydjo3")
+shader_parameter/ColorBot = Color(0.225914, 0.477366, 0.306627, 1)
+shader_parameter/ColorTop = Color(0.124829, 0.333333, 0.207201, 1)

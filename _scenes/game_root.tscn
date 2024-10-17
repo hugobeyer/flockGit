@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c2xd4i2lcvsgy"]
+[gd_scene load_steps=24 format=3 uid="uid://dr0ytgjthjbsx"]
 
 [ext_resource type="Script" path="res://_scripts/game_root.gd" id="1_1826r"]
 [ext_resource type="PackedScene" uid="uid://clcwdr5begw0g" path="res://_scenes/main.tscn" id="2_3drmh"]
@@ -10,11 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://d04f1fywismba" path="res://_scenes/enemy_types/imps/imp_dummy.tscn" id="7_q02my"]
 [ext_resource type="Script" path="res://_scripts/ai/formation_manager.gd" id="9_7yfm7"]
 [ext_resource type="PackedScene" uid="uid://bwr26kclpyg6b" path="res://_scenes/buddy.tscn" id="9_428cj"]
-[ext_resource type="Material" uid="uid://bd262mf6ee1vt" path="res://_materials/gr.tres" id="11_xwy4t"]
-[ext_resource type="FontVariation" uid="uid://cws4onh6frwva" path="res://_resources/fonts/font_health_overhead.tres" id="12_ihlwy"]
+[ext_resource type="Material" uid="uid://d58p32hgp45d" path="res://_materials/gr.tres" id="11_xwy4t"]
+[ext_resource type="FontVariation" uid="uid://cwxu07t5jip7t" path="res://_resources/fonts/font_health_overhead.tres" id="12_ihlwy"]
 [ext_resource type="Script" path="res://_scripts/UI/game_label_kills.gd" id="13_aid0c"]
 [ext_resource type="PackedScene" uid="uid://bc15gesn8lubs" path="res://addons/thumbstick_plugin/plugin/joysticks/normal_joystick.tscn" id="14_wgw40"]
-[ext_resource type="Shader" path="res://addons/post_processing/node/children/outline.gdshader" id="15_v7g0k"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_w3p0d"]
 friction = 0.15
@@ -30,9 +29,9 @@ subdivide_width = 64
 subdivide_depth = 64
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_feyws"]
-bg_color = Color(0.46875, 0.0128174, 0.226536, 1)
+bg_color = Color(0.415638, 0.131704, 0.264798, 1)
 border_width_top = 54
-border_color = Color(0.144196, 0.443393, 0.683594, 1)
+border_color = Color(0.260123, 0.481062, 0.658436, 1)
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 11
 corner_detail = 3
@@ -65,18 +64,12 @@ shadow_color = Color(0, 0.096, 0.32, 0)
 [sub_resource type="LabelSettings" id="LabelSettings_uetrx"]
 font = ExtResource("12_ihlwy")
 font_size = 135
-font_color = Color(0.787725, 0.81, 0.5427, 1)
+font_color = Color(0.796463, 0.81893, 0.549323, 1)
 outline_size = 4
 outline_color = Color(0.53, 0.1113, 0.1113, 0)
 shadow_size = 0
 shadow_color = Color(0.00569999, 0.0732767, 0.19, 0.490196)
 shadow_offset = Vector2(9, 7)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3r183"]
-shader = ExtResource("15_v7g0k")
-shader_parameter/edge_color = Color(0, 0, 0, 1)
-shader_parameter/threshold = 0.0
-shader_parameter/blend = 0.01
 
 [node name="GameRoot" type="Node3D"]
 script = ExtResource("1_1826r")
@@ -155,30 +148,42 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="MainHUD"]
-layout_mode = 2
-offset_left = 555.931
-offset_top = 68.937
-offset_right = 754.931
-offset_bottom = 145.937
+[node name="PanelCtrl" type="Control" parent="MainHUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -458.0
+offset_bottom = 180.0
+grow_horizontal = 0
+
+[node name="Panel" type="Panel" parent="MainHUD/PanelCtrl"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -162.841
+offset_top = 59.7037
+offset_right = 36.1586
+offset_bottom = 136.704
+grow_horizontal = 0
 rotation = -0.204204
 scale = Vector2(0.891339, 0.789322)
 theme_override_styles/panel = SubResource("StyleBoxFlat_feyws")
-metadata/_edit_use_anchors_ = true
 
-[node name="Based" type="Label" parent="MainHUD"]
+[node name="Based" type="Label" parent="MainHUD/PanelCtrl"]
 light_mask = 0
 material = SubResource("CanvasItemMaterial_7s0d6")
 layout_direction = 1
-layout_mode = 2
-anchor_left = 0.828362
-anchor_top = 0.0852833
-anchor_right = 0.839192
-anchor_bottom = 0.0852833
-offset_left = 25.7695
-offset_top = -3.06947
-offset_right = 219.188
-offset_bottom = 81.9305
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -123.592
+offset_top = 95.8622
+offset_right = 86.4077
+offset_bottom = 180.862
+grow_horizontal = 0
 rotation = -0.151205
 scale = Vector2(0.362416, 0.362416)
 size_flags_vertical = 0
@@ -188,21 +193,20 @@ label_settings = SubResource("LabelSettings_vkafs")
 horizontal_alignment = 1
 vertical_alignment = 1
 justification_flags = 1
-metadata/_edit_use_anchors_ = true
 
-[node name="LabelKills" type="Label" parent="MainHUD"]
+[node name="LabelKills" type="Label" parent="MainHUD/PanelCtrl"]
 z_as_relative = false
 texture_filter = 2
 texture_repeat = 1
-layout_mode = 2
-anchor_left = 3.26108e-05
-anchor_top = -0.00842884
-anchor_right = 3.26108e-05
-anchor_bottom = -0.003745
-offset_left = 532.728
-offset_top = 34.2464
-offset_right = 743.728
-offset_bottom = 180.247
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -172.319
+offset_top = 14.2952
+offset_right = 38.6812
+offset_bottom = 161.139
+grow_horizontal = 0
 rotation = 0.0168936
 scale = Vector2(0.585275, 0.585275)
 size_flags_horizontal = 8
@@ -212,7 +216,6 @@ text = "367"
 label_settings = SubResource("LabelSettings_uetrx")
 horizontal_alignment = 1
 script = ExtResource("13_aid0c")
-metadata/_edit_use_anchors_ = true
 
 [node name="ControllerCanvas" type="CanvasLayer" parent="MainHUD" groups=["thumbstick"]]
 
@@ -243,30 +246,3 @@ _on_trigger_method_name = "_on_trigger"
 _on_pressed_method_name = "_on_pressed"
 _on_released_method_name = "_on_released"
 metadata/_edit_use_anchors_ = true
-
-[node name="SubViewport" type="SubViewport" parent="MainHUD"]
-use_hdr_2d = true
-vrs_update_mode = 2
-gui_disable_input = true
-gui_snap_controls_to_pixels = false
-size_2d_override = Vector2i(495, 660)
-size_2d_override_stretch = true
-render_target_update_mode = 4
-
-[node name="Camera3D" type="Camera3D" parent="MainHUD/SubViewport"]
-transform = Transform3D(-3.35089e-08, -0.642132, 0.766594, -2.80685e-08, 0.766594, 0.642132, -1, 0, -4.37114e-08, 10.9857, 10.8749, 0)
-current = true
-
-[node name="TextureRect" type="TextureRect" parent="MainHUD/SubViewport/Camera3D"]
-top_level = true
-light_mask = 0
-visibility_layer = 31
-texture_filter = 2
-material = SubResource("ShaderMaterial_3r183")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3

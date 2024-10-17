@@ -2,13 +2,13 @@ extends Resource
 class_name EnemyType
 
 @export_group("Enemy Metadata")
-@export var scene_path: String
+@export var scene_path: String #I want to make this a PackedScene, but I can't get it to work.
 @export var child_scenes: Array[PackedScene]
 @export var type: String
 @export var category: String
 @export var enemy_rank: int
 @export var icon: Texture2D
-@export var spawn_weight: float = 1.0
+#@export var spawn_weight: float = 1.0 DONT NEED THIS FOR NOW
 
 @export_group("Starting Features")
 @export var use_shield: bool = false
@@ -16,11 +16,11 @@ class_name EnemyType
 
 @export_group("General Enemy Parameters")
 @export var max_health: float = 100.0
-@export var movement_speed: float = 6.0
-@export var knockback_resistance: float = 80.0
-@export var turn_speed: float = 3.0
-@export var detection_range: float = 32.0
 @export var damage: float = 5.0
+@export var movement_speed: float = 6.0
+@export var turn_speed: float = 3.0
+@export var knockback_resistance: float = 80.0
+@export var detection_range: float = 32.0
 
 @export_group("Flocking Parameters")
 @export var flock_separation_weight: float = 5.0

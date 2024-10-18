@@ -113,7 +113,7 @@ gi_mode = 0
 mesh = SubResource("RibbonTrailMesh_oyiho")
 skeleton = NodePath("")
 
-[node name="Gun" parent="." node_paths=PackedStringArray("camera_node") instance=ExtResource("3_v7pw0")]
+[node name="Weapon" parent="." node_paths=PackedStringArray("camera_node") instance=ExtResource("3_v7pw0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00287482, 1.28039, 0.43771)
 recoil_force = 4.93
 max_recoil = 5.815
@@ -126,10 +126,10 @@ debug_x_offset = 0.5
 debug_cylinder_spacing = 0.15
 camera_node = NodePath("../GameCamera")
 
-[node name="Muzzle" type="Node3D" parent="Gun"]
+[node name="Muzzle" type="Node3D" parent="Weapon"]
 transform = Transform3D(-1, 7.64274e-15, -8.74228e-08, 0, -1, -8.74228e-08, -8.74228e-08, -8.74228e-08, 1, 0, 0, 1.16924)
 
-[node name="Marker3D" type="Marker3D" parent="Gun/Muzzle"]
+[node name="Marker3D" type="Marker3D" parent="Weapon/Muzzle"]
 gizmo_extents = 1.0
 
 [node name="GameCamera" type="Camera3D" parent="." node_paths=PackedStringArray("player_pos") groups=["cameragame"]]
@@ -153,5 +153,5 @@ shape = SubResource("CapsuleShape3D_3lyym")
 [node name="Marker3D" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 
-[connection signal="gun_fired" from="Gun" to="." method="_on_gun_fired"]
-[connection signal="recoil_reset" from="Gun" to="." method="_on_gun_recoil_reset"]
+[connection signal="gun_fired" from="Weapon" to="." method="_on_gun_fired"]
+[connection signal="recoil_reset" from="Weapon" to="." method="_on_gun_recoil_reset"]

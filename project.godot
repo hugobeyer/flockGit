@@ -60,7 +60,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GDScript.h8.Palette/plugin.cfg", "res://addons/editor_icon_previewer/plugin.cfg", "res://addons/pillz_table_editor/plugin.cfg", "res://addons/subresource_inspector/plugin.cfg", "res://addons/thumbstick_plugin/plugin.cfg")
+enabled=PackedStringArray("res://addons/thumbstick_plugin/plugin.cfg")
 
 [file_customization]
 
